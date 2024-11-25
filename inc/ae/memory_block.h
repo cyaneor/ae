@@ -365,6 +365,8 @@ ae_memory_block_element_offset(const ae_memory_block_t *self, ae_usize_t index);
  *        Если индекс выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_block_element_offset
  * @see ae_memory_range_at
@@ -395,6 +397,8 @@ ae_memory_block_at_from_begin(ae_memory_block_t *self, ae_usize_t index);
  *        Если индекс выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_block_at_from_begin
  * @see ae_memory_block_element_offset
@@ -426,6 +430,8 @@ ae_memory_block_at_from_begin_const(const ae_memory_block_t *self, ae_usize_t in
  *        Если индекс выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_block_at_from_begin
  * @see ae_memory_block_size
@@ -457,6 +463,8 @@ ae_memory_block_at_from_end(ae_memory_block_t *self, ae_usize_t index);
  *        Если индекс выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_block_at_from_end
  * @see ae_memory_block_size
@@ -464,7 +472,7 @@ ae_memory_block_at_from_end(ae_memory_block_t *self, ae_usize_t index);
  */
 AE_ATTRIBUTE(SYMBOL)
 const void *
-ae_memory_block_get_from_end_const(const ae_memory_block_t *self, ae_usize_t index);
+ae_memory_block_at_from_end_const(const ae_memory_block_t *self, ae_usize_t index);
 
 /**
  * @brief Получает указатель на элемент блока памяти по индексу,
@@ -486,6 +494,8 @@ ae_memory_block_get_from_end_const(const ae_memory_block_t *self, ae_usize_t ind
  *        Если индекс выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_block_at_from_begin
  * @see ae_memory_block_at_from_end
@@ -518,6 +528,8 @@ ae_memory_block_at(ae_memory_block_t *self, ae_usize_t index, bool reversed);
  *        Если индекс выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_block_at
  * @see ae_memory_block_at_from_begin
@@ -540,10 +552,14 @@ ae_memory_block_at_const(const ae_memory_block_t *self, ae_usize_t index, bool r
  * @return Указатель на первый элемент в блоке памяти,
  *         или `null`, если указатель на `self` равен `null`.
  *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель self равен `null`.
+ * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
+ *        Если индекс выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `null`.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_block
  * @see ae_memory_block_at
@@ -567,10 +583,14 @@ ae_memory_block_front(ae_memory_block_t *self);
  * @return Указатель на первый элемент в блоке памяти,
  *         или `null`, если указатель на `self` равен `null`.
  *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель self равен `null`.
+ * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
+ *        Если индекс выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `null`.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_block_front
  * @see ae_memory_block_at
@@ -592,12 +612,14 @@ ae_memory_block_front_const(const ae_memory_block_t *self);
  * @return Указатель на последний элемент в блоке памяти,
  *         или `null`, если указатель на `self` равен `null` или блок пуст.
  *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель self равен `null`.
  * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
- *        Если блок памяти пуст.
+ *        Если индекс выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `null`.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_block
  * @see ae_memory_block_at
@@ -621,10 +643,14 @@ ae_memory_block_back(ae_memory_block_t *self);
  * @return Указатель на последний элемент в блоке памяти,
  *         или `null`, если указатель на `self` равен `null`.
  *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель self равен `null`.
+ * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
+ *        Если индекс выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `null`.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_block_back
  * @see ae_memory_block_at
@@ -653,6 +679,7 @@ ae_memory_block_back_const(const ae_memory_block_t *self);
  *
  * @see ae_memory_block_element_size_equal
  * @see ae_memory_range_equal
+ * @see ae_memory_block
  */
 AE_ATTRIBUTE(SYMBOL)
 bool

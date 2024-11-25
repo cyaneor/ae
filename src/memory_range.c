@@ -201,7 +201,7 @@ void *
 ae_memory_range_at_unsafe(ae_memory_range_t *self, ae_usize_t offset)
 {
     void *begin = ae_memory_range_begin(self);
-    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN, nullptr)
 
     return ae_ptr_add(begin, offset);
 }

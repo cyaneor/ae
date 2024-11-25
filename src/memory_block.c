@@ -154,7 +154,7 @@ ae_memory_block_at_from_end(ae_memory_block_t *self, ae_usize_t index)
 }
 
 const void *
-ae_memory_block_get_from_end_const(const ae_memory_block_t *self, ae_usize_t index)
+ae_memory_block_at_from_end_const(const ae_memory_block_t *self, ae_usize_t index)
 {
     return ae_memory_block_at_from_end(ae_memory_block_cast(self), index);
 }

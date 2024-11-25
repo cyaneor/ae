@@ -646,6 +646,8 @@ ae_memory_range_has_ptr_range(const ae_memory_range_t *self,
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `null`.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_range_begin
  * @see ae_memory_range
@@ -676,6 +678,8 @@ ae_memory_range_at_unsafe(ae_memory_range_t *self, ae_usize_t offset);
  *        Если указатель выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `null`.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_range_at_unsafe
  * @see ae_memory_range
@@ -707,6 +711,8 @@ ae_memory_range_at(ae_memory_range_t *self, ae_usize_t offset);
  *        Если указатель выходит за пределы допустимого диапазона.
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `null`.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
+ *        Если указатель на начало участка памяти равен `null`.
  *
  * @see ae_memory_range_at
  * @see ae_memory_range
