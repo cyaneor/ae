@@ -50,6 +50,27 @@ typedef ae_memory_block_t ae_allocated_block_t;
 AE_COMPILER(EXTERN_C_BEGIN)
 
 /**
+ * @brief Получает максимальный размер блока памяти, который может быть выделен.
+ *
+ * Эта функция вычисляет максимальный размер, который может быть
+ * выделен в блоке памяти, основываясь на размере элемента,
+ * хранящегося в указанном блоке памяти.
+ *
+ * @param self Указатель на структуру @ref ae_allocated_block,
+ *             из которой необходимо получить максимальный размер блока.
+ *
+ * @return Максимальный размер блока в байтах.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель self равен `null`.
+ * @throw AE_RUNTIME_ERROR_DIVISION_BY_ZERO
+ *        Если размер элемента равен нулю.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_usize_t
+ae_allocated_block_max_size(const ae_allocated_block_t *self);
+
+/**
  * @brief Изменяет размер блока выделенной памяти.
  *
  * Эта функция изменяет размер блока выделенной памяти,

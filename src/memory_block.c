@@ -27,15 +27,6 @@ ae_memory_block_size(const ae_memory_block_t *self)
     ae_runtime_rethrow(0);
 }
 
-ae_usize_t
-ae_memory_block_max_size(const ae_memory_block_t *self)
-{
-    const ae_usize_t element_size = ae_memory_block_element_size(self);
-    AE_RUNTIME_ASSERT(element_size, AE_RUNTIME_ERROR_DIVISION_BY_ZERO, 0)
-
-    return AE_USIZE_T_MAX / element_size;
-}
-
 bool
 ae_memory_block_empty(const ae_memory_block_t *self)
 {
