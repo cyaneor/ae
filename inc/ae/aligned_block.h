@@ -122,6 +122,82 @@ AE_ATTRIBUTE(SYMBOL)
 void
 ae_aligned_block_clear(ae_aligned_block_t *self);
 
+/**
+ * @brief Проверяет, равен ли размер выравнивания блока памяти заданному значению.
+ *
+ * Эта функция сравнивает размер выравнивания блока памяти, определенного в
+ * структуре `ae_aligned_block`, с заданным размером выравнивания.
+ *
+ * @param self Указатель на структуру `ae_aligned_block`,
+ *             для которой необходимо выполнить проверку.
+ * @param alignment_size Размер выравнивания, с которым будет произведено сравнение.
+ *
+ * @return Возвращает `true`, если размер выравнивания блока памяти равен
+ *         заданному значению `alignment_size`, в противном случае возвращает `false`.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `null`.
+ *
+ * @see ae_aligned_block
+ * @see ae_aligned_block_alignment_size
+ */
+AE_ATTRIBUTE(SYMBOL)
+bool
+ae_aligned_block_alignment_size_equal_to(const ae_aligned_block_t *self, ae_usize_t alignment_size);
+
+/**
+ * @brief Сравнивает размеры выравнивания двух блоков памяти.
+ *
+ * Эта функция проверяет, равны ли размеры выравнивания двух блоков памяти,
+ * определенных в структурах `ae_aligned_block`.
+ *
+ * @param self Указатель на первую структуру `ae_aligned_block`,
+ *             для которой необходимо выполнить проверку.
+ * @param other Указатель на вторую структуру `ae_aligned_block`,
+ *              размер выравнивания которой будет использован для сравнения.
+ *
+ * @return Возвращает `true`, если размеры выравнивания обоих блоков памяти равны,
+ *         в противном случае возвращает `false`.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` или `other` равен `null`.
+ *
+ * @see ae_aligned_block
+ * @see ae_aligned_block_alignment_size
+ * @see ae_aligned_block_alignment_size_equal_to
+ */
+AE_ATTRIBUTE(SYMBOL)
+bool
+ae_aligned_block_alignment_size_equal(const ae_aligned_block_t *self,
+                                      const ae_aligned_block_t *other);
+
+/**
+ * @brief Сравнивает два блока памяти на равенство.
+ *
+ * Эта функция проверяет, равны ли два блока памяти,
+ * определенные в структурах `ae_aligned_block`.
+ * Сравнение включает как размеры выравнивания,
+ * так и содержимое памяти.
+ *
+ * @param self Указатель на первую структуру `ae_aligned_block`,
+ *             для которой необходимо выполнить проверку.
+ * @param other Указатель на вторую структуру `ae_aligned_block`,
+ *              с которой будет произведено сравнение.
+ *
+ * @return Возвращает `true`, если оба блока памяти равны, включая
+ *         размеры выравнивания и содержимое, в противном случае возвращает `false`.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` или `other` равен `null`.
+ *
+ * @see ae_aligned_block
+ * @see ae_aligned_block_alignment_size_equal
+ * @see ae_memory_block_equal
+ */
+AE_ATTRIBUTE(SYMBOL)
+bool
+ae_aligned_block_equal(const ae_aligned_block_t *self, const ae_aligned_block_t *other);
+
 AE_COMPILER(EXTERN_C_END)
 
 #endif // AE_ALIGNED_BLOCK_H

@@ -30,3 +30,24 @@ ae_aligned_block_clear(ae_aligned_block_t *self)
 {
     ae_aligned_block_resize(self, 0);
 }
+
+bool
+ae_aligned_block_alignment_size_equal_to(const ae_aligned_block_t *self, ae_usize_t alignment_size)
+{
+    return ae_aligned_block_alignment_size(self) == alignment_size;
+}
+
+bool
+ae_aligned_block_alignment_size_equal(const ae_aligned_block_t *self,
+                                      const ae_aligned_block_t *other)
+{
+    const ae_usize_t alignment_size = ae_aligned_block_alignment_size(other);
+    return ae_aligned_block_alignment_size_equal_to(self, alignment_size);
+}
+
+bool
+ae_aligned_block_equal(const ae_aligned_block_t *self, const ae_aligned_block_t *other)
+{
+    return ae_aligned_block_alignment_size_equal(self, other) &&
+           ae_memory_block_equal(ae_memory_block_cast(self), ae_memory_block_cast(other));
+}
