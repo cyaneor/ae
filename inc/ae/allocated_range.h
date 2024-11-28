@@ -119,6 +119,8 @@ ae_allocated_range_exchange(ae_allocated_range_t *self, ae_allocated_range_t *ot
  *        Если память не удалось выделить.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти не валиден.
+ * @throw AE_RUNTIME_ERROR_INVALID_ARGUMENT
+ *        Если указатель `begin` равен `null`.
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель `self` равен `null`.
  *

@@ -87,6 +87,8 @@ ae_unified_block_clear(ae_unified_block_t *self);
  *        Если диапазон памяти не валиден.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *         Если размер элемента равен нулю.
+ * @throw AE_RUNTIME_ERROR_INVALID_ARGUMENT
+ *        Если указатель `begin` равен `null`.
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель `self` равен `null`.
  *
