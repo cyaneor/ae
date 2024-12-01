@@ -1,4 +1,5 @@
 #include <ae/stack_frame_state.h>
+/* Дополнительные модули */
 #include <ae/static_assert.h>
 #include <ae/constructor.h>
 #include <ae/nullptr.h>

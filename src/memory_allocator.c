@@ -1,4 +1,5 @@
 #include <ae/memory_allocator.h>
+/* Дополнительные модули */
 #include <ae/runtime_assert.h>
 #include <ae/nullptr.h>
 

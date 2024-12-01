@@ -1,11 +1,11 @@
 #include <ae/memory_range.h>
-#include <ae/memory_range_cast.h>
+/* Дополнительные модули */
 #include <ae/memory_range_initializer.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_expect.h>
 #include <ae/runtime_try.h>
-#include <ae/memory_raw.h>
 #include <ae/ptr_util.h>
+#include <ae/ptr_cast.h>
 #include <ae/nullptr.h>
 
 void *
@@ -18,7 +18,7 @@ ae_memory_range_begin(ae_memory_range_t *self)
 const void *
 ae_memory_range_begin_const(const ae_memory_range_t *self)
 {
-    return ae_memory_range_begin((ae_memory_range_t *)self);
+    return ae_memory_range_begin(ae_ptr_cast(ae_memory_range_t, self));
 }
 
 void *
@@ -31,7 +31,7 @@ ae_memory_range_end(ae_memory_range_t *self)
 const void *
 ae_memory_range_end_const(const ae_memory_range_t *self)
 {
-    return ae_memory_range_end((ae_memory_range_t *)self);
+    return ae_memory_range_end(ae_ptr_cast(ae_memory_range_t, self));
 }
 
 bool
@@ -218,7 +218,7 @@ ae_memory_range_at(ae_memory_range_t *self, ae_usize_t offset)
 const void *
 ae_memory_range_at_const(const ae_memory_range_t *self, ae_usize_t offset)
 {
-    return ae_memory_range_at(ae_memory_range_cast(self), offset);
+    return ae_memory_range_at(ae_ptr_cast(ae_memory_range_t, self), offset);
 }
 
 bool

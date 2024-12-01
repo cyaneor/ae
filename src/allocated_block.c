@@ -1,7 +1,8 @@
+#include <ae/memory_block.h>
+/* Дополнительные модули */
 #include <ae/allocated_block.h>
 #include <ae/allocated_range.h>
 #include <ae/runtime_assert.h>
-#include <ae/memory_block.h>
 
 ae_usize_t
 ae_allocated_block_max_size(const ae_allocated_block_t *self)

@@ -1,4 +1,5 @@
 #include <ae/version.h>
+/* Дополнительные модули */
 #include <ae/stringify.h>
 
 const char *

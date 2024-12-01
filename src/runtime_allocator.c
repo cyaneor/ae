@@ -1,5 +1,6 @@
-#include <ae/memory_allocator_initializer.h>
 #include <ae/runtime_allocator.h>
+/* Дополнительные модули */
+#include <ae/memory_allocator_initializer.h>
 #include <ae/runtime_expect.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_try.h>
