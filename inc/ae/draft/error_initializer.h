@@ -32,6 +32,7 @@
 #ifndef AE_ERROR_INITIALIZER_H
 #define AE_ERROR_INITIALIZER_H
 
+#include "nullptr.h"
 #include "error_code.h"
 #include "initializer.h"
 
@@ -63,15 +64,16 @@
  * @brief Инициализация объекта ошибки с кодом успеха и пустым сообщением.
  *
  * Этот макрос позволяет инициализировать объект ошибки с предопределенным
- * кодом ошибки `AE_RUNTIME_ERROR_OK` и пустым сообщением (`nullptr`).
+ * кодом ошибки `AE_ERROR_CODE_NONE` и пустым сообщением (`nullptr`).
+ *
  * Он используется для создания объекта ошибки, который указывает на отсутствие
  * ошибок, что может быть полезно в ситуациях, когда требуется явно указать,
  * что ошибки не произошло.
  *
  * @note Убедитесь, что код ошибки и сообщение соответствуют ожидаемым
  *       значениям в вашей программе. Этот макрос особенно полезен для
- *       обработки случаев, когда функция завершилась успешно и не требует
- *       дополнительной информации об ошибках.
+ *       обработки случаев, когда функция завершилась успешно
+ *       и не требует дополнительной информации об ошибках.
  *
  * Пример использования:
  * @code
@@ -81,9 +83,9 @@
  * };
  *
  * struct ae_error my_error = ae_error_empty_initializer();
- * // my_error будет инициализирован с кодом AE_RUNTIME_ERROR_OK и пустым сообщением
+ * // my_error будет инициализирован с кодом AE_ERROR_CODE_NONE и пустым сообщением
  * @endcode
  */
-#define ae_error_empty_initializer() ae_error_initializer(AE_RUNTIME_ERROR_OK, nullptr)
+#define ae_error_empty_initializer() ae_error_initializer(AE_ERROR_CODE_NONE, nullptr)
 
 #endif // AE_ERROR_INITIALIZER_H

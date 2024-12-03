@@ -1,7 +1,9 @@
 #include <ae/error.h>
 /* Дополнительные модули */
 #include <ae/runtime_assert.h>
+#include <ae/runtime_errors.h>
 #include <ae/runtime_try.h>
+#include <ae/nullptr.h>
 
 ae_error_code_t
 ae_error_get_code(const ae_error_t *self)
@@ -41,6 +43,12 @@ ae_error_set(ae_error_t *self, ae_error_code_t code, const ae_error_message_t me
         ae_runtime_try_interrupt();
     }
     ae_runtime_rethrow();
+}
+
+void
+ae_error_clear(ae_error_t *self)
+{
+    ae_error_set(self, AE_ERROR_CODE_NONE, nullptr);
 }
 
 void
@@ -91,7 +99,7 @@ ae_error_is_none(const ae_error_t *self)
 }
 
 bool
-ae_error_is_same(const ae_error_t *self)
+ae_error_is_exists(const ae_error_t *self)
 {
     return !ae_error_is_none(self);
 }

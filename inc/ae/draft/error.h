@@ -157,6 +157,27 @@ void
 ae_error_set(ae_error_t *self, ae_error_code_t code, const ae_error_message_t message);
 
 /**
+ * @brief Очищает структуру ошибки.
+ *
+ * Эта функция сбрасывает код и сообщение об ошибке в переданной структуре ошибки.
+ * Она вызывает функцию `ae_error_set`, устанавливая код ошибки
+ * как `AE_ERROR_CODE_NONE` и сообщение как `nullptr`,
+ * что означает отсутствие ошибки.
+ *
+ * @param self Указатель на структуру ошибки (ae_error_t),
+ *             которую необходимо очистить.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `null`.
+ *
+ * @see ae_error_set
+ * @see ae_error_t
+ */
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_error_clear(ae_error_t *self);
+
+/**
  * @brief Копирует код и сообщение об ошибке
  *        из одной структуры ошибки в другую.
  *
@@ -300,7 +321,7 @@ ae_error_is_none(const ae_error_t *self);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_error_is_same(const ae_error_t *self);
+ae_error_is_exists(const ae_error_t *self);
 
 AE_COMPILER(EXTERN_C_END)
 
