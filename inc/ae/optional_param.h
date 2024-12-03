@@ -11,8 +11,6 @@
 #ifndef AE_OPTIONAL_PARAM_H
 #define AE_OPTIONAL_PARAM_H
 
-#include "nullptr.h"
-
 /**
  * @brief Макрос для создания необязательного параметра
  *        с заданным значением по умолчанию.
