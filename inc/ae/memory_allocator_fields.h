@@ -29,14 +29,14 @@
  * @brief Макрос для определения полей аллокатора памяти.
  *
  * Этот макрос определяет два поля для структуры аллокатора памяти:
- * - Указатель на функцию выделения памяти (alloc).
- * - Указатель на функцию освобождения памяти (free).
+ * - Указатель на функцию выделения памяти (alloc_fn).
+ * - Указатель на функцию освобождения памяти (free_fn).
  *
  * Поля должны быть инициализированы соответствующими
  * функциями перед использованием аллокатора.
  */
 #define AE_MEMORY_ALLOCATOR_FIELDS                                                                 \
-    ae_memory_allocator_alloc_t *alloc;                                                            \
-    ae_memory_allocator_free_t  *free
+    ae_memory_allocator_alloc_t *alloc_fn;                                                         \
+    ae_memory_allocator_free_t  *free_fn
 
 #endif // AE_MEMORY_ALLOCATOR_FIELDS_H

@@ -1,31 +1,3 @@
-/**
- * @file memory_allocator.h
- * @brief Заголовочный файл для аллокатора памяти.
- *
- * Этот файл содержит определение структуры аллокатора памяти и функции,
- * которые позволяют выделять и освобождать память с использованием
- * этого аллокатора.
- *
- * Аллокатор предоставляет интерфейс для динамического управления памятью,
- * включая функции для получения указателей на функции выделения и освобождения памяти.
- *
- * @details Структура `ae_memory_allocator` включает в себя необходимые поля,
- *          которые позволяют инициализировать функции выделения и освобождения памяти.
- *
- *          Функции, предоставляемые в этом файле, позволяют пользователю безопасно
- *          управлять памятью, проверяя и обрабатывая ошибки, связанные с
- *          инициализацией и использованием аллокатора.
- *
- * Основные функции:
- * - `ae_memory_allocator_alloc_fn` - получение указателя на функцию выделения памяти.
- * - `ae_memory_allocator_free_fn`  - получение указателя на функцию освобождения памяти.
- * - `ae_memory_allocator_alloc`    - выделение памяти.
- * - `ae_memory_allocator_free`     - освобождение ранее выделенной памяти.
- *
- * @see ae_memory_allocator_alloc_t
- * @see ae_memory_allocator_free_t
- */
-
 #ifndef AE_MEMORY_ALLOCATOR_H
 #define AE_MEMORY_ALLOCATOR_H
 
@@ -68,7 +40,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_memory_allocator_alloc_t *
-ae_memory_allocator_alloc_fn(const ae_memory_allocator_t *self);
+ae_memory_allocator_get_alloc_fn(const ae_memory_allocator_t *self);
 
 /**
  * @brief Получает указатель на функцию освобождения памяти из аллокатора.
@@ -89,53 +61,216 @@ ae_memory_allocator_alloc_fn(const ae_memory_allocator_t *self);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_memory_allocator_free_t *
-ae_memory_allocator_free_fn(const ae_memory_allocator_t *self);
+ae_memory_allocator_get_free_fn(const ae_memory_allocator_t *self);
 
 /**
- * @brief Выделяет память с использованием аллокатора.
+ * @brief Выделяет память заданного размера с использованием аллокатора.
  *
- * Эта функция выделяет блок памяти размером `size_in_bytes` с помощью
- * функции выделения памяти, инициализированной в структуре аллокатора.
+ * Эта функция запрашивает выделение памяти
+ * размером `size_in_bytes` у указанного аллокатора:
+ *
+ * - Если размер равен 0 или если аллокатор не инициализирован,
+ *   будет выброшено исключение.
+ * - В случае успешного выделения памяти,
+ *   функция возвращает указатель на выделенный блок.
  *
  * @param self Указатель на структуру аллокатора памяти,
  *             которая будет использоваться для выделения памяти.
- *
  * @param size_in_bytes Размер памяти в байтах,
  *                      который необходимо выделить.
  *
- * @return Указатель на выделенный блок памяти, или `null`, если
- *         аллокатор не инициализирован или произошла ошибка при выделении.
+ * @return Указатель на выделенный блок памяти, или `null`,
+ *         если выделение памяти не удалось.
  *
+ * @throw AE_RUNTIME_ERROR_ZERO_MEMORY_SIZE
+ *        Если `size_in_bytes` равен 0.
  * @throw AE_RUNTIME_ERROR_ALLOCATOR_FUNCTION_NOT_INITIALIZED
- *        Если указатель на функцию выделения памяти равен `null`.
+ *        Если функция выделения памяти не инициализирована.
+ * @throw AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED
+ *        Если память не была успешно выделена.
  *
- * @see ae_memory_allocator_alloc_fn
+ * @note Если включена опция `AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE`,
+ *       выделенная память будет заполнена нулями.
+ *
+ * @see ae_memory_allocator_get_alloc_fn
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_allocator_alloc(ae_memory_allocator_t *self, ae_usize_t size_in_bytes);
+ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size_in_bytes);
 
 /**
- * @brief Освобождает ранее выделенный блок памяти
- *        с использованием аллокатора.
+ * @brief Освобождает ранее выделенный блок памяти.
  *
- * Эта функция освобождает блок памяти, который был ранее выделен с помощью
- * функции выделения памяти, инициализированной в структуре аллокатора.
+ * Эта функция освобождает память,
+ * выделенную ранее с помощью аллокатора:
+ *
+ * - Если указатель на память равен `null`,
+ *   функция завершает выполнение без генерации ошибки.
+ * - Если функция освобождения памяти не инициализирована,
+ *   будет выброшено исключение.
  *
  * @param self Указатель на структуру аллокатора памяти,
  *             которая будет использоваться для освобождения памяти.
- *
  * @param ptr Указатель на блок памяти,
  *            который необходимо освободить.
  *
  * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
- *        Если указатель на функцию освобождения памяти равен `null`.
+ *        Если функция освобождения памяти не инициализирована.
  *
- * @see ae_memory_allocator_free_fn
+ * @note Если указатель `ptr` равен `null`,
+ *       функция завершает выполнение без каких-либо действий.
+ *
+ * @see ae_memory_allocator_get_free_fn
  */
 AE_ATTRIBUTE(SYMBOL)
 void
-ae_memory_allocator_free(ae_memory_allocator_t *self, void *ptr);
+ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr);
+
+/**
+ * @brief Изменяет размер ранее выделенного блока памяти.
+ *
+ * Эта функция изменяет размер блока памяти,
+ * выделенного ранее с помощью аллокатора:
+ *
+ * - Если указатель `old_ptr` равен `null`,
+ *   функция выделяет новую память размером `new_size_in_bytes`.
+ * - Если размеры старого и нового блоков совпадают,
+ *   возвращается указатель на существующий блок.
+ * - Если новый размер равен 0, память освобождается,
+ *   и возвращается `null`.
+ *
+ * @param self Указатель на структуру аллокатора памяти,
+ *             которая будет использоваться для изменения размера памяти.
+ * @param old_ptr Указатель на ранее выделенный блок памяти, который
+ *                необходимо изменить.
+ * @param old_size_in_bytes Размер ранее выделенного блока памяти в байтах.
+ * @param new_size_in_bytes Новый размер блока памяти в байтах.
+ *
+ * @return Указатель на новый блок памяти,
+ *         или `null`, если новый размер равен 0.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `null`.
+ * @throw AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED
+ *        Если не удалось выделить новую память.
+ *
+ * @note Если `old_ptr` равен `null`, будет выделена новая память.
+ *       Если `new_size_in_bytes` равен 0, память будет освобождена.
+ *
+ * @see ae_memory_allocator_alloc
+ * @see ae_memory_allocator_free
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
+                            void                        *old_ptr,
+                            ae_usize_t                   old_size_in_bytes,
+                            ae_usize_t                   new_size_in_bytes);
+
+/**
+ * @brief Выделяет память с заданным выравниванием.
+ *
+ * Эта функция выделяет блок памяти размером `size_in_bytes`,
+ * выровненный по границе, заданной `alignment_size`:
+ *
+ * - Выравнивание должно быть степенью двойки.
+ * - Функция возвращает указатель на выровненный адрес.
+ * - Если выделение памяти не удалось, будет выброшено исключение.
+ *
+ * @param self Указатель на структуру аллокатора памяти,
+ *             которая будет использоваться для выделения памяти.
+ * @param size_in_bytes Размер памяти в байтах,
+ *                      который необходимо выделить.
+ * @param alignment_size Размер выравнивания в байтах,
+ *                       который должен быть степенью двойки.
+ *
+ * @return Указатель на выровненный блок памяти,
+ *         или `null`, если выделение памяти не удалось.
+ *
+ * @throw AE_RUNTIME_ERROR_NOT_POWER_OF_TWO
+ *        Если `alignment_size` не является степенью двойки.
+ * @throw AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED
+ *        Если не удалось выделить память.
+ *
+ * @note Указатель на невыравненную память сохраняется перед выровненным
+ *       указателем для последующего освобождения.
+ *
+ * @see ae_memory_allocator_alloc
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_allocator_align_alloc(const ae_memory_allocator_t *self,
+                                ae_usize_t                   size_in_bytes,
+                                ae_usize_t                   alignment_size);
+
+/**
+ * @brief Освобождает ранее выделенный выровненный блок памяти.
+ *
+ * Эта функция освобождает память, выделенную ранее с помощью
+ * функции `ae_memory_allocator_align_alloc`:
+ *
+ * - Указатель `ptr` должен указывать на выровненный блок памяти.
+ * - Функция извлекает указатель на невыравненную память и освобождает его.
+ * - Если указатель `ptr` равен `null`, функция завершает выполнение без каких-либо действий.
+ *
+ * @param self Указатель на структуру аллокатора памяти,
+ *             которая будет использоваться для освобождения памяти.
+ * @param ptr Указатель на выровненный блок памяти,
+ *            который необходимо освободить.
+ *
+ * @note Если указатель `ptr` равен `null`,
+ *       функция завершает выполнение без каких-либо действий.
+ *
+ * @see ae_memory_allocator_align_alloc
+ * @see ae_memory_allocator_free
+ */
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_memory_allocator_align_free(const ae_memory_allocator_t *self, void *ptr);
+
+/**
+ * @brief Изменяет размер ранее выделенного выровненного блока памяти.
+ *
+ * Эта функция изменяет размер блока памяти,
+ * выделенного ранее с помощью функции `ae_memory_allocator_align_alloc`:
+ *
+ * - Если указатель `old_ptr` равен `null`,
+ *   функция выделяет новую память с заданным выравниванием.
+ * - Если размеры старого и нового блоков совпадают,
+ *   возвращается указатель на существующий блок.
+ * - Если новый размер равен 0, память освобождается,
+ *   и возвращается `null`.
+ *
+ * @param self Указатель на структуру аллокатора памяти,
+ *             которая будет использоваться для изменения размера памяти.
+ * @param old_ptr Указатель на ранее выделенный выровненный блок памяти,
+ *                который необходимо изменить.
+ * @param old_size_in_bytes Размер ранее выделенного блока памяти в байтах.
+ * @param new_size_in_bytes Новый размер блока памяти в байтах.
+ * @param alignment_size Размер выравнивания в байтах,
+ *                       который должен быть степенью двойки.
+ *
+ * @return Указатель на новый выровненный блок памяти,
+ *         или `null`, если новый размер равен 0.
+ *
+ * @throw AE_RUNTIME_ERROR_NOT_POWER_OF_TWO
+ *        Если `alignment_size` не является степенью двойки.
+ * @throw AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED
+ *        Если не удалось выделить новую память.
+ *
+ * @note Указатель на невыравненную память сохраняется перед выровненным
+ *       указателем для последующего освобождения.
+ *
+ * @see ae_memory_allocator_align_alloc
+ * @see ae_memory_allocator_align_free
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
+                                  void                        *old_ptr,
+                                  ae_usize_t                   old_size_in_bytes,
+                                  ae_usize_t                   new_size_in_bytes,
+                                  ae_usize_t                   alignment_size);
 
 AE_COMPILER(EXTERN_C_END)
 

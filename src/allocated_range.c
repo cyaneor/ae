@@ -10,7 +10,7 @@ ae_allocated_range_clear(ae_allocated_range_t *self)
     void *begin = ae_memory_range_begin(self);
     if (begin)
     {
-        ae_runtime_allocator_free(begin);
+        ae_memory_allocator_free(&ae_runtime_allocator, begin);
         ae_memory_range_clear(self);
     }
 }
@@ -32,8 +32,8 @@ ae_allocated_range_resize(ae_allocated_range_t *self, ae_usize_t size_in_bytes)
 {
     ae_runtime_try
     {
-        void            *begin      = ae_memory_range_begin(self);
-        const ae_usize_t total_size = ae_memory_range_total_size(self);
+        void            *begin             = ae_memory_range_begin(self);
+        const ae_usize_t old_size_in_bytes = ae_memory_range_total_size(self);
 
         // В этом блоке мы пытаемся изменить размер выделенной памяти.
         // Если функция realloc не сможет выделить новую память (например, из-за нехватки памяти),
@@ -43,7 +43,10 @@ ae_allocated_range_resize(ae_allocated_range_t *self, ae_usize_t size_in_bytes)
         // и память, ранее выделенная для self, останется нетронутой.
         // Таким образом, мы защищаемся от потери данных в случае ошибки выделения памяти.
         ae_memory_range_reset_with_fallback(
-            self, ae_runtime_allocator_realloc(begin, total_size, size_in_bytes), size_in_bytes);
+            self,
+            ae_memory_allocator_realloc(
+                &ae_runtime_allocator, begin, old_size_in_bytes, size_in_bytes),
+            size_in_bytes);
 
         ae_runtime_try_interrupt();
     }
