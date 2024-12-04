@@ -2,6 +2,7 @@
 /* Дополнительные модули */
 #include <ae/allocated_block.h>
 #include <ae/runtime_assert.h>
+#include <ae/runtime_errors.h>
 #include <ae/aligned_range.h>
 #include <ae/ptr_cast.h>
 

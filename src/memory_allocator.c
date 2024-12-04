@@ -1,6 +1,7 @@
 #include <ae/memory_allocator.h>
 /* Дополнительные модули */
 #include <ae/runtime_assert.h>
+#include <ae/runtime_errors.h>
 #include <ae/nullptr.h>
 
 ae_memory_allocator_alloc_t *

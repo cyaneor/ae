@@ -52,13 +52,13 @@
  * Этот макрос обычно используется совместно с `ae_runtime_catch` для обработки ошибок
  * в стиле try-catch, обеспечивая структурированную обработку ошибок и восстановление.
  *
- * @return `AE_RUNTIME_ERROR_OK`, если фрейм стека был успешно сохранен (первичный вызов),
+ * @return `AE_ERROR_CODE_NONE`, если фрейм стека был успешно сохранен (первичный вызов),
  *          или ненулевой код ошибки, если управление передано обратно через `longjmp()`.
  *
  * @see ae_stack_frame_state_save
  */
 #define ae_runtime_try                                                                             \
-    ae_error_code_t        error_code        = AE_RUNTIME_ERROR_OK;                                \
+    ae_error_code_t        error_code        = AE_ERROR_CODE_NONE;                                 \
     ae_stack_frame_state_t stack_frame_state = {};                                                 \
     if ((error_code = ae_stack_frame_state_save(&stack_frame_state)) == 0)
 

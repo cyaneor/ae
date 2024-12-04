@@ -1,6 +1,7 @@
 #include <ae/memory_block.h>
 /* Дополнительные модули */
 #include <ae/runtime_assert.h>
+#include <ae/runtime_errors.h>
 #include <ae/memory_range.h>
 #include <ae/runtime_try.h>
 #include <ae/memory_raw.h>

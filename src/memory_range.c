@@ -3,6 +3,7 @@
 #include <ae/memory_range_initializer.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_expect.h>
+#include <ae/runtime_errors.h>
 #include <ae/runtime_try.h>
 #include <ae/ptr_util.h>
 #include <ae/ptr_cast.h>

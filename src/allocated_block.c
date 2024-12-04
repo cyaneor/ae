@@ -2,6 +2,7 @@
 /* Дополнительные модули */
 #include <ae/allocated_block.h>
 #include <ae/allocated_range.h>
+#include <ae/runtime_errors.h>
 #include <ae/runtime_assert.h>
 
 ae_usize_t

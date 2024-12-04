@@ -3,6 +3,7 @@
 #include <ae/allocated_block.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_expect.h>
+#include <ae/runtime_errors.h>
 #include <ae/unified_block.h>
 #include <ae/memory_block.h>
 #include <ae/memory_range.h>
@@ -108,7 +109,7 @@ ae_dynamic_block_reserve(ae_dynamic_block_t *self, ae_usize_t number_of_elements
         {
             // Вычисляем новый размер ёмкости с учетом коэффициента роста
             const ae_usize_t new_capacity =
-                (capacity == 0) ? reserve_size : (capacity * AE_MEMORY_GROWTH_FACTOR);
+                capacity == 0 ? reserve_size : (capacity * AE_MEMORY_GROWTH_FACTOR);
 
             // Увеличиваем ёмкость до нужного размера
             // Убедимся, что новый размер не меньше необходимого

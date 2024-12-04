@@ -1,6 +1,7 @@
 #include <ae/memory_raw.h>
 /* Дополнительные модули */
 #include <ae/runtime_assert.h>
+#include <ae/runtime_errors.h>
 #include <ae/ptr_util.h>
 #include <ae/nullptr.h>
 
@@ -546,8 +547,7 @@ ae_memory_raw_empty64(const ae_u64_t *begin, const ae_u64_t *end)
 {
     AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
 
-    const ae_u64_t *ptr;
-    for (ptr = begin; ptr < end; ptr++)
+    for (const ae_u64_t *ptr = begin; ptr < end; ptr++)
     {
         if (*ptr != 0)
         {
@@ -562,8 +562,7 @@ ae_memory_raw_empty32(const ae_u32_t *begin, const ae_u32_t *end)
 {
     AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
 
-    const ae_u32_t *ptr;
-    for (ptr = begin; ptr < end; ptr++)
+    for (const ae_u32_t *ptr = begin; ptr < end; ptr++)
     {
         if (*ptr != 0)
         {
@@ -578,8 +577,7 @@ ae_memory_raw_empty16(const ae_u16_t *begin, const ae_u16_t *end)
 {
     AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
 
-    const ae_u16_t *ptr;
-    for (ptr = begin; ptr < end; ptr++)
+    for (const ae_u16_t *ptr = begin; ptr < end; ptr++)
     {
         if (*ptr != 0)
         {
@@ -594,8 +592,7 @@ ae_memory_raw_empty8(const ae_u8_t *begin, const ae_u8_t *end)
 {
     AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
 
-    const ae_u8_t *ptr;
-    for (ptr = begin; ptr < end; ptr++)
+    for (const ae_u8_t *ptr = begin; ptr < end; ptr++)
     {
         if (*ptr != 0)
         {
