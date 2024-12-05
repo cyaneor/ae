@@ -313,7 +313,7 @@ ae_error_is_none(const ae_error_t *self);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_error_is_exists(const ae_error_t *self);
+ae_error_is_some(const ae_error_t *self);
 
 AE_COMPILER(EXTERN_C_END)
 

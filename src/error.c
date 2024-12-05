@@ -99,7 +99,7 @@ ae_error_is_none(const ae_error_t *self)
 }
 
 bool
-ae_error_is_exists(const ae_error_t *self)
+ae_error_is_some(const ae_error_t *self)
 {
     return !ae_error_is_none(self);
 }
