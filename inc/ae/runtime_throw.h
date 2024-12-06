@@ -43,7 +43,7 @@
 #define ae_runtime_throw(error_code, ...)                                                          \
     if (ae_stack_frame_state_is_begin())                                                           \
     {                                                                                              \
-        ae_error_set_code(&ae_runtime_error, error_code);                                          \
+        ae_runtime_error_reset_code(error_code);                                                   \
         return __VA_ARGS__;                                                                        \
     }                                                                                              \
     ae_stack_frame_state_load(error_code)

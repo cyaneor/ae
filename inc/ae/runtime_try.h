@@ -26,7 +26,7 @@
 #ifndef AE_RUNTIME_TRY_H
 #define AE_RUNTIME_TRY_H
 
-#include "runtime_error.h"
+#include "error_code.h"
 #include "stack_frame_state.h"
 
 /**
