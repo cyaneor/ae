@@ -3,6 +3,7 @@
 #include <ae/runtime_error_code.h>
 #include <ae/error_initializer.h>
 #include <ae/runtime_assert.h>
+#include <ae/runtime_try.h>
 
 ae_error_code_t
 ae_error_get_code(const ae_error_t *self)
@@ -42,14 +43,41 @@ ae_error_assign(ae_error_t *self, const ae_error_t *other)
     ae_error_set(self, code, message);
 }
 
-ae_error_code_t
+void
+ae_error_swap(ae_error_t *self, ae_error_t *other)
+{
+    ae_error_t _t = ae_error_empty_initializer();
+    ae_runtime_try
+    {
+        ae_error_assign(&_t, self);
+        ae_error_assign(self, other);
+        ae_error_assign(other, &_t);
+
+        ae_runtime_try_interrupt();
+    }
+    ae_runtime_rethrow();
+}
+
+void
 ae_error_clear(ae_error_t *self)
 {
-    const ae_error_t      other = ae_error_empty_initializer();
-    const ae_error_code_t prev  = ae_error_get_code(self);
-
+    const ae_error_t other = ae_error_empty_initializer();
     ae_error_assign(self, &other);
-    return prev;
+}
+
+void
+ae_error_exchange(ae_error_t *self, ae_error_t *other)
+{
+    ae_error_clear(self);
+    ae_error_swap(self, other);
+}
+
+ae_error_code_t
+ae_error_get_code_and_clear(ae_error_t *self)
+{
+    const ae_error_code_t code = ae_error_get_code(self);
+    ae_error_clear(self);
+    return code;
 }
 
 bool
