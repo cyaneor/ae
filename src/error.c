@@ -42,7 +42,7 @@ void
 ae_error_assign(void *self, const void *other)
 {
     const ae_error_code_t code = ae_error_get_code(other);
-    ae_error_desc_t desc = ae_error_get_desc(other);
+    ae_error_desc_t       desc = ae_error_get_desc(other);
     ae_error_set(self, code, desc);
 }
 
