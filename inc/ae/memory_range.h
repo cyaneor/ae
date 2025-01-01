@@ -24,7 +24,7 @@
 #include "attribute.h"
 
 /**
- * @struct ae_memory_range_t
+ * @struct ae_memory_range
  * @brief Структура, представляющая диапазон памяти.
  *
  * Эта структура используется для хранения информации о диапазоне памяти,

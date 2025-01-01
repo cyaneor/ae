@@ -19,7 +19,7 @@
 #include "bool.h"
 
 /**
- * @struct ae_memory_block_t
+ * @struct ae_memory_block
  * @brief Структура, представляющая блок памяти.
  *
  * Эта структура используется для хранения информации о блоке памяти,
