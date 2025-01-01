@@ -22,8 +22,7 @@
 
 #include "bool.h"
 #include "attribute.h"
-#include "error_code.h"
-#include "error_desc.h"
+#include "error_fields.h"
 
 /**
  * @struct ae_error
@@ -42,24 +41,7 @@
  */
 typedef struct ae_error
 {
-    /**
-     * @var ae_error::code
-     * @brief Код ошибки.
-     *
-     * Это поле хранит код ошибки, который указывает на тип проблемы.
-     * Тип данных `ae_error_code_t` определяет возможные значения кода ошибки.
-     */
-    ae_error_code_t code;
-
-    /**
-     * @var ae_error::desc
-     * @brief Сообщение об ошибке.
-     *
-     * Это поле хранит строку с описанием ошибки,
-     * предоставляя более подробную информацию о проблеме.
-     * Тип данных `ae_error_desc_t` является псевдонимом для `const char *`.
-     */
-    ae_error_desc_t desc;
+    AE_ERROR_FIELDS;
 } ae_error_t;
 
 AE_COMPILER(EXTERN_C_BEGIN)
