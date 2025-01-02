@@ -25,8 +25,12 @@ ae_memory_range_get_end(const void *self)
 bool
 ae_memory_range_is_empty(const void *self)
 {
-    const void *end = ae_memory_range_get_end(self);
-    return ae_memory_range_is_begin_equal_to(self, end);
+    ae_runtime_try
+    {
+        const void *end = ae_memory_range_get_end(self);
+        ae_runtime_try_interrupt(ae_memory_range_is_begin_equal_to(self, end));
+    }
+    ae_runtime_rethrow(true);
 }
 
 bool
