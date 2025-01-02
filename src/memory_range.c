@@ -70,6 +70,15 @@ ae_memory_range_is_multiple_of_total_size(const void *self, ae_usize_t element_s
     return ae_numeric_multiple_of(total_size, element_size);
 }
 
+bool
+ae_memory_range_is_aligned(const void *self, ae_usize_t alignment)
+{
+    AE_RUNTIME_ASSERT(alignment, AE_RUNTIME_ERROR_ZERO_ALIGNMENT_SIZE, false)
+    const void *begin = ae_memory_range_get_begin(self);
+    const void *end   = ae_memory_range_get_end(self);
+    return ae_ptr_range_is_aligned(begin, end, alignment);
+}
+
 ae_usize_t
 ae_memory_range_size(const void *self, ae_usize_t element_size)
 {
