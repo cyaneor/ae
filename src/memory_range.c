@@ -37,9 +37,13 @@ bool
 ae_memory_range_is_valid(const void *self)
 {
     AE_RUNTIME_EXPECT_IF(ae_memory_range_is_empty(self), true)
-    const void *begin = ae_memory_range_get_begin(self);
-    const void *end   = ae_memory_range_get_end(self);
-    return ae_ptr_is_valid_range(begin, end);
+    ae_runtime_try
+    {
+        const void *begin = ae_memory_range_get_begin(self);
+        const void *end   = ae_memory_range_get_end(self);
+        ae_runtime_try_interrupt(ae_ptr_is_valid_range(begin, end));
+    }
+    ae_runtime_rethrow(false);
 }
 
 bool
