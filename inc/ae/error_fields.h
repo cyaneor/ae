@@ -37,6 +37,6 @@
  */
 #define AE_ERROR_FIELDS                                                                            \
     ae_error_code_t code; /**< Код ошибки. Тип данных: ae_error_code_t */                          \
-    ae_error_desc_t desc; /**< Описание ошибки. Тип данных: ae_error_desc_t */
+    ae_error_desc_t desc  /**< Описание ошибки. Тип данных: ae_error_desc_t */
 
 #endif // AE_ERROR_FIELDS_H
