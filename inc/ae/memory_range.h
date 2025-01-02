@@ -232,6 +232,40 @@ ae_usize_t
 ae_memory_range_size(const void *self, ae_usize_t element_size);
 
 /**
+ * @brief Устанавливает указатель на начало диапазона памяти.
+ *
+ * Эта функция используется для установки указателя
+ * на начало диапазона в структуре @ref ae_memory_range_t.
+ *
+ * @param self Указатель на структуру @ref ae_memory_range_t,
+ *             для которой необходимо установить начало диапазона памяти.
+ * @param ptr Указатель на начало диапазона памяти.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_memory_range_set_begin(void *self, void *ptr);
+
+/**
+ * @brief Устанавливает указатель на конец диапазона памяти.
+ *
+ * Эта функция используется для установки указателя
+ * на конец диапазона в структуре @ref ae_memory_range_t.
+ *
+ * @param self Указатель на структуру @ref ae_memory_range_t,
+ *             для которой необходимо установить конец диапазона памяти.
+ * @param ptr Указатель на конец диапазона памяти.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_memory_range_set_end(void *self, void *ptr);
+
+/**
  * @brief Устанавливает начальный и конечный адреса диапазона памяти.
  *
  * Эта функция инициализирует диапазон памяти, устанавливая указатели на начало и конец.

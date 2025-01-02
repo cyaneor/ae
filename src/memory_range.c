@@ -82,11 +82,29 @@ ae_memory_range_size(const void *self, ae_usize_t element_size)
 }
 
 void
-ae_memory_range_set(void *self, void *begin, void *end)
+ae_memory_range_set_begin(void *self, void *ptr)
 {
     AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER)
-    ae_ptr_cast(ae_memory_range_t, self)->begin = begin;
-    ae_ptr_cast(ae_memory_range_t, self)->end   = end;
+    ae_ptr_cast(ae_memory_range_t, self)->begin = ptr;
+}
+
+void
+ae_memory_range_set_end(void *self, void *ptr)
+{
+    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER)
+    ae_ptr_cast(ae_memory_range_t, self)->end = ptr;
+}
+
+void
+ae_memory_range_set(void *self, void *begin, void *end)
+{
+    ae_runtime_try
+    {
+        ae_memory_range_set_begin(self, begin);
+        ae_memory_range_set_end(self, end);
+        ae_runtime_try_interrupt();
+    }
+    ae_runtime_rethrow();
 }
 
 void
