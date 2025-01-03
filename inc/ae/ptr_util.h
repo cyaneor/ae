@@ -173,6 +173,7 @@
 #define ae_ptr_is_valid_left_open_range(begin, end) (begin && (begin < end))
 
 /**
+ * @def ae_ptr_is_valid_right_open_range
  * @brief Проверяет, что диапазон между двумя указателями является открытым с правой стороны.
  *
  * Этот макрос проверяет, что оба указателя не равны нулю
@@ -188,6 +189,7 @@
 #define ae_ptr_is_valid_right_open_range(begin, end) (begin && (begin <= end))
 
 /**
+ * @def ae_ptr_is_valid_open_range
  * @brief Проверяет, что диапазон между двумя указателями является полностью открытым.
  *
  * Этот макрос проверяет, что оба указателя не равны нулю
