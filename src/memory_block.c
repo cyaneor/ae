@@ -5,6 +5,7 @@
 #include <ae/memory_range.h>
 #include <ae/runtime_try.h>
 #include <ae/ptr_util.h>
+#include <ae/nullptr.h>
 
 ae_usize_t
 ae_memory_block_get_element_size(const void *self)
@@ -76,8 +77,12 @@ ae_memory_block_get_offset_from_index(const void *self, ae_usize_t index)
 void *
 ae_memory_block_at_from_begin(const void *self, ae_usize_t index)
 {
-    const ae_usize_t offset = ae_memory_block_get_offset_from_index(self, index);
-    return ae_memory_range_at(self, offset);
+    ae_runtime_try
+    {
+        const ae_usize_t offset = ae_memory_block_get_offset_from_index(self, index);
+        ae_runtime_try_interrupt(ae_memory_range_at(self, offset));
+    }
+    ae_runtime_raise(nullptr);
 }
 
 void *
