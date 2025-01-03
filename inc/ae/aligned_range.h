@@ -57,15 +57,19 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * Эта функция очищает и освобождает память, выделенную для
  * выровненного диапазона, представленного структурой `ae_aligned_range_t`.
  *
- * - Если указатель `self` равен `null`, будет выброшено исключение.
+ * - Если указатель `self` равен `nullptr`, будет возвращено `false`.
  * - Функция сначала освобождает память, выделенную для начала диапазона,
  *   а затем очищает сам диапазон.
  *
  * @param self Указатель на структуру `ae_aligned_range_t`,
  *             представляющую выровненный диапазон, который необходимо очистить.
  *
+ * @return `true`, если ресурсы выровненного диапазона были успешно освобождены;
+ *         `false`, если указатель на `self` равен `nullptr`,
+ *                  или если произошла ошибка при освобождении памяти.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `null`.
+ *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
  *        Если функция освобождения памяти не инициализирована.
  *
@@ -76,7 +80,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * @see ae_runtime_allocator_align_free
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_aligned_range_clear(void *self);
 
 /**
@@ -85,7 +89,7 @@ ae_aligned_range_clear(void *self);
  * Эта функция очищает текущий выровненный диапазон `self` и затем
  * обменивает его содержимое с другим выровненным диапазоном `other`.
  *
- * - Если указатель `self` или `other` равен `null`, будет выброшено исключение.
+ * - Если указатель `self` или `other` равен `nullptr`, функция вернет `false`.
  * - Функция использует механизм обработки исключений для обеспечения
  *   безопасности при обмене содержимым.
  *
@@ -94,8 +98,11 @@ ae_aligned_range_clear(void *self);
  * @param other Указатель на структуру `ae_aligned_range_t`,
  *              представляющую выровненный диапазон, с которым будет произведен обмен.
  *
+ * @return `true`, если обмен содержимым двух выровненных диапазонов был успешным;
+ *         `false`, если один из указателей (`self` или `other`) равен `nullptr`.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `null`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
  *        Если функция освобождения памяти не инициализирована.
  *
@@ -106,7 +113,7 @@ ae_aligned_range_clear(void *self);
  * @see ae_memory_range_swap
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_aligned_range_exchange(void *self, void *other);
 
 /**

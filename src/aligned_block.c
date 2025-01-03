@@ -4,7 +4,6 @@
 #include <ae/allocated_block.h>
 #include <ae/runtime_assert.h>
 #include <ae/aligned_range.h>
-#include <ae/runtime_try.h>
 #include <ae/ptr_util.h>
 
 ae_usize_t
@@ -14,20 +13,14 @@ ae_aligned_block_get_alignment_size(const void *self)
     return ae_ptr_cast(ae_aligned_block_t, self)->alignment_size;
 }
 
-void
-ae_aligned_block_clear(void *self)
-{
-    ae_aligned_range_clear(self);
-}
-
-void
+bool
 ae_aligned_block_exchange(void *self, void *other)
 {
     AE_RUNTIME_ASSERT(ae_memory_block_is_element_size_equal(self, other),
-                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE)
+                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE,
+                      false)
 
-    ae_aligned_block_clear(self);
-    ae_memory_range_swap(self, other);
+    return ae_aligned_range_clear(self) && ae_memory_range_swap(self, other);
 }
 
 bool

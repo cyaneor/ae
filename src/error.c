@@ -72,7 +72,7 @@ ae_error_swap(void *self, void *other)
         ae_error_assign(other, &_t);
         ae_runtime_try_interrupt();
     }
-    ae_runtime_rethrow();
+    ae_runtime_raise();
 }
 
 void

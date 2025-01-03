@@ -50,52 +50,29 @@ typedef ae_memory_block_t ae_allocated_block_t;
 AE_COMPILER(EXTERN_C_BEGIN)
 
 /**
- * @brief Очищает (освобождает) выделенный блок памяти.
- *
- * Эта функция очищает (освобождает) память, выделенную для блока,
- * представленного структурой типа `ae_allocated_block_t`.
- *
- * Она вызывает функцию `ae_allocated_range_clear` для очистки памяти,
- * освобождая все ресурсы, связанные с данным блоком.
- *
- * @param self Указатель на структуру типа `ae_allocated_block_t`,
- *             представляющую блок памяти, который необходимо очистить.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `null`.
- * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
- *        Если функция освобождения памяти не инициализирована.
- *
- * @note Эта функция вызывает `ae_allocated_range_clear`, которая выполняет проверку на `NULL`
- *       и очищает выделенную память с помощью функции `ae_runtime_allocator_free`.
- *
- *       После освобождения памяти функция также очищает
- *       сам диапазон памяти через `ae_memory_range_clear`.
- */
-AE_ATTRIBUTE(SYMBOL)
-void
-ae_allocated_block_clear(void *self);
-
-/**
  * @brief Обменивает содержимое двух выделенных блоков памяти.
  *
  * Эта функция обменивает содержимое двух выделенных блоков памяти,
  * представленных указателями на структуры типа `ae_allocated_block_t`.
- * Перед выполнением обмена функция проверяет, что размеры элементов обоих блоков
- * памяти одинаковы, с помощью функции `ae_memory_block_is_element_size_equal`.
  *
  * @param[in,out] self Указатель на первый блок памяти,
  *                     содержимое которого будет обменяно.
  * @param[in,out] other Указатель на второй блок памяти,
  *                      содержимое которого будет обменяно.
  *
+ * @return `true`, если обмен содержимым двух блоков памяти был успешным;
+ *         `false`, если один из указателей (`self` или `other`) равен `nullptr`,
+ *                  или если размеры элементов в блоках памяти различаются.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` или `other` равен `null`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE
  *        Если размер элементов в блоках памяти различается.
+ * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
+ *        Если функция освобождения памяти не инициализирована.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_allocated_block_exchange(void *self, void *other);
 
 /**

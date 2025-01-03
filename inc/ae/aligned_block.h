@@ -68,60 +68,27 @@ ae_usize_t
 ae_aligned_block_get_alignment_size(const void *self);
 
 /**
- * @brief Освобождает ресурсы, связанные с выровненным блоком памяти.
- *
- * Эта функция очищает и освобождает память,
- * выделенную для выровненного блока памяти,
- * представленного структурой `ae_aligned_block_t`.
- *
- * Она вызывает функцию `ae_aligned_range_clear`,
- * которая освобождает ресурсы, связанные с выровненным диапазоном памяти.
- *
- * - Если указатель `self` равен `null`, будет выброшено исключение.
- * - Функция сначала освобождает память, выделенную для начала диапазона памяти,
- *   а затем очищает сам диапазон.
- *
- * @param self Указатель на структуру `ae_aligned_block_t`,
- *             представляющую выровненный блок памяти,
- *             который необходимо очистить.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `NULL`.
- * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
- *        Если функция освобождения памяти не инициализирована.
- *
- * @see ae_aligned_range_clear
- * @see ae_memory_range_clear
- * @see ae_runtime_allocator_align_free
- */
-AE_ATTRIBUTE(SYMBOL)
-void
-ae_aligned_block_clear(void *self);
-
-/**
  * @brief Обменивает содержимое двух выделенных блоков памяти.
  *
  * Эта функция обменивает содержимое двух выделенных блоков памяти,
  * представленных указателями на структуры типа ae_allocated_block_t.
- *
- * Функция выполняет обмен данных между блоками, используя соответствующую
- * функцию обмена для диапазонов памяти, которая обрабатывает детали управления памятью.
  *
  * @param[in,out] self Указатель на структуру типа ae_allocated_block_t,
  *                     представляющую первый выделенный блок памяти.
  * @param[in,out] other Указатель на структуру типа ae_allocated_block_t,
  *                      представляющую второй выделенный блок памяти.
  *
+ * @return `true`, если обмен содержимым двух блоков памяти был успешным;
+ *         `false`, если один из указателей (`self` или `other`) равен `nullptr`,
+ *                  или если возникла ошибка с инициализацией освобождения памяти.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` или `other` равен `null`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
  *        Если функция освобождения памяти не инициализирована.
- *
- * @note Функция использует механизм обмена для двух объектов типа ae_allocated_range_t,
- *       которые представляют собой диапазоны памяти внутри выделенных блоков.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_aligned_block_exchange(void *self, void *other);
 
 /**
@@ -196,6 +163,7 @@ ae_aligned_block_resize(void *self, ae_usize_t number_of_elements);
 AE_ATTRIBUTE(SYMBOL)
 bool
 ae_aligned_block_is_alignment_size_equal_to(const void *self, ae_usize_t alignment_size);
+
 /**
  * @brief Проверяет, равны ли размеры выравнивания двух блоков.
  *

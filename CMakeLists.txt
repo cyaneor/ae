@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.12)
 
 # Устанавливаем название, версию, описание и основной язык проекта.
 project(ae
-        VERSION 1.0.1
+        VERSION 1.0.2
         DESCRIPTION "Adaptive Library"
         LANGUAGES C)
 

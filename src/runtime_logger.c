@@ -1,4 +1,5 @@
 #include <ae/runtime_logger.h>
+/* Дополнительные модули */
 #include <ae/logger_initializer.h>
 
 /**

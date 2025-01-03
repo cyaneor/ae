@@ -2,15 +2,15 @@
 /* Дополнительные модули */
 #include <ae/allocated_block.h>
 #include <ae/aligned_block.h>
-#include <ae/ptr_util.h>
+#include <ae/aligned_range.h>
 #include <ae/bit_util.h>
 
-void
+bool
 ae_unified_block_clear(void *self)
 {
     const ae_usize_t alignment_size = ae_aligned_block_get_alignment_size(self);
-    ae_bit_is_single(alignment_size) ? ae_aligned_block_clear(self)
-                                     : ae_allocated_block_clear(self);
+    return ae_bit_is_single(alignment_size) ? ae_aligned_range_clear(self)
+                                            : ae_allocated_range_clear(self);
 }
 
 void

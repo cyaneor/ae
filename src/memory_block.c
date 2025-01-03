@@ -5,7 +5,6 @@
 #include <ae/memory_range.h>
 #include <ae/runtime_try.h>
 #include <ae/ptr_util.h>
-#include <ae/nullptr.h>
 
 ae_usize_t
 ae_memory_block_get_element_size(const void *self)
@@ -17,12 +16,9 @@ ae_memory_block_get_element_size(const void *self)
 ae_usize_t
 ae_memory_block_size(const void *self)
 {
-    ae_runtime_try
-    {
-        const ae_usize_t element_size = ae_memory_block_get_element_size(self);
-        ae_runtime_try_interrupt(ae_memory_range_size(self, element_size));
-    }
-    ae_runtime_rethrow(0);
+    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
+    AE_RUNTIME_ASSERT(element_size, AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, 0)
+    return ae_memory_range_size(self, element_size);
 }
 
 bool
@@ -31,70 +27,54 @@ ae_memory_block_is_empty(const void *self)
     return ae_memory_block_size(self) == 0;
 }
 
-void
+bool
 ae_memory_block_swap(void *self, void *other)
 {
     AE_RUNTIME_ASSERT(ae_memory_block_is_element_size_equal(self, other),
-                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE)
+                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE,
+                      false)
 
-    ae_memory_range_swap(self, other);
+    return ae_memory_range_swap(self, other);
 }
 
-void
-ae_memory_block_clear(void *self)
-{
-    ae_memory_range_clear(self);
-}
-
-void
+bool
 ae_memory_block_exchange(void *self, void *other)
 {
     AE_RUNTIME_ASSERT(ae_memory_block_is_element_size_equal(self, other),
-                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE)
+                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE,
+                      false)
 
-    ae_memory_range_exchange(self, other);
+    return ae_memory_range_exchange(self, other);
 }
 
 bool
-ae_memory_block_has_index(const void *self, ae_usize_t index, bool inclusive)
+ae_memory_block_has_index(const void *self, ae_usize_t index)
 {
     const ae_usize_t size = ae_memory_block_size(self);
-    return inclusive ? index <= size : index < size;
+    return index < size;
 }
 
 bool
-ae_memory_block_has_index_range(const void *self,
-                                ae_usize_t  start_index,
-                                ae_usize_t  end_index,
-                                bool        inclusive)
+ae_memory_block_has_index_range(const void *self, ae_usize_t start_index, ae_usize_t end_index)
 {
-    return ae_memory_block_has_index(self, start_index, inclusive) &&
-           ae_memory_block_has_index(self, end_index, inclusive);
+    return ae_memory_block_has_index(self, start_index) &&
+           ae_memory_block_has_index(self, end_index);
 }
 
 ae_usize_t
-ae_memory_block_get_offset_of_element(const void *self, ae_usize_t index)
+ae_memory_block_get_offset_from_index(const void *self, ae_usize_t index)
 {
-    // Проверяем индекс элемента
-    AE_RUNTIME_ASSERT(
-        ae_memory_block_has_index(self, index, false), AE_RUNTIME_ERROR_OUT_OF_RANGE, 0)
+    AE_RUNTIME_ASSERT(ae_memory_block_has_index(self, index), AE_RUNTIME_ERROR_OUT_OF_RANGE, 0)
 
-    // Получаем размер элемента в блоке памяти
     const ae_usize_t element_size = ae_memory_block_get_element_size(self);
-    AE_RUNTIME_ASSERT(element_size, AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, 0)
-
     return index * element_size;
 }
 
 void *
 ae_memory_block_at_from_begin(const void *self, ae_usize_t index)
 {
-    ae_runtime_try
-    {
-        const ae_usize_t offset = ae_memory_block_get_offset_of_element(self, index);
-        ae_runtime_try_interrupt(ae_memory_range_at(self, offset));
-    }
-    ae_runtime_rethrow(nullptr);
+    const ae_usize_t offset = ae_memory_block_get_offset_from_index(self, index);
+    return ae_memory_range_at(self, offset);
 }
 
 void *

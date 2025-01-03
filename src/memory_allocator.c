@@ -100,7 +100,7 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
         ae_runtime_try_interrupt(new_ptr);
     }
     // В случае ошибки повторно выбрасываем исключение
-    ae_runtime_rethrow(nullptr);
+    ae_runtime_raise(nullptr);
 }
 
 void *
@@ -132,7 +132,7 @@ ae_memory_allocator_align_alloc(const ae_memory_allocator_t *self,
         // Возврат указателя на выровненный адрес.
         ae_runtime_try_interrupt(aligned_ptr);
     }
-    ae_runtime_rethrow(nullptr);
+    ae_runtime_raise(nullptr);
 }
 
 void
@@ -191,5 +191,5 @@ ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
     }
 
     // В случае ошибки повторно выбрасываем исключение
-    ae_runtime_rethrow(nullptr);
+    ae_runtime_raise(nullptr);
 }

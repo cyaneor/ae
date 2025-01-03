@@ -48,29 +48,34 @@ AE_COMPILER(EXTERN_C_BEGIN)
  *
  * Эта функция очищает и освобождает память, выделенную для блока памяти.
  * В зависимости от выравнивания блока, функция вызывает одну из двух
- * функций для очистки: `ae_aligned_block_clear` для выровненных блоков
- * памяти и `ae_allocated_block_clear` для обычных выделенных блоков памяти.
+ * функций для очистки: `ae_aligned_range_clear` для выровненных блоков
+ * памяти и `ae_allocated_range_clear` для обычных выделенных блоков памяти.
  *
- * - Если блок выровнен, вызывается функция `ae_aligned_block_clear`.
- * - Если блок не выровнен, вызывается функция `ae_allocated_block_clear`.
+ * - Если блок выровнен, вызывается функция `ae_aligned_range_clear`.
+ * - Если блок не выровнен, вызывается функция `ae_allocated_range_clear`.
  *
  * Функция сначала проверяет выравнивание блока с помощью функции
  * `ae_aligned_block_get_alignment_size`, а затем решает,
  * какую функцию очистки вызвать.
  *
- * @param self Указатель на блок памяти, который необходимо очистить.
+ * @param self Указатель на блок памяти,
+ *             который необходимо очистить.
+ *
+ * @return `true`, если блок памяти был успешно очищен;
+ *         `false`, если указатель на `self` равен `nullptr`
+ *                  или если выравнивание блока некорректно.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `null`.
+ *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_ALIGNMENT
  *        Если выравнивание блока памяти некорректно.
  *
- * @see ae_aligned_block_clear
- * @see ae_allocated_block_clear
+ * @see ae_aligned_range_clear
+ * @see ae_allocated_range_clear
  * @see ae_aligned_block_get_alignment_size
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_unified_block_clear(void *self);
 
 /**

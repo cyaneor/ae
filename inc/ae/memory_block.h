@@ -96,76 +96,64 @@ ae_memory_block_is_empty(const void *self);
 /**
  * @brief Обменивает содержимое двух блоков памяти.
  *
- * Эта функция меняет местами содержимое двух блоков памяти.
- * Оба блока должны иметь одинаковый размер элементов, иначе
- * будет вызвана ошибка времени выполнения.
+ * Эта функция меняет местами содержимое двух блоков памяти,
+ * представленных структурами `self` и `other`.
  *
  * @param self Указатель на структуру #ae_memory_block,
  *             представляющую первый блок памяти.
  * @param other Указатель на структуру #ae_memory_block,
  *              представляющую второй блок памяти.
  *
+ * @return `true`, если обмен содержимым блоков памяти был успешным;
+ *         `false`, если один из указателей (`self` или `other`) равен `nullptr`,
+ *                  или если размеры элементов в блоках памяти различаются.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если один из диапазонов памяти недопустим.
  * @throw AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE
  *        Если размеры элементов в блоках памяти различаются.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_block_swap(void *self, void *other);
-
-/**
- * @brief Очищает блок памяти.
- *
- * Эта функция очищает содержимое блока памяти, освобождая все
- * ресурсы, связанные с ним. После вызова этой функции блок
- * памяти будет считаться пустым.
- *
- * @param self Указатель на структуру #ae_memory_block,
- *             представляющую блок памяти, который необходимо очистить.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `nullptr`.
- */
-AE_ATTRIBUTE(SYMBOL)
-void
-ae_memory_block_clear(void *self);
 
 /**
  * @brief Обменивает содержимое двух блоков памяти.
  *
- * Эта функция меняет местами содержимое двух блоков памяти.
- * Оба блока должны иметь одинаковый размер элементов, иначе
- * будет вызвана ошибка времени выполнения.
+ * Эта функция сначала очищает блок памяти, представленный структурой `self`,
+ * а затем меняет местами содержимое этого блока с содержимым блока,
+ * представленным структурой `other`.
  *
  * @param self Указатель на структуру #ae_memory_block,
  *             представляющую первый блок памяти.
  * @param other Указатель на структуру #ae_memory_block,
  *              представляющую второй блок памяти.
  *
+ * @return `true`, если обмен содержимым блоков памяти был успешным;
+ *         `false`, если один из указателей (`self` или `other`) равен `nullptr`,
+ *                  или если размеры элементов в блоках памяти различаются.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если один из диапазонов памяти недопустим.
  * @throw AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE
  *        Если размеры элементов в блоках памяти различаются.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_block_exchange(void *self, void *other);
 
 /**
  * @brief Проверяет, находится ли индекс в пределах блока памяти.
  *
- * Эта функция определяет, находится ли заданный индекс в пределах блока памяти.
- * Параметр `inclusive` указывает, следует ли учитывать верхнюю границу при проверке.
+ * Эта функция определяет,
+ * находится ли заданный индекс в пределах блока памяти.
  *
  * @param self Указатель на структуру #ae_memory_block, представляющую блок памяти.
  * @param index Индекс, который необходимо проверить.
- * @param inclusive Флаг, указывающий, следует ли включать верхнюю границу
- *                  в проверку (true) или нет (false).
  * @return `true`, если индекс находится в пределах блока памяти;
  *         `false` в противном случае.
  *
@@ -178,20 +166,17 @@ ae_memory_block_exchange(void *self, void *other);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_memory_block_has_index(const void *self, ae_usize_t index, bool inclusive);
+ae_memory_block_has_index(const void *self, ae_usize_t index);
 
 /**
  * @brief Проверяет, находится ли диапазон индексов в пределах блока памяти.
  *
- * Эта функция определяет, находятся ли заданные начальный и конечный индексы
- * в пределах блока памяти. Параметр `inclusive` указывает, следует ли учитывать
- * верхнюю границу при проверке.
+ * Эта функция определяет,
+ * находятся ли заданные начальный и конечный индексы в пределах блока памяти.
  *
  * @param self Указатель на структуру #ae_memory_block, представляющую блок памяти.
  * @param start_index Начальный индекс диапазона, который необходимо проверить.
  * @param end_index Конечный индекс диапазона, который необходимо проверить.
- * @param inclusive Флаг, указывающий, следует ли включать верхнюю границу
- *                  в проверку (true) или нет (false).
  *
  * @return `true`, если оба индекса находятся в пределах блока памяти;
  *         `false` в противном случае.
@@ -205,10 +190,8 @@ ae_memory_block_has_index(const void *self, ae_usize_t index, bool inclusive);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_memory_block_has_index_range(const void *self,
-                                ae_usize_t  start_index,
-                                ae_usize_t  end_index,
-                                bool        inclusive);
+ae_memory_block_has_index_range(const void *self, ae_usize_t start_index, ae_usize_t end_index);
+
 /**
  * @brief Вычисляет смещение элемента в блоке памяти по заданному индексу.
  *
@@ -233,7 +216,7 @@ ae_memory_block_has_index_range(const void *self,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_usize_t
-ae_memory_block_get_offset_of_element(const void *self, ae_usize_t index);
+ae_memory_block_get_offset_from_index(const void *self, ae_usize_t index);
 
 /**
  * @brief Получает указатель на элемент в блоке памяти по индексу, начиная с начала.

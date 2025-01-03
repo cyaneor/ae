@@ -81,7 +81,7 @@ ae_memory_range_get_end(const void *self);
  * указатель на начало диапазона с указателем на конец диапазона. Если указатели равны,
  * функция возвращает `true`, что указывает на то, что диапазон пуст; в противном случае - `false`.
  *
- * @param self Указатель на структуру #ae_memory_range_t, представляющую диапазон памяти.
+ * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @return `true`, если диапазон памяти пуст (начало равно концу);
  *         `false` в противном случае.
  *
@@ -100,7 +100,7 @@ ae_memory_range_is_empty(const void *self);
  * - Если диапазон пуст, функция также проверяет это условие.
  * - Если указатель `self` равен `nullptr`, функция вызывает ошибку времени выполнения.
  *
- * @param self Указатель на структуру #ae_memory_range_t, представляющую диапазон памяти.
+ * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @return `true`, если диапазон памяти допустим (начало и конец находятся в допустимых пределах);
  *         `false` в противном случае.
  *
@@ -121,7 +121,7 @@ ae_memory_range_is_valid(const void *self);
  * В зависимости от значения параметра `inclusive`, функция может включать или исключать
  * конечный адрес диапазона при проверке.
  *
- * @param self Указатель на структуру #ae_memory_range_t, представляющую диапазон памяти.
+ * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @param ptr Указатель, который необходимо проверить на принадлежность диапазону.
  * @param inclusive Флаг, указывающий, следует ли включать конечный адрес диапазона в проверку.
  *                  Если `true`, конечный адрес будет включен; если `false`, он будет исключен.
@@ -146,7 +146,7 @@ ae_memory_range_has_ptr(const void *self, const void *ptr, bool inclusive);
  * Эта функция определяет разницу между указателями на конец и начало диапазона памяти.
  * Если указатель `self` равен `nullptr`, функция вызывает ошибку времени выполнения.
  *
- * @param self Указатель на структуру #ae_memory_range_t, представляющую диапазон памяти.
+ * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @return Разница между конечным и начальным адресами диапазона памяти в байтах.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
@@ -163,7 +163,7 @@ ae_memory_range_diff(const void *self);
  * между конечным и начальным адресами. Если диапазон памяти недопустим,
  * функция вызывает ошибку времени выполнения.
  *
- * @param self Указатель на структуру #ae_memory_range_t, представляющую диапазон памяти.
+ * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @return Общий размер диапазона памяти в байтах.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
@@ -208,7 +208,7 @@ ae_memory_range_is_aligned(const void *self, ae_usize_t alignment);
  * Если общий размер диапазона памяти не кратен размеру элемента,
  * функция возвращает `false`, в противном случае - `true`.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую диапазон памяти.
  * @param element_size Размер элемента,
  *                     с которым будет производиться проверка кратности.
@@ -235,7 +235,7 @@ ae_memory_range_is_multiple_of_total_size(const void *self, ae_usize_t element_s
  * Если общий размер диапазона памяти не кратен размеру элемента,
  * функция вызывает ошибку времени выполнения.
  *
- * @param self Указатель на структуру #ae_memory_range_t, представляющую диапазон памяти.
+ * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @param element_size Размер одного элемента, для которого будет производиться расчет.
  * @return Количество элементов в диапазоне памяти.
  *
@@ -290,18 +290,21 @@ ae_memory_range_set_end(void *self, void *ptr);
 /**
  * @brief Устанавливает начальный и конечный адреса диапазона памяти.
  *
- * Эта функция инициализирует диапазон памяти, устанавливая указатели на начало и конец.
- * Если указатель `self` равен `nullptr`, функция вызывает ошибку времени выполнения.
+ * Эта функция инициализирует диапазон памяти,
+ * устанавливая указатели на начало и конец.
  *
- * @param self Указатель на структуру #ae_memory_range_t, представляющую диапазон памяти.
+ * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @param begin Указатель на начало диапазона памяти.
  * @param end Указатель на конец диапазона памяти.
+ *
+ * @return `true`, если диапазон памяти был успешно установлен;
+ *         `false`, если указатель на `self` равен `nullptr`.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_range_set(void *self, void *begin, void *end);
 
 /**
@@ -310,36 +313,38 @@ ae_memory_range_set(void *self, void *begin, void *end);
  * Эта функция присваивает диапазон памяти, указанный в структуре `other`,
  * текущему диапазону памяти, представленному структурой `self`.
  *
- * Если указатель `other` равен `nullptr`,
- * функция вызывает ошибку времени выполнения.
- *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую целевой диапазон памяти.
- * @param other Указатель на структуру #ae_memory_range_t,
+ * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую источник диапазона памяти.
+ *
+ * @return `true`, если диапазон памяти был успешно скопирован;
+ *         `false`, если указатель на `other` равен `nullptr`.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `other` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_range_assign(void *self, const void *other);
 
 /**
  * @brief Очищает диапазон памяти, устанавливая его в пустое состояние.
  *
- * Эта функция сбрасывает диапазон памяти, присваивая ему значения,
- * соответствующие пустому диапазону. Это достигается путем
- * присвоения диапазона памяти, инициализированного как пустой.
+ * Эта функция сбрасывает диапазон памяти,
+ * присваивая ему значения, соответствующие пустому диапазону.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую диапазон памяти, который необходимо очистить.
  *
+ * @return `true`, если диапазон памяти был успешно очищен;
+ *         `false`, если указатель на `self` равен `nullptr`.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_range_clear(void *self);
 
 /**
@@ -349,12 +354,15 @@ ae_memory_range_clear(void *self);
  * Эта функция присваивает диапазон памяти, указанный в структуре `other`,
  * текущему диапазону памяти, представленному структурой `self`,
  * после проверки, что диапазон `other` является допустимым.
- * Если диапазон `other` недопустим, функция вызывает ошибку времени выполнения.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую целевой диапазон памяти.
- * @param other Указатель на структуру #ae_memory_range_t,
+ * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую источник диапазона памяти.
+ *
+ * @return `true`, если диапазон памяти был успешно скопирован;
+ *         `false`, если указатель на `other` равен `nullptr`
+ *                  или если диапазон памяти `other` недопустим.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `other` равен `nullptr`.
@@ -362,7 +370,7 @@ ae_memory_range_clear(void *self);
  *        Если диапазон памяти `other` недопустим.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_range_assign_with_validate(void *self, const void *other);
 
 /**
@@ -371,21 +379,24 @@ ae_memory_range_assign_with_validate(void *self, const void *other);
  *
  * Эта функция инициализирует новый диапазон памяти с заданными указателями на начало и конец,
  * а затем присваивает его текущему диапазону памяти, представленному структурой `self`,
- * после проверки на допустимость. Если создаваемый диапазон памяти недопустим,
- * функция вызывает ошибку времени выполнения.
+ * после проверки на допустимость.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую диапазон памяти, который необходимо установить.
  * @param begin Указатель на начало диапазона памяти.
  * @param end Указатель на конец диапазона памяти.
  *
+ * @return `true`, если диапазон памяти был успешно установлен;
+ *         `false`, если указатель на `self` равен `nullptr`
+ *                  или если создаваемый диапазон памяти недопустим.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если создаваемый диапазон памяти недопустим.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_range_set_with_validate(void *self, void *begin, void *end);
 
 /**
@@ -394,23 +405,26 @@ ae_memory_range_set_with_validate(void *self, void *begin, void *end);
  *
  * Эта функция инициализирует диапазон памяти, устанавливая указатель
  * на начало и вычисляя конечный адрес на основе заданного размера в байтах.
- * Если указатель `begin` равен `nullptr`, функция вызывает ошибку времени выполнения.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую диапазон памяти,
  *             который необходимо установить.
  * @param begin Указатель на начало диапазона памяти.
  * @param size_in_bytes Размер диапазона памяти в байтах.
  *
+ * @return `true`, если диапазон памяти был успешно установлен;
+ *         `false`, если указатель на `self` или `begin` равен `nullptr`,
+ *                  или если создаваемый диапазон памяти недопустим.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_ARGUMENT
  *        Если указатель `begin` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если создаваемый диапазон памяти недопустим.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size_in_bytes);
 
 /**
@@ -421,17 +435,20 @@ ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size_in_bytes)
  * Если указатель `begin` равен `nullptr`, функция очищает диапазон памяти,
  * устанавливая его в пустое состояние.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
- *             представляющую диапазон памяти,
- *             который необходимо установить или очистить.
+ * @param self Указатель на структуру ae_memory_range_t,
+ *             представляющую диапазон памяти, который необходимо установить или очистить.
  * @param begin Указатель на начало диапазона памяти.
  * @param size_in_bytes Размер диапазона памяти в байтах.
  *
+ * @return `true`, если диапазон памяти был успешно установлен или очищен;
+ *         `false`, если указатель на `self` или `begin` равен `nullptr`,
+ *                  или если возникает ошибка при очистке диапазона.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_range_set_with_fallback(void *self, void *begin, ae_usize_t size_in_bytes);
 
 /**
@@ -440,20 +457,19 @@ ae_memory_range_set_with_fallback(void *self, void *begin, ae_usize_t size_in_by
  * Эта функция меняет местами содержимое двух диапазонов памяти,
  * представленных структурами `self` и `other`.
  *
- * В процессе обмена используется временная переменная для хранения одного из диапазонов.
- * Если во время выполнения происходит ошибка, функция перехватывает исключение
- * и повторно выбрасывает его.
- *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую первый диапазон памяти.
- * @param other Указатель на структуру #ae_memory_range_t,
+ * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую второй диапазон памяти.
  *
+ * @return `true`, если обмен значениями двух диапазонов памяти был успешным;
+ *         `false`, если один из указателей (`self` или `other`) равен `nullptr`.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_range_swap(void *self, void *other);
 
 /**
@@ -461,19 +477,21 @@ ae_memory_range_swap(void *self, void *other);
  *
  * Эта функция сначала очищает диапазон памяти, представленный структурой `self`,
  * а затем меняет местами содержимое этого диапазона с содержимым диапазона,
- * представленным структурой `other`. Если во время выполнения происходит ошибка,
- * функция перехватывает исключение и повторно выбрасывает его.
+ * представленным структурой `other`.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую диапазон памяти, который будет очищен и обменен.
- * @param other Указатель на структуру #ae_memory_range_t,
+ * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую диапазон памяти, с которым будет произведен обмен.
  *
+ * @return `true`, если обмен значениями двух диапазонов памяти был успешным;
+ *         `false`, если один из указателей (`self` или `other`) равен `nullptr`.
+ *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_memory_range_exchange(void *self, void *other);
 
 /**
@@ -483,7 +501,7 @@ ae_memory_range_exchange(void *self, void *other);
  * внутри текущего диапазона памяти, представленного структурой `self`.
  * Параметр `inclusive` указывает, следует ли включать конечные адреса в проверку.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую текущий диапазон памяти.
  * @param begin Указатель на начало проверяемого диапазона.
  * @param end Указатель на конец проверяемого диапазона.
@@ -509,7 +527,7 @@ ae_memory_range_has_range(const void *self, const void *begin, const void *end, 
  * с учетом указанного смещения `offset`. Если указатель `self` или его начало равны `nullptr`,
  * функция вызывает ошибку времени выполнения.
  *
- * @param self Указатель на структуру #ae_memory_range_t, представляющую диапазон памяти.
+ * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @param offset Смещение в байтах от начала диапазона памяти.
  * @return Указатель на элемент в диапазоне памяти, находящийся на заданном смещении.
  *
@@ -518,8 +536,6 @@ ae_memory_range_has_range(const void *self, const void *begin, const void *end, 
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти недопустим
  *        (например, если `self` не является валидным диапазоном).
- * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
- *        Если указатель на начало диапазона памяти равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
@@ -534,7 +550,7 @@ ae_memory_range_at_unsafe(const void *self, ae_usize_t offset);
  * находится ли полученный указатель в пределах допустимого диапазона.
  * Если указатель выходит за пределы, функция вызывает ошибку времени выполнения.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую диапазон памяти.
  * @param offset Смещение в байтах от начала диапазона памяти.
  * @return Указатель на элемент в диапазоне памяти,
@@ -547,8 +563,6 @@ ae_memory_range_at_unsafe(const void *self, ae_usize_t offset);
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти недопустим
  *        (например, если `self` не является валидным диапазоном).
- * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
- *        Если указатель на начало диапазона памяти равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
@@ -562,7 +576,7 @@ ae_memory_range_at(const void *self, ae_usize_t offset);
  * с заданным указателем. Если указатели равны, функция возвращает `true`,
  * в противном случае - `false`.
  *
- * @param self Указатель на структуру #ae_memory_range_t, представляющую диапазон памяти.
+ * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @param ptr Указатель, с которым будет производиться сравнение.
  * @return `true`, если указатель на начало диапазона равен заданному указателю;
  *         `false` в противном случае.
@@ -582,7 +596,7 @@ ae_memory_range_is_begin_equal_to(const void *self, const void *ptr);
  * с заданным указателем. Если указатели равны, функция возвращает `true`,
  * в противном случае - `false`.
  *
- * @param self Указатель на структуру #ae_memory_range_t, представляющую диапазон памяти.
+ * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @param ptr Указатель, с которым будет производиться сравнение.
  * @return `true`, если указатель на конец диапазона равен заданному указателю;
  *         `false` в противном случае.
@@ -601,9 +615,9 @@ ae_memory_range_is_end_equal_to(const void *self, const void *ptr);
  * с указателем на начало диапазона памяти другого объекта. Если указатели равны,
  * функция возвращает `true`, в противном случае - `false`.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую первый диапазон памяти.
- * @param other Указатель на структуру #ae_memory_range_t,
+ * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую второй диапазон памяти.
  * @return `true`, если указатель на начало диапазона первого объекта равен указателю
  *                 на начало диапазона второго объекта; `false` в противном случае.
@@ -622,9 +636,9 @@ ae_memory_range_is_begin_equal(const void *self, const void *other);
  * с указателем на начало диапазона памяти другого объекта. Если указатели равны,
  * функция возвращает `true`, в противном случае - `false`.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую первый диапазон памяти.
- * @param other Указатель на структуру #ae_memory_range_t,
+ * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую второй диапазон памяти.
  * @return `true`, если указатель на начало диапазона первого объекта равен указателю
  *          на начало диапазона второго объекта; `false` в противном случае.
@@ -643,9 +657,9 @@ ae_memory_range_is_end_equal(const void *self, const void *other);
  * Если оба указателя (на начало и конец) равны, функция возвращает `true`,
  * в противном случае - `false`.
  *
- * @param self Указатель на структуру #ae_memory_range_t,
+ * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую первый диапазон памяти.
- * @param other Указатель на структуру #ae_memory_range_t,
+ * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую второй диапазон памяти.
  * @return `true`, если оба диапазона памяти равны (начало и конец);
  *         `false` в противном случае.

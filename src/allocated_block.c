@@ -7,20 +7,14 @@
 #include <ae/runtime_try.h>
 #include <ae/ptr_util.h>
 
-void
-ae_allocated_block_clear(void *self)
-{
-    ae_allocated_range_clear(self);
-}
-
-void
+bool
 ae_allocated_block_exchange(void *self, void *other)
 {
     AE_RUNTIME_ASSERT(ae_memory_block_is_element_size_equal(self, other),
-                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE)
+                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE,
+                      false)
 
-    ae_allocated_block_clear(self);
-    ae_memory_range_swap(self, other);
+    return ae_allocated_range_clear(self) && ae_memory_range_swap(self, other);
 }
 
 ae_usize_t

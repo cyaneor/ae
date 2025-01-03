@@ -283,10 +283,16 @@ ae_dynamic_block_shrink(ae_dynamic_block_t *self);
  * @param self Указатель на динамический блок, в котором необходимо зарезервировать место.
  * @param number_of_elements Количество элементов, для которых нужно зарезервировать место.
  *
+ * @return `true`, если место для элементов было успешно зарезервировано;
+ *         `false`, если указатель `self` равен `nullptr`,
+ *                  или если произошла ошибка при выделении памяти.
+ *
+ * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
+ *        Если функция освобождения памяти не инициализирована.
  * @throw AE_RUNTIME_ERROR_ALLOCATOR_FUNCTION_NOT_INITIALIZED
- *        Если указатель на функцию выделения памяти равен `null`.
+ *        Если указатель на функцию выделения памяти равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
- *        Если указатель `begin` равен `null`.
+ *        Если указатель `begin` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED
  *        Если не удалось выделить достаточно памяти для нового блока.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
@@ -294,14 +300,14 @@ ae_dynamic_block_shrink(ae_dynamic_block_t *self);
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель `self` равен `null`.
+ *        Если указатель `self` равен `nullptr`.
  *
  * @see ae_dynamic_block_capacity
  * @see ae_dynamic_block_size
  * @see ae_unified_block_resize
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_dynamic_block_reserve(ae_dynamic_block_t *self, ae_usize_t number_of_elements);
 
 /**
@@ -314,10 +320,16 @@ ae_dynamic_block_reserve(ae_dynamic_block_t *self, ae_usize_t number_of_elements
  * @param self Указатель на динамический блок, в котором необходимо изменить количество элементов.
  * @param size Новое количество элементов, которое должно быть в блоке.
  *
+ * @return `true`, если размер блока был успешно изменен;
+ *         `false`, если указатель на `self` равен `nullptr`
+ *                  или если возникли ошибки в процессе изменения размера.
+ *
+ * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
+ *        Если функция освобождения памяти не инициализирована.
  * @throw AE_RUNTIME_ERROR_ALLOCATOR_FUNCTION_NOT_INITIALIZED
- *        Если указатель на функцию выделения памяти равен `null`.
+ *        Если указатель на функцию выделения памяти равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_RANGE_BEGIN
- *        Если указатель `begin` равен `null`.
+ *        Если указатель `begin` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED
  *        Если не удалось выделить достаточно памяти для блока.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
@@ -325,13 +337,13 @@ ae_dynamic_block_reserve(ae_dynamic_block_t *self, ae_usize_t number_of_elements
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель `self` равен `null`.
+ *        Если указатель `self` равен `nullptr`.
  *
  * @see ae_dynamic_block_capacity
  * @see ae_unified_block_resize
  */
 AE_ATTRIBUTE(SYMBOL)
-void
+bool
 ae_dynamic_block_resize(ae_dynamic_block_t *self, ae_usize_t size);
 
 /**

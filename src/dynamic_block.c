@@ -90,7 +90,7 @@ ae_dynamic_block_delete(ae_dynamic_block_t *self)
     ae_dynamic_block_shrink(self);
 }
 
-void
+bool
 ae_dynamic_block_reserve(ae_dynamic_block_t *self, ae_usize_t number_of_elements)
 {
     ae_runtime_try
@@ -106,7 +106,7 @@ ae_dynamic_block_reserve(ae_dynamic_block_t *self, ae_usize_t number_of_elements
         {
             // Вычисляем новый размер ёмкости с учетом коэффициента роста
             const ae_usize_t new_capacity =
-                capacity == 0 ? reserve_size : (capacity * AE_MEMORY_GROWTH_FACTOR);
+                capacity == 0 ? reserve_size : (capacity * AE_DYNAMIC_BLOCK_GROWTH_FACTOR) / 1000;
 
             // Увеличиваем ёмкость до нужного размера
             // Убедимся, что новый размер не меньше необходимого
@@ -114,12 +114,12 @@ ae_dynamic_block_reserve(ae_dynamic_block_t *self, ae_usize_t number_of_elements
                                     new_capacity > reserve_size ? new_capacity : reserve_size);
         }
 
-        ae_runtime_try_interrupt();
+        ae_runtime_try_interrupt(true);
     }
-    ae_runtime_rethrow();
+    ae_runtime_raise(false);
 }
 
-void
+bool
 ae_dynamic_block_resize(ae_dynamic_block_t *self, ae_usize_t number_of_elements)
 {
     ae_runtime_try
@@ -130,9 +130,9 @@ ae_dynamic_block_resize(ae_dynamic_block_t *self, ae_usize_t number_of_elements)
             ae_unified_block_resize(self, number_of_elements);
         }
         self->number_of_elements = number_of_elements;
-        ae_runtime_try_interrupt();
+        ae_runtime_try_interrupt(true);
     }
-    ae_runtime_rethrow();
+    ae_runtime_raise(false);
 }
 
 bool
