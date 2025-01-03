@@ -4,6 +4,7 @@
 #include <ae/runtime_error_code.h>
 #include <ae/runtime_expect.h>
 #include <ae/runtime_assert.h>
+#include <ae/runtime_try.h>
 #include <ae/ptr_util.h>
 #include <ae/nullptr.h>
 
@@ -24,17 +25,25 @@ ae_memory_range_get_end(const void *self)
 bool
 ae_memory_range_is_empty(const void *self)
 {
-    const void *end = ae_memory_range_get_end(self);
-    return ae_memory_range_is_begin_equal_to(self, end);
+    ae_runtime_try
+    {
+        const void *end = ae_memory_range_get_end(self);
+        ae_runtime_try_interrupt(ae_memory_range_is_begin_equal_to(self, end));
+    }
+    ae_runtime_rethrow(true);
 }
 
 bool
 ae_memory_range_is_valid(const void *self)
 {
     AE_RUNTIME_EXPECT_IF(ae_memory_range_is_empty(self), true)
-    const void *begin = ae_memory_range_get_begin(self);
-    const void *end   = ae_memory_range_get_end(self);
-    return ae_ptr_is_valid_range(begin, end);
+    ae_runtime_try
+    {
+        const void *begin = ae_memory_range_get_begin(self);
+        const void *end   = ae_memory_range_get_end(self);
+        ae_runtime_try_interrupt(ae_ptr_is_valid_range(begin, end));
+    }
+    ae_runtime_rethrow(false);
 }
 
 bool
@@ -106,8 +115,13 @@ ae_memory_range_set_end(void *self, void *ptr)
 void
 ae_memory_range_set(void *self, void *begin, void *end)
 {
-    ae_memory_range_set_begin(self, begin);
-    ae_memory_range_set_end(self, end);
+    ae_runtime_try
+    {
+        ae_memory_range_set_begin(self, begin);
+        ae_memory_range_set_end(self, end);
+        ae_runtime_try_interrupt();
+    }
+    ae_runtime_rethrow();
 }
 
 void
@@ -156,16 +170,28 @@ void
 ae_memory_range_swap(void *self, void *other)
 {
     ae_memory_range_t _t = ae_memory_range_empty_initializer();
-    ae_memory_range_assign(&_t, self);
-    ae_memory_range_assign(self, other);
-    ae_memory_range_assign(other, &_t);
+    ae_runtime_try
+    {
+        ae_memory_range_assign(&_t, self);
+        ae_memory_range_assign(self, other);
+        ae_memory_range_assign(other, &_t);
+
+        ae_runtime_try_interrupt();
+    }
+    ae_runtime_rethrow();
 }
 
 void
 ae_memory_range_exchange(void *self, void *other)
 {
-    ae_memory_range_clear(self);
-    ae_memory_range_swap(self, other);
+    ae_runtime_try
+    {
+        ae_memory_range_clear(self);
+        ae_memory_range_swap(self, other);
+
+        ae_runtime_try_interrupt();
+    }
+    ae_runtime_rethrow();
 }
 
 bool

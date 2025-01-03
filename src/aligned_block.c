@@ -4,6 +4,7 @@
 #include <ae/allocated_block.h>
 #include <ae/runtime_assert.h>
 #include <ae/aligned_range.h>
+#include <ae/runtime_try.h>
 #include <ae/ptr_util.h>
 
 ae_usize_t

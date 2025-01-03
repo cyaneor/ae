@@ -3,7 +3,9 @@
 #include <ae/runtime_error_code.h>
 #include <ae/runtime_assert.h>
 #include <ae/memory_range.h>
+#include <ae/runtime_try.h>
 #include <ae/ptr_util.h>
+#include <ae/nullptr.h>
 
 ae_usize_t
 ae_memory_block_get_element_size(const void *self)
@@ -15,8 +17,12 @@ ae_memory_block_get_element_size(const void *self)
 ae_usize_t
 ae_memory_block_size(const void *self)
 {
-    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
-    return ae_memory_range_size(self, element_size);
+    ae_runtime_try
+    {
+        const ae_usize_t element_size = ae_memory_block_get_element_size(self);
+        ae_runtime_try_interrupt(ae_memory_range_size(self, element_size));
+    }
+    ae_runtime_rethrow(0);
 }
 
 bool
@@ -83,8 +89,12 @@ ae_memory_block_get_offset_of_element(const void *self, ae_usize_t index)
 void *
 ae_memory_block_at_from_begin(const void *self, ae_usize_t index)
 {
-    const ae_usize_t offset = ae_memory_block_get_offset_of_element(self, index);
-    return ae_memory_range_at(self, offset);
+    ae_runtime_try
+    {
+        const ae_usize_t offset = ae_memory_block_get_offset_of_element(self, index);
+        ae_runtime_try_interrupt(ae_memory_range_at(self, offset));
+    }
+    ae_runtime_rethrow(nullptr);
 }
 
 void *
