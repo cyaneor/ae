@@ -65,24 +65,12 @@ ae_memory_block_has_index_range(const void *self, ae_usize_t start_index, ae_usi
            ae_memory_block_has_index(self, end_index);
 }
 
-ae_usize_t
-ae_memory_block_get_offset_from_index(const void *self, ae_usize_t index)
-{
-    AE_RUNTIME_ASSERT(ae_memory_block_has_index(self, index), AE_RUNTIME_ERROR_OUT_OF_RANGE, 0)
-
-    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
-    return index * element_size;
-}
-
 void *
 ae_memory_block_at_from_begin(const void *self, ae_usize_t index)
 {
-    ae_runtime_try
-    {
-        const ae_usize_t offset = ae_memory_block_get_offset_from_index(self, index);
-        ae_runtime_try_interrupt(ae_memory_range_at(self, offset));
-    }
-    ae_runtime_raise(nullptr);
+    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
+    AE_RUNTIME_ASSERT(element_size, AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, nullptr)
+    return ae_memory_range_at(self, index * element_size);
 }
 
 void *

@@ -193,32 +193,6 @@ bool
 ae_memory_block_has_index_range(const void *self, ae_usize_t start_index, ae_usize_t end_index);
 
 /**
- * @brief Вычисляет смещение элемента в блоке памяти по заданному индексу.
- *
- * Эта функция возвращает смещение элемента в блоке памяти, соответствующее
- * заданному индексу. Функция проверяет, что индекс находится в допустимых
- * пределах, и что размер элемента не равен нулю.
- *
- * @param self Указатель на структуру #ae_memory_block, представляющую блок памяти.
- * @param index Индекс элемента, для которого необходимо вычислить смещение.
- * @return Смещение элемента в блоке памяти в байтах.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `nullptr`.
- * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
- *        Если указанный индекс находится вне допустимого диапазона.
- * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
- *        Если размер элемента равен нулю.
- * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
- *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
- */
-AE_ATTRIBUTE(SYMBOL)
-ae_usize_t
-ae_memory_block_get_offset_from_index(const void *self, ae_usize_t index);
-
-/**
  * @brief Получает указатель на элемент в блоке памяти по индексу, начиная с начала.
  *
  * Эта функция возвращает указатель на элемент в блоке памяти, соответствующий
