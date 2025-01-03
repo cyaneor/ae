@@ -2,6 +2,7 @@
 /* Дополнительные модули */
 #include <ae/memory_range_initializer.h>
 #include <ae/runtime_error_code.h>
+#include <ae/memory_range_type.h>
 #include <ae/runtime_expect.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_try.h>
@@ -32,19 +33,37 @@ ae_memory_range_is_empty(const void *self)
 bool
 ae_memory_range_is_valid(const void *self)
 {
-    AE_RUNTIME_EXPECT_IF(ae_memory_range_is_empty(self), true)
+    AE_RUNTIME_EXPECT_IF(ae_memory_range_is_empty(self), true);
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
-    return ae_ptr_is_valid_range(begin, end);
+
+#if (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_CLOSED)
+    return ae_ptr_is_valid_closed_range(begin, end); // [begin, end]
+#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_LEFT_OPENED)
+    return ae_ptr_is_valid_left_open_range(begin, end); // (begin, end]
+#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_RIGHT_OPENED)
+    return ae_ptr_is_valid_right_open_range(begin, end); // [begin, end)
+#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_OPENED)
+    return ae_ptr_is_valid_open_range(begin, end); // (begin, end)
+#endif
 }
 
 bool
-ae_memory_range_has_ptr(const void *self, const void *ptr, bool inclusive)
+ae_memory_range_has_ptr(const void *self, const void *ptr)
 {
-    AE_RUNTIME_ASSERT(ae_memory_range_is_valid(self), AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE, false)
+    AE_RUNTIME_ASSERT(ae_memory_range_is_valid(self), AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE, false);
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
-    return inclusive ? (ptr >= begin) && (ptr <= end) : (ptr >= begin) && (ptr < end);
+
+#if (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_CLOSED)
+    return ae_ptr_has_closed_range(begin, end, ptr); // [begin, end]
+#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_LEFT_OPENED)
+    return ae_ptr_has_left_open_range(begin, end, ptr); // (begin, end]
+#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_RIGHT_OPENED)
+    return ae_ptr_has_right_open_range(begin, end, ptr); // [begin, end)
+#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_OPENED)
+    return ae_ptr_has_open_range(begin, end, ptr); // (begin, end)
+#endif
 }
 
 ae_ptrdiff_t
@@ -178,10 +197,11 @@ ae_memory_range_exchange(void *self, void *other)
 }
 
 bool
-ae_memory_range_has_range(const void *self, const void *begin, const void *end, bool inclusive)
+ae_memory_range_has_range(const void *self, const void *begin, const void *end)
 {
-    return ae_memory_range_has_ptr(self, begin, inclusive) &&
-           ae_memory_range_has_ptr(self, end, inclusive);
+    ae_memory_range_t _t = ae_memory_range_initializer((void *)begin, (void *)end);
+    return ae_memory_range_is_valid(&_t) && ae_memory_range_has_ptr(self, begin) &&
+           ae_memory_range_has_ptr(self, end);
 }
 
 void *
@@ -195,8 +215,7 @@ void *
 ae_memory_range_at(const void *self, ae_usize_t offset)
 {
     void *ptr = ae_memory_range_at_unsafe(self, offset);
-    AE_RUNTIME_ASSERT(
-        ae_memory_range_has_ptr(self, ptr, false), AE_RUNTIME_ERROR_OUT_OF_RANGE, nullptr)
+    AE_RUNTIME_ASSERT(ae_memory_range_has_ptr(self, ptr), AE_RUNTIME_ERROR_OUT_OF_RANGE, nullptr)
     return ptr;
 }
 

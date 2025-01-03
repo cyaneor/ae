@@ -169,30 +169,6 @@ bool
 ae_memory_block_has_index(const void *self, ae_usize_t index);
 
 /**
- * @brief Проверяет, находится ли диапазон индексов в пределах блока памяти.
- *
- * Эта функция определяет,
- * находятся ли заданные начальный и конечный индексы в пределах блока памяти.
- *
- * @param self Указатель на структуру #ae_memory_block, представляющую блок памяти.
- * @param start_index Начальный индекс диапазона, который необходимо проверить.
- * @param end_index Конечный индекс диапазона, который необходимо проверить.
- *
- * @return `true`, если оба индекса находятся в пределах блока памяти;
- *         `false` в противном случае.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `nullptr`.
- * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
- *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
- */
-AE_ATTRIBUTE(SYMBOL)
-bool
-ae_memory_block_has_index_range(const void *self, ae_usize_t start_index, ae_usize_t end_index);
-
-/**
  * @brief Получает указатель на элемент в блоке памяти по индексу, начиная с начала.
  *
  * Эта функция возвращает указатель на элемент в блоке памяти, соответствующий
@@ -326,6 +302,30 @@ ae_memory_block_front(const void *self);
 AE_ATTRIBUTE(SYMBOL)
 void *
 ae_memory_block_back(const void *self);
+
+/**
+ * @brief Проверяет, находится ли диапазон индексов в пределах блока памяти.
+ *
+ * Эта функция определяет,
+ * находятся ли заданные начальный и конечный индексы в пределах блока памяти.
+ *
+ * @param self Указатель на структуру #ae_memory_block, представляющую блок памяти.
+ * @param start_index Начальный индекс диапазона, который необходимо проверить.
+ * @param end_index Конечный индекс диапазона, который необходимо проверить.
+ *
+ * @return `true`, если оба индекса находятся в пределах блока памяти;
+ *         `false` в противном случае.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
+ * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
+ *        Если общий размер блока памяти не кратен размеру элемента.
+ */
+AE_ATTRIBUTE(SYMBOL)
+bool
+ae_memory_block_has_index_range(const void *self, ae_usize_t start_index, ae_usize_t end_index);
 
 /**
  * @brief Проверяет, равен ли размер элемента заданному значению.

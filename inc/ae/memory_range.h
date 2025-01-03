@@ -17,11 +17,11 @@
 #ifndef AE_MEMORY_RANGE_H
 #define AE_MEMORY_RANGE_H
 
-#include "memory_range_fields.h"
 #include "bool.h"
 #include "size.h"
 #include "ptrdiff.h"
 #include "attribute.h"
+#include "memory_range_fields.h"
 
 /**
  * @struct ae_memory_range
@@ -117,18 +117,14 @@ ae_memory_range_is_valid(const void *self);
 /**
  * @brief Проверяет, находится ли указатель в диапазоне памяти.
  *
- * Эта функция определяет, находится ли заданный указатель в пределах указанного диапазона памяти.
- * В зависимости от значения параметра `inclusive`, функция может включать или исключать
- * конечный адрес диапазона при проверке.
+ * Эта функция определяет,
+ * находится ли заданный указатель в пределах указанного диапазона памяти.
  *
  * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
  * @param ptr Указатель, который необходимо проверить на принадлежность диапазону.
- * @param inclusive Флаг, указывающий, следует ли включать конечный адрес диапазона в проверку.
- *                  Если `true`, конечный адрес будет включен; если `false`, он будет исключен.
  *
- * @return `true`, если указатель находится в диапазоне памяти
- *          (включая или исключая конец в зависимости от флага);
- *          `false` в противном случае.
+ * @return `true`, если указатель находится в диапазоне памяти;
+ *         `false` в противном случае.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
@@ -138,7 +134,7 @@ ae_memory_range_is_valid(const void *self);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_memory_range_has_ptr(const void *self, const void *ptr, bool inclusive);
+ae_memory_range_has_ptr(const void *self, const void *ptr);
 
 /**
  * @brief Вычисляет разницу между конечным и начальным адресами диапазона памяти.
@@ -497,16 +493,13 @@ ae_memory_range_exchange(void *self, void *other);
 /**
  * @brief Проверяет, находится ли заданный диапазон в пределах текущего диапазона памяти.
  *
- * Эта функция определяет, находится ли указанный диапазон, заданный указателями `begin` и `end`,
- * внутри текущего диапазона памяти, представленного структурой `self`.
- * Параметр `inclusive` указывает, следует ли включать конечные адреса в проверку.
+ * Эта функция определяет, находится ли указанный диапазон,
+ * заданный указателями `begin` и `end`, внутри текущего диапазона памяти.
  *
  * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую текущий диапазон памяти.
  * @param begin Указатель на начало проверяемого диапазона.
  * @param end Указатель на конец проверяемого диапазона.
- * @param inclusive Флаг, указывающий, следует ли включать конечные адреса в проверку.
- *                  Если `true`, конечные адреса будут включены; если `false`, они будут исключены.
  * @return `true`, если указанный диапазон находится в пределах текущего диапазона памяти;
  *         `false` в противном случае.
  *
@@ -518,7 +511,7 @@ ae_memory_range_exchange(void *self, void *other);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_memory_range_has_range(const void *self, const void *begin, const void *end, bool inclusive);
+ae_memory_range_has_range(const void *self, const void *begin, const void *end);
 
 /**
  * @brief Получает указатель на элемент в диапазоне памяти по заданному смещению.

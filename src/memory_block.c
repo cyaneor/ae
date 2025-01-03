@@ -58,13 +58,6 @@ ae_memory_block_has_index(const void *self, ae_usize_t index)
     return index < size;
 }
 
-bool
-ae_memory_block_has_index_range(const void *self, ae_usize_t start_index, ae_usize_t end_index)
-{
-    return ae_memory_block_has_index(self, start_index) &&
-           ae_memory_block_has_index(self, end_index);
-}
-
 void *
 ae_memory_block_at_from_begin(const void *self, ae_usize_t index)
 {
@@ -97,6 +90,14 @@ void *
 ae_memory_block_back(const void *self)
 {
     return ae_memory_block_at(self, 0, true);
+}
+
+bool
+ae_memory_block_has_index_range(const void *self, ae_usize_t start_index, ae_usize_t end_index)
+{
+    return ae_memory_range_has_range(self,
+                                     ae_memory_block_at(self, start_index, false),
+                                     ae_memory_block_at(self, end_index, false));
 }
 
 bool
