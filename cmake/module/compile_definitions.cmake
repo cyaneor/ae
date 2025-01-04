@@ -32,7 +32,7 @@ list(APPEND AE_TARGET_COMPILE_DEFINITIONS
         # 1 - Левый полуоткрытый диапазон (AE_MEMORY_RANGE_TYPE_LEFT_OPENED)
         # 2 - Правый полуоткрытый диапазон (AE_MEMORY_RANGE_TYPE_RIGHT_OPENED)
         # 3 - Открытый диапазон (AE_MEMORY_RANGE_TYPE_OPENED)
-        AE_MEMORY_RANGE_TYPE=2
+        # AE_MEMORY_RANGE_TYPE=2
 
         # Макрос AE_DYNAMIC_BLOCK_GROWTH_FACTOR задает коэффициент роста размера памяти
         # при перераспределении в динамических структурах данных. Этот коэффициент определяет

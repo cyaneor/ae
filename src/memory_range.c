@@ -45,6 +45,8 @@ ae_memory_range_is_valid(const void *self)
     return ae_ptr_is_valid_right_open_range(begin, end); // [begin, end)
 #elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_OPENED)
     return ae_ptr_is_valid_open_range(begin, end); // (begin, end)
+#else
+#    error "AE_MEMORY_RANGE_TYPE is set to an unsupported value."
 #endif
 }
 
@@ -63,6 +65,8 @@ ae_memory_range_has_ptr(const void *self, const void *ptr)
     return ae_ptr_has_right_open_range(begin, end, ptr); // [begin, end)
 #elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_OPENED)
     return ae_ptr_has_open_range(begin, end, ptr); // (begin, end)
+#else
+#    error "AE_MEMORY_RANGE_TYPE is set to an unsupported value."
 #endif
 }
 
@@ -199,7 +203,7 @@ ae_memory_range_exchange(void *self, void *other)
 bool
 ae_memory_range_has_range(const void *self, const void *begin, const void *end)
 {
-    ae_memory_range_t _t = ae_memory_range_initializer((void *)begin, (void *)end);
+    const ae_memory_range_t _t = ae_memory_range_initializer((void *)begin, (void *)end);
     return ae_memory_range_is_valid(&_t) && ae_memory_range_has_ptr(self, begin) &&
            ae_memory_range_has_ptr(self, end);
 }

@@ -21,6 +21,18 @@
 #define AE_MEMORY_RANGE_TYPE_H
 
 /**
+ * @def AE_MEMORY_RANGE_TYPE
+ * @brief Тип диапазона памяти, используемый в приложении.
+ *
+ * Если тип диапазона не определен, он будет установлен в правый полуоткрытый диапазон памяти.
+ * Это позволяет обеспечить согласованность в использовании диапазонов памяти
+ * в различных частях приложения.
+ */
+#ifndef AE_MEMORY_RANGE_TYPE
+#    define AE_MEMORY_RANGE_TYPE AE_MEMORY_RANGE_TYPE_RIGHT_OPENED
+#endif
+
+/**
  * @def AE_MEMORY_RANGE_TYPE_CLOSED
  * @brief Закрытый диапазон памяти [a, b].
  *
