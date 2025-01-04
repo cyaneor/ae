@@ -209,18 +209,44 @@ ae_memory_range_has_range(const void *self, const void *begin, const void *end)
 }
 
 void *
-ae_memory_range_at_unsafe(const void *self, ae_usize_t offset)
+ae_memory_range_at_unsafe(const void *self, ae_uoffset_t offset)
 {
     void *begin = ae_memory_range_get_begin(self);
     return ae_ptr_add_offset(begin, offset);
 }
 
 void *
-ae_memory_range_at(const void *self, ae_usize_t offset)
+ae_memory_range_at_from_begin(const void *self, ae_uoffset_t offset)
 {
     void *ptr = ae_memory_range_at_unsafe(self, offset);
     AE_RUNTIME_ASSERT(ae_memory_range_has_ptr(self, ptr), AE_RUNTIME_ERROR_OUT_OF_RANGE, nullptr)
     return ptr;
+}
+
+void *
+ae_memory_range_at_from_end(const void *self, ae_uoffset_t offset)
+{
+    const ae_usize_t total_size = ae_memory_range_total_size(self);
+    return ae_memory_range_at_from_begin(self, total_size - (offset + 1));
+}
+
+void *
+ae_memory_range_at(const void *self, ae_uoffset_t offset, bool reversed)
+{
+    return reversed ? ae_memory_range_at_from_end(self, offset)
+                    : ae_memory_range_at_from_begin(self, offset);
+}
+
+void *
+ae_memory_range_front(const void *self)
+{
+    return ae_memory_range_at(self, 0, false);
+}
+
+void *
+ae_memory_range_back(const void *self)
+{
+    return ae_memory_range_at(self, 0, true);
 }
 
 bool
@@ -278,7 +304,7 @@ ae_memory_range_insert_value(void *self, ae_usize_t index, ae_u8_t value)
 {
     ae_runtime_try
     {
-        ae_u8_t *ptr = ae_memory_range_at(self, index);
+        ae_u8_t *ptr = ae_memory_range_at(self, index, false);
         *ptr         = value;
 
         ae_runtime_try_interrupt(ptr);

@@ -18,7 +18,7 @@
 #define AE_MEMORY_RANGE_H
 
 #include "bool.h"
-#include "size.h"
+#include "offset.h"
 #include "ptrdiff.h"
 #include "attribute.h"
 #include "memory_range_fields.h"
@@ -532,7 +532,7 @@ ae_memory_range_has_range(const void *self, const void *begin, const void *end);
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_range_at_unsafe(const void *self, ae_usize_t offset);
+ae_memory_range_at_unsafe(const void *self, ae_uoffset_t offset);
 
 /**
  * @brief Получает указатель на элемент в диапазоне памяти
@@ -559,7 +559,123 @@ ae_memory_range_at_unsafe(const void *self, ae_usize_t offset);
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_range_at(const void *self, ae_usize_t offset);
+ae_memory_range_at_from_begin(const void *self, ae_uoffset_t offset);
+
+/**
+ * @brief Получает указатель на элемент в диапазоне памяти
+ *        по заданному смещению с конца диапазона.
+ *
+ * Эта функция возвращает указатель на элемент в диапазоне памяти, заданном структурой `self`,
+ * с учетом указанного смещения `offset` от конца диапазона. Смещение интерпретируется так,
+ * что значение 0 указывает на последний элемент диапазона памяти.
+ * Для вычисления позиции элемента функция использует общий размер диапазона памяти,
+ * вычисляемый с помощью `ae_memory_range_total_size()`. После этого смещение
+ * применяется для нахождения нужного элемента.
+ *
+ * @param self Указатель на структуру ae_memory_range_t,
+ *             представляющую диапазон памяти.
+ * @param offset Смещение в байтах от конца диапазона памяти.
+ * @return Указатель на элемент в диапазоне памяти,
+ *         находящийся на заданном смещении от конца.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
+ *        Если полученный указатель выходит за пределы допустимого диапазона памяти.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если диапазон памяти недопустим
+ *        (например, если `self` не является валидным диапазоном).
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_range_at_from_end(const void *self, ae_uoffset_t offset);
+
+/**
+ * @brief Получает указатель на элемент в диапазоне памяти
+ *        по заданному смещению с учетом направления поиска.
+ *
+ * Эта функция возвращает указатель на элемент в диапазоне памяти,
+ * заданном структурой `self`, в зависимости от параметра `reversed`.
+ *
+ * - Если параметр `reversed` равен `true`,
+ *   функция использует `ae_memory_range_at_from_begin()` для поиска элемента с начала диапазона.
+ * - Если параметр `reversed` равен `false`,
+ *   функция использует `ae_memory_range_at_from_end()` для поиска элемента с конца диапазона.
+ *
+ * @param self Указатель на структуру `ae_memory_range_t`,
+ *             представляющую диапазон памяти.
+ * @param offset Смещение в байтах от начала или конца диапазона памяти
+ *               в зависимости от параметра `reversed`.
+ * @param reversed Флаг, указывающий направление поиска:
+ *                 - `true` для поиска с начала диапазона.
+ *                 - `false` для поиска с конца диапазона.
+ *
+ * @return Указатель на элемент в диапазоне памяти,
+ *         находящийся на заданном смещении.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
+ *        Если полученный указатель выходит за пределы допустимого диапазона памяти.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если диапазон памяти недопустим
+ *        (например, если `self` не является валидным диапазоном).
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_range_at(const void *self, ae_uoffset_t offset, bool reversed);
+
+/**
+ * @brief Получает указатель на первый элемент в диапазоне памяти.
+ *
+ * Эта функция возвращает указатель на первый элемент в диапазоне памяти,
+ * заданном структурой `self`.
+ *
+ * Функция использует `ae_memory_range_at()` для получения указателя,
+ * передавая смещение 0 и устанавливая флаг `reversed` в `false`,
+ * что соответствует поиску с начала диапазона памяти.
+ *
+ * @param self Указатель на структуру `ae_memory_range_t`,
+ *             представляющую диапазон памяти.
+ * @return Указатель на первый элемент в диапазоне памяти.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
+ *        Если полученный указатель выходит за пределы допустимого диапазона памяти.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если диапазон памяти недопустим
+ *        (например, если `self` не является валидным диапазоном).
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_range_front(const void *self);
+
+/**
+ * @brief Получает указатель на последний элемент в диапазоне памяти.
+ *
+ * Эта функция возвращает указатель на последний элемент в диапазоне памяти,
+ * заданном структурой `self`.
+ *
+ * Функция использует `ae_memory_range_at()` для получения указателя,
+ * передавая смещение 0 и устанавливая флаг `reversed` в `true`,
+ * что соответствует поиску с конца диапазона памяти.
+ *
+ * @param self Указатель на структуру `ae_memory_range_t`,
+ *             представляющую диапазон памяти.
+ * @return Указатель на последний элемент в диапазоне памяти.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
+ *        Если полученный указатель выходит за пределы допустимого диапазона памяти.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если диапазон памяти недопустим
+ *        (например, если `self` не является валидным диапазоном).
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_range_back(const void *self);
 
 /**
  * @brief Проверяет, равен ли указатель
@@ -675,7 +791,7 @@ ae_memory_range_is_equal(const void *self, const void *other);
  * В случае ошибки выполнения будет вызвано исключение.
  *
  * @param self Указатель на структуру, представляющую диапазон памяти.
- * @param index Индекс в диапазоне памяти, в который будет вставлено значение.
+ * @param offset Смещение в диапазоне памяти, в который будет вставлено значение.
  * @param value Значение, которое нужно вставить в память.
  *
  * @return Указатель на элемент в диапазоне памяти,
@@ -690,7 +806,7 @@ ae_memory_range_is_equal(const void *self, const void *other);
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_range_insert_value(void *self, ae_usize_t index, ae_u8_t value);
+ae_memory_range_insert_value(void *self, ae_uoffset_t offset, ae_u8_t value);
 
 /**
  * @brief Создает диапазон памяти.

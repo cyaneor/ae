@@ -63,7 +63,7 @@ ae_memory_block_at_from_begin(const void *self, ae_usize_t index)
 {
     const ae_usize_t element_size = ae_memory_block_get_element_size(self);
     AE_RUNTIME_ASSERT(element_size, AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, nullptr)
-    return ae_memory_range_at(self, index * element_size);
+    return ae_memory_range_at(self, index * element_size, false);
 }
 
 void *
