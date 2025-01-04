@@ -664,6 +664,34 @@ AE_ATTRIBUTE(SYMBOL)
 bool
 ae_memory_range_is_equal(const void *self, const void *other);
 
+/**
+ * @brief Вставляет значение в диапазон памяти по заданному индексу.
+ *
+ * Эта функция вставляет указанное значение в диапазон памяти,
+ * представленный структурой `self`, по индексу `index`.
+ *
+ * Если операция успешна, значение будет сохранено по указанному индексу,
+ * и будет выполнена проверка на корректность работы с памятью.
+ * В случае ошибки выполнения будет вызвано исключение.
+ *
+ * @param self Указатель на структуру, представляющую диапазон памяти.
+ * @param index Индекс в диапазоне памяти, в который будет вставлено значение.
+ * @param value Значение, которое нужно вставить в память.
+ *
+ * @return Указатель на элемент в диапазоне памяти,
+ *         в который было вставлено значение.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
+ *        Если указанный индекс выходит за пределы допустимого диапазона памяти.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если диапазон памяти недопустим или некорректен.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_range_insert_value(void *self, ae_usize_t index, ae_u8_t value);
+
 AE_COMPILER(EXTERN_C_END)
 
 #endif // AE_MEMORY_RANGE_H

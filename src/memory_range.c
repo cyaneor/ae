@@ -6,6 +6,7 @@
 #include <ae/runtime_expect.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_try.h>
+#include <ae/memory_raw.h>
 #include <ae/ptr_util.h>
 #include <ae/nullptr.h>
 
@@ -251,4 +252,17 @@ bool
 ae_memory_range_is_equal(const void *self, const void *other)
 {
     return ae_memory_range_is_begin_equal(self, other) && ae_memory_range_is_end_equal(self, other);
+}
+
+void *
+ae_memory_range_insert_value(void *self, ae_usize_t index, ae_u8_t value)
+{
+    ae_runtime_try
+    {
+        ae_u8_t *ptr = ae_memory_range_at(self, index);
+        *ptr         = value;
+
+        ae_runtime_try_interrupt(ptr);
+    }
+    ae_runtime_raise(nullptr);
 }
