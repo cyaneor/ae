@@ -692,6 +692,54 @@ AE_ATTRIBUTE(SYMBOL)
 void *
 ae_memory_range_insert_value(void *self, ae_usize_t index, ae_u8_t value);
 
+/**
+ * @brief Создает диапазон памяти.
+ *
+ * Эта функция создает объект диапазона памяти,
+ * который включает указатели на начало и конец диапазона.
+ *
+ * Она также выполняет проверку на корректность диапазона памяти и генерирует ошибку,
+ * если диапазон не является валидным.
+ *
+ * @param begin Указатель на начало диапазона памяти.
+ * @param end Указатель на конец диапазона памяти.
+ *
+ * @return Структура типа @ref ae_memory_range_t,
+ *         представляющая диапазон памяти.
+ *
+ * @throws AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *         Если диапазон памяти невалиден.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_memory_range_t
+ae_memory_range_make(void *begin, void *end);
+
+/**
+ * @brief Создает поддиапазон памяти на основе заданных границ.
+ *
+ * Эта функция создает новый диапазон памяти, используя указанные значения `begin` и `end`.
+ * Перед созданием поддиапазона выполняется проверка, находится ли указанный диапазон
+ * (от `begin` до `end`) в пределах текущего диапазона памяти, представленного в `self`.
+ * Если диапазон выходит за пределы, генерируется ошибка.
+ *
+ * @param self Указатель на структуру `ae_memory_range_t`,
+ *             представляющую текущий диапазон памяти.
+ * @param begin Указатель на начало нового поддиапазона памяти.
+ * @param end Указатель на конец нового поддиапазона памяти.
+ *
+ * @return Новый диапазон памяти типа `ae_memory_range_t`,
+ *         представляющий поддиапазон в пределах указанного диапазона.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throws AE_RUNTIME_ERROR_OUT_OF_RANGE
+ *         Если указанный диапазон (от `begin` до `end`)
+ *         выходит за пределы текущего диапазона памяти.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_memory_range_t
+ae_memory_range_make_sub_range(void *self, void *begin, void *end);
+
 AE_COMPILER(EXTERN_C_END)
 
 #endif // AE_MEMORY_RANGE_H

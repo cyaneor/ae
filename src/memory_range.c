@@ -6,7 +6,6 @@
 #include <ae/runtime_expect.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_try.h>
-#include <ae/memory_raw.h>
 #include <ae/ptr_util.h>
 #include <ae/nullptr.h>
 
@@ -34,7 +33,7 @@ ae_memory_range_is_empty(const void *self)
 bool
 ae_memory_range_is_valid(const void *self)
 {
-    AE_RUNTIME_EXPECT_IF(ae_memory_range_is_empty(self), true);
+    AE_RUNTIME_EXPECT_IF(ae_memory_range_is_empty(self), true)
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
 
@@ -54,7 +53,7 @@ ae_memory_range_is_valid(const void *self)
 bool
 ae_memory_range_has_ptr(const void *self, const void *ptr)
 {
-    AE_RUNTIME_ASSERT(ae_memory_range_is_valid(self), AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE, false);
+    AE_RUNTIME_ASSERT(ae_memory_range_is_valid(self), AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE, false)
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
 
@@ -252,6 +251,26 @@ bool
 ae_memory_range_is_equal(const void *self, const void *other)
 {
     return ae_memory_range_is_begin_equal(self, other) && ae_memory_range_is_end_equal(self, other);
+}
+
+ae_memory_range_t
+ae_memory_range_make(void *begin, void *end)
+{
+    ae_memory_range_t t = ae_memory_range_initializer(begin, end);
+    AE_RUNTIME_ASSERT(ae_memory_range_is_valid(&t),
+                      AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE,
+                      (ae_memory_range_t)ae_memory_range_empty_initializer())
+    return t;
+}
+
+ae_memory_range_t
+ae_memory_range_make_sub_range(void *self, void *begin, void *end)
+{
+    AE_RUNTIME_ASSERT(ae_memory_range_has_range(self, begin, end),
+                      AE_RUNTIME_ERROR_OUT_OF_RANGE,
+                      (ae_memory_range_t)ae_memory_range_empty_initializer())
+
+    return (ae_memory_range_t)ae_memory_range_initializer(begin, end);
 }
 
 void *
