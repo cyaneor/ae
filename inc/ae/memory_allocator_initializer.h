@@ -12,6 +12,7 @@
 #ifndef AE_MEMORY_ALLOCATOR_INITIALIZER_H
 #define AE_MEMORY_ALLOCATOR_INITIALIZER_H
 
+#include "nullptr.h"
 #include "initializer.h"
 
 /**
