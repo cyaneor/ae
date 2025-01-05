@@ -2,7 +2,7 @@
 # Обработка пользовательских опций сборки                                                #
 #                                                                                        #
 # Этот скрипт получает все переменные (опции), проверяет их на соответствие              #
-# определенному шаблону и добавляет их в список определений компиляции,                  #
+# определенному шаблону и добавляет их в список приватных определений компиляции,        #
 # если они активированы.                                                                 #
 # -------------------------------------------------------------------------------------- #
 
@@ -14,7 +14,7 @@ foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
     # Проверяем, соответствует ли имя опции шаблону "^AE_OPTION_.*" и не равно ли оно "OFF".
     # Если оба условия выполняются, добавляем опцию в список определений компиляции.
     if (CMAKE_OPTION MATCHES "^AE_OPTION_.*" AND NOT ${CMAKE_OPTION} STREQUAL "OFF")
-        # Добавляем опцию в список AE_TARGET_COMPILE_DEFINITIONS
-        list(APPEND AE_TARGET_COMPILE_DEFINITIONS ${CMAKE_OPTION})
+        # Добавляем опцию в список AE_PRIVATE_COMPILE_DEFINITIONS
+        list(APPEND AE_TARGET_PRIVATE_COMPILE_DEFINITIONS ${CMAKE_OPTION})
     endif ()
 endforeach ()

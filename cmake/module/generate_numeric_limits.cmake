@@ -288,7 +288,7 @@ try_run(AE_RUN_RESULT AE_COMPILE_RESULT
 )
 
 # Удаляем ранее созданный временный файл.
-# file(REMOVE "${AE_CMAKE_CURRENT_BINARY_DIR}/generate_numeric_limits.c")
+file(REMOVE "${AE_CMAKE_CURRENT_BINARY_DIR}/generate_numeric_limits.c")
 
 # Проверяем переменные с результатами компиляции и запуска.
 if (AE_COMPILE_RESULT AND AE_RUN_RESULT EQUAL 0)

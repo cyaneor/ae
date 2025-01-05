@@ -17,9 +17,9 @@
     - Это гарантирует, что только активированные опции с нужным префиксом будут добавлены.
 
 4. **Добавление активированных опций**:
-    - Если оба условия выполняются, опция добавляется в список `AE_TARGET_COMPILE_DEFINITIONS`, что позволяет
-      передавать
-      эти опции компилятору для использования в процессе сборки.
+    - Если оба условия выполняются, опция добавляется в приватный список `AE_TARGET_PRIVATE_COMPILE_DEFINITIONS`, что
+      позволяет
+      передавать эти опции компилятору для использования в процессе сборки.
 
 ## Пример:
 
@@ -28,7 +28,7 @@ get_property(CMAKE_OPTIONS DIRECTORY PROPERTY VARIABLES)
 
 foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
     if (CMAKE_OPTION MATCHES "^AE_OPTION_.*" AND NOT ${CMAKE_OPTION} STREQUAL "OFF")
-        list(APPEND AE_TARGET_COMPILE_DEFINITIONS ${CMAKE_OPTION})
+        list(APPEND AE_TARGET_PRIVATE_COMPILE_DEFINITIONS ${CMAKE_OPTION})
     endif ()
 endforeach ()
 ```

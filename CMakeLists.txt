@@ -57,7 +57,7 @@ include(${AE_CMAKE_CURRENT_MODULE_DIR}/generate_doxygen.cmake)
 include(${AE_CMAKE_CURRENT_MODULE_DIR}/toggle_options.cmake)
 
 # Получает все активированные опции и добавляет их в список определений компиляции.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_options_to_compiler_definitions.cmake)
+include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_options.cmake)
 
 # -------------------------------------------------------------------------------------------- #
 # Цели для сборки                                                                              #
@@ -74,4 +74,6 @@ include(${AE_CMAKE_CURRENT_MODULE_DIR}/build_library.cmake)
 target_include_directories(${PROJECT_NAME} PUBLIC ${AE_TARGET_INCLUDE_DIR})
 
 # Добавление определений компиляции для цели сборки.
-target_compile_definitions(${PROJECT_NAME} PRIVATE ${AE_TARGET_COMPILE_DEFINITIONS})
+target_compile_definitions(${PROJECT_NAME}
+        PRIVATE ${AE_TARGET_PRIVATE_COMPILE_DEFINITIONS}
+        PUBLIC ${AE_TARGET_PUBLIC_COMPILE_DEFINITIONS})
