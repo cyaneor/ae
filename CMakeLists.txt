@@ -64,13 +64,7 @@ include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_options_to_compiler_definitions.c
 # -------------------------------------------------------------------------------------------- #
 
 # Включает конфигурацию для создания библиотеки по умолчанию, основываясь на настройках сборки.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/build_default_library.cmake)
-
-# Включает конфигурацию для сборки статической библиотеки.
-# include(${AE_CMAKE_CURRENT_MODULE_DIR}/build_static_library.cmake)
-
-# Включает конфигурацию для сборки разделяемой библиотеки.
-# include(${AE_CMAKE_CURRENT_MODULE_DIR}/build_shared_library.cmake)
+include(${AE_CMAKE_CURRENT_MODULE_DIR}/build_library.cmake)
 
 # -------------------------------------------------------------------------------------------- #
 # Добавление каталогов и определений                                                           #
@@ -80,4 +74,4 @@ include(${AE_CMAKE_CURRENT_MODULE_DIR}/build_default_library.cmake)
 target_include_directories(${PROJECT_NAME} PUBLIC ${AE_TARGET_INCLUDE_DIR})
 
 # Добавление определений компиляции для цели сборки.
-target_compile_definitions(${PROJECT_NAME} PUBLIC ${AE_TARGET_COMPILE_DEFINITIONS})
+target_compile_definitions(${PROJECT_NAME} PRIVATE ${AE_TARGET_COMPILE_DEFINITIONS})
