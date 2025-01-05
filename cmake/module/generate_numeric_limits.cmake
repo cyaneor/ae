@@ -22,6 +22,7 @@ set(AE_NUMERIC_LIMITS_SOURCE_CODE "
 #include <errno.h>
 #include \"${AE_TARGET_INCLUDE_DIR}/${PROJECT_NAME}/numeric_types.h\"
 #include \"${AE_TARGET_INCLUDE_DIR}/${PROJECT_NAME}/numeric_limit.h\"
+#include \"${AE_TARGET_INCLUDE_DIR}/${PROJECT_NAME}/compiler.h\"
 
 int main() {
     FILE *file = fopen(\"${AE_NUMERIC_LIMITS_OUTPUT_FILE}\", \"w+\");
@@ -219,7 +220,13 @@ int main() {
     fprintf(file, \" * @brief Определяет минимальное значение для `ae_sint_t`.\\n\");
     fprintf(file, \" */\\n\");
     fprintf(file, \"#ifndef AE_SINT_T_MIN\\n\");
-    fprintf(file, \"#define AE_SINT_T_MIN (%d)\\n\", AE_NUMERIC_LIMIT_SINT_MIN(ae_sint_t));
+
+    #if AE_COMPILER_TYPE == AE_COMPILER_TYPE_MSVC
+        fprintf(file, \"#define AE_SINT_T_MIN (%di32 - 1)\\n\", -(AE_NUMERIC_LIMIT_SINT_MIN(ae_sint_t) - 1));
+    #else
+        fprintf(file, \"#define AE_SINT_T_MIN (%d - 1)\\n\", -(AE_NUMERIC_LIMIT_SINT_MIN(ae_sint_t) - 1));
+    #endif
+
     fprintf(file, \"#endif // AE_SINT_T_MIN\\n\");
     fprintf(file, \"\\n\");
     fprintf(file, \"/**\\n\");
@@ -236,7 +243,13 @@ int main() {
     fprintf(file, \" * @brief Определяет минимальное значение для `ae_slong_t`.\\n\");
     fprintf(file, \" */\\n\");
     fprintf(file, \"#ifndef AE_SLONG_T_MIN\\n\");
-    fprintf(file, \"#define AE_SLONG_T_MIN (%ldL)\\n\", AE_NUMERIC_LIMIT_SINT_MIN(ae_slong_t));
+
+    #if AE_COMPILER_TYPE == AE_COMPILER_TYPE_MSVC
+        fprintf(file, \"#define AE_SLONG_T_MIN (%ldL - 1)\\n\", -(AE_NUMERIC_LIMIT_SINT_MIN(ae_slong_t) - 1));
+    #else
+        fprintf(file, \"#define AE_SLONG_T_MIN (%ldL - 1)\\n\", -(AE_NUMERIC_LIMIT_SINT_MIN(ae_slong_t) - 1));
+    #endif
+
     fprintf(file, \"#endif // AE_SLONG_T_MIN\\n\");
     fprintf(file, \"\\n\");
     fprintf(file, \"/**\\n\");
@@ -253,7 +266,13 @@ int main() {
     fprintf(file, \" * @brief Определяет минимальное значение для `ae_sllong_t`.\\n\");
     fprintf(file, \" */\\n\");
     fprintf(file, \"#ifndef AE_SLLONG_T_MIN\\n\");
-    fprintf(file, \"#define AE_SLLONG_T_MIN (%lldLL)\\n\", AE_NUMERIC_LIMIT_SINT_MIN(ae_sllong_t));
+
+    #if AE_COMPILER_TYPE == AE_COMPILER_TYPE_MSVC
+        fprintf(file, \"#define AE_SLLONG_T_MIN (%lldi64 - 1)\\n\", -(AE_NUMERIC_LIMIT_SINT_MIN(ae_sllong_t) - 1));
+    #else
+        fprintf(file, \"#define AE_SLLONG_T_MIN (%lldLL - 1)\\n\", -(AE_NUMERIC_LIMIT_SINT_MIN(ae_sllong_t) - 1));
+    #endif
+
     fprintf(file, \"#endif // AE_SLLONG_T_MIN\\n\");
     fprintf(file, \"\\n\");
     fprintf(file, \"/**\\n\");
@@ -294,7 +313,7 @@ file(REMOVE "${AE_CMAKE_CURRENT_BINARY_DIR}/generate_numeric_limits.c")
 if (AE_COMPILE_RESULT AND AE_RUN_RESULT EQUAL 0)
     message(STATUS "Limits of standard AE library types have been successfully generated")
 else ()
-    message(FATAL_ERROR "Error when generating limits for standard ATL library types")
+    message(FATAL_ERROR "Error when generating limits for standard AE library types")
 endif ()
 
 # Очистка переменных, как если бы они никогда не создавались.
