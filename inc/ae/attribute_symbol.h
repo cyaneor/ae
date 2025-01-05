@@ -29,7 +29,7 @@
 
 #include "compiler.h"
 
-#ifdef AE_OPTION_BUILD_TYPE_STATIC
+#ifdef AE_OPTION_STATIC_BUILD
 /**
  * @def AE_ATTRIBUTE_SYMBOL
  * @brief Помечает символы как публичные для статической компоновки.
@@ -41,7 +41,7 @@
  */
 #    define AE_ATTRIBUTE_SYMBOL
 #else
-#    ifdef AE_OPTION_BUILD_TYPE_SHARED
+#    ifdef AE_OPTION_SHARED_BUILD
 /**
  * @def AE_ATTRIBUTE_SYMBOL
  * @brief Помечает символы для экспорта при сборке библиотеки AE как общей библиотеки.

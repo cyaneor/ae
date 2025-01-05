@@ -5,7 +5,7 @@
 
 ## Опции конфигурации:
 
-### 1. AE_OPTION_BUILD_TYPE_SHARED
+### 1. AE_OPTION_SHARED_BUILD
 
 **Описание:** Управляет сборкой общей (динамической) библиотеки.
 
@@ -16,10 +16,10 @@
 кодом.
 
 ```cmake
-option(AE_OPTION_BUILD_TYPE_SHARED "Создать общую динамическую библиотеку." ON)
+option(AE_OPTION_SHARED_BUILD "Создать общую динамическую библиотеку." ON)
 ```
 
-### 2. AE_OPTION_BUILD_TYPE_STATIC
+### 2. AE_OPTION_STATIC_BUILD
 
 **Описание:** Управляет сборкой статической библиотеки.
 
@@ -30,7 +30,7 @@ option(AE_OPTION_BUILD_TYPE_SHARED "Создать общую динамичес
 во время выполнения.
 
 ```cmake
-option(AE_OPTION_BUILD_TYPE_STATIC "Создать статическую библиотеку." OFF)
+option(AE_OPTION_STATIC_BUILD "Создать статическую библиотеку." OFF)
 ```
 
 ### 3. AE_OPTION_SEGMENTED_ARCH

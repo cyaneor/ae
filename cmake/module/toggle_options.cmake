@@ -11,7 +11,7 @@
 
 # Опция:
 #
-#     AE_OPTION_BUILD_TYPE_SHARED
+#     AE_OPTION_SHARED_BUILD
 #
 # Описание:
 #
@@ -44,18 +44,16 @@
 #     Общие библиотеки предлагают большую гибкость во время выполнения,
 #     но могут вносить дополнительные сложности.
 #
-if (NOT DEFINED AE_OPTION_BUILD_TYPE_SHARED)
-    option(AE_OPTION_BUILD_TYPE_SHARED
-            "Создать общую динамическую библиотеку." ON)
-endif ()
+option(AE_OPTION_SHARED_BUILD
+        "Создать общую динамическую библиотеку." ON)
 
 # Опция:
 #
-#     AE_OPTION_BUILD_TYPE_STATIC
+#     AE_OPTION_STATIC_BUILD
 #
 # Описание:
 #
-#     Эта опция CMake, AE_OPTION_BUILD_TYPE_STATIC,
+#     Эта опция CMake, AE_OPTION_STATIC_BUILD,
 #     управляет конфигурацией сборки для создания статической библиотеки.
 #
 #     Когда эта опция включена (ON),
@@ -86,10 +84,8 @@ endif ()
 #     времени на загрузку во время выполнения, но они также
 #     увеличивают размер итогового бинарного файла.
 #
-if (NOT DEFINED AE_OPTION_BUILD_TYPE_STATIC)
-    option(AE_OPTION_BUILD_TYPE_STATIC
-            "Создать статическую библиотеку." OFF)
-endif ()
+option(AE_OPTION_STATIC_BUILD
+        "Создать статическую библиотеку." OFF)
 
 # Опция:
 #
@@ -115,10 +111,8 @@ endif ()
 #     Это гарантирует, что библиотека ae корректно учитывает архитектурные особенности,
 #     что критично для правильной работы операций, связанных с памятью.
 #
-if (NOT DEFINED AE_OPTION_SEGMENTED_ARCH)
-    option(AE_OPTION_SEGMENTED_ARCH
-            "Указывает, что целевая архитектура использует модель сегментированной памяти." OFF)
-endif ()
+option(AE_OPTION_SEGMENTED_ARCH
+        "Указывает, что целевая архитектура использует модель сегментированной памяти." OFF)
 
 # Опция:
 #
@@ -146,10 +140,8 @@ endif ()
 #     Отключение этой опции может потребоваться для специфических нестандартных сред выполнения
 #     или пользовательских реализаций аллокаторов.
 #
-if (NOT DEFINED AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB)
-    option(AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
-            "Использовать функции из stdlib для инициализации распределителя времени выполнения." ON)
-endif ()
+option(AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
+        "Использовать функции из stdlib для инициализации распределителя времени выполнения." ON)
 
 # Опция:
 #
@@ -183,10 +175,8 @@ endif ()
 #     Отключите эту опцию, если производительность памяти критична и
 #     инициализация управляется другими способами.
 #
-if (NOT DEFINED AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE)
-    option(AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
-            "Новый выделенный участок памяти заполняется нулями." ON)
-endif ()
+option(AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
+        "Новый выделенный участок памяти заполняется нулями." ON)
 
 # Опция:
 #
@@ -223,7 +213,5 @@ endif ()
 #     в некоторых случаях. Выбирайте эту опцию в зависимости от модели потоков
 #     и требований вашего приложения.
 #
-if (NOT DEFINED AE_OPTION_THREAD_LOCAL_VARIABLES)
-    option(AE_OPTION_THREAD_LOCAL_VARIABLES
-            "Все статические переменные используют модификатор thread_local." ON)
-endif ()
+option(AE_OPTION_THREAD_LOCAL_VARIABLES
+        "Все статические переменные используют модификатор thread_local." ON)

@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.12)
 
 # Устанавливаем название, версию, описание и основной язык проекта.
 project(ae
-        VERSION 1.0.2
+        VERSION 1.0.3
         DESCRIPTION "Adaptive Library"
         LANGUAGES C)
 
@@ -58,6 +58,10 @@ include(${AE_CMAKE_CURRENT_MODULE_DIR}/toggle_options.cmake)
 
 # Получает все активированные опции и добавляет их в список определений компиляции.
 include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_options.cmake)
+
+# Включает файл sync_static_build_option.cmake, который синхронизирует необходимые параметры и макросы
+# между проектами при статической сборке, обеспечивая правильную настройку для обоих проектов.
+include(${AE_CMAKE_CURRENT_MODULE_DIR}/sync_static_build_option.cmake)
 
 # -------------------------------------------------------------------------------------------- #
 # Цели для сборки                                                                              #
