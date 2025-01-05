@@ -44,6 +44,6 @@
  */
 #define AE_ALIGNED_BLOCK_FIELDS(T)                                                                 \
     AE_MEMORY_BLOCK_FIELDS(T);                                                                     \
-    const ae_usize_t alignment_size
+    ae_usize_t alignment_size
 
 #endif // AE_ALIGNED_BLOCK_FIELDS_H

@@ -44,6 +44,6 @@
  */
 #define AE_MEMORY_BLOCK_FIELDS(T)                                                                  \
     AE_MEMORY_RANGE_FIELDS(T);                                                                     \
-    const ae_usize_t element_size
+    ae_usize_t element_size
 
 #endif // AE_MEMORY_BLOCK_FIELDS_H
