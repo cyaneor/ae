@@ -61,7 +61,7 @@
  * и использованы в других приложениях или библиотеках, которые используют эту общую библиотеку.
  */
 #        define AE_ATTRIBUTE_SYMBOL AE_COMPILER_ATTRIBUTE_SYMBOL_IMPORT
-#    endif // AE_OPTION_BUILD_TYPE_SHARED
-#endif     // AE_OPTION_BUILD_TYPE_STATIC
+#    endif // AE_OPTION_SHARED_BUILD
+#endif     // AE_OPTION_STATIC_BUILD
 
 #endif // AE_ATTRIBUTE_SYMBOL_H
