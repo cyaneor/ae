@@ -514,15 +514,14 @@ bool
 ae_memory_range_has_range(const void *self, const void *begin, const void *end);
 
 /**
- * @brief Получает указатель на элемент в диапазоне памяти по заданному смещению.
+ * @brief Проверяет, находится ли смещение в пределах диапазона памяти.
  *
- * Эта функция возвращает указатель на элемент в диапазоне памяти, заданном структурой `self`,
- * с учетом указанного смещения `offset`. Если указатель `self` или его начало равны `nullptr`,
- * функция вызывает ошибку времени выполнения.
+ * Эта функция проверяет, что переданное смещение не превышает общий размер
+ * диапазона памяти, вычисленный с помощью функции `ae_memory_range_total_size`.
  *
- * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
- * @param offset Смещение в байтах от начала диапазона памяти.
- * @return Указатель на элемент в диапазоне памяти, находящийся на заданном смещении.
+ * @param self Указатель на структуру `ae_memory_range_t`, представляющую диапазон памяти.
+ * @param offset Смещение, которое нужно проверить в диапазоне памяти.
+ * @return `true`, если смещение находится в пределах диапазона памяти; иначе `false`.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
@@ -531,8 +530,8 @@ ae_memory_range_has_range(const void *self, const void *begin, const void *end);
  *        (например, если `self` не является валидным диапазоном).
  */
 AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_range_at_unsafe(const void *self, ae_uoffset_t offset);
+bool
+ae_memory_range_has_offset(const void *self, ae_uoffset_t offset);
 
 /**
  * @brief Получает указатель на элемент в диапазоне памяти

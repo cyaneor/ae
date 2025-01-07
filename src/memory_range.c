@@ -2,7 +2,6 @@
 /* Дополнительные модули */
 #include <ae/memory_range_initializer.h>
 #include <ae/runtime_error_code.h>
-#include <ae/memory_range_type.h>
 #include <ae/runtime_expect.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_try.h>
@@ -13,14 +12,14 @@ void *
 ae_memory_range_get_begin(const void *self)
 {
     AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
-    return ae_ptr_cast(ae_memory_range_t, self)->begin;
+    return ae_ptr_cast(ae_memory_range_t, self)->lower;
 }
 
 void *
 ae_memory_range_get_end(const void *self)
 {
     AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
-    return ae_ptr_cast(ae_memory_range_t, self)->end;
+    return ae_ptr_cast(ae_memory_range_t, self)->upper;
 }
 
 bool
@@ -33,21 +32,11 @@ ae_memory_range_is_empty(const void *self)
 bool
 ae_memory_range_is_valid(const void *self)
 {
-    AE_RUNTIME_EXPECT_IF(ae_memory_range_is_empty(self), true)
+    AE_RUNTIME_EXPECT_IF(ae_memory_range_is_empty(self), true);
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
 
-#if (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_CLOSED)
-    return ae_ptr_is_valid_closed_range(begin, end); // [begin, end]
-#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_LEFT_OPENED)
-    return ae_ptr_is_valid_left_open_range(begin, end); // (begin, end]
-#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_RIGHT_OPENED)
-    return ae_ptr_is_valid_right_open_range(begin, end); // [begin, end)
-#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_OPENED)
-    return ae_ptr_is_valid_open_range(begin, end); // (begin, end)
-#else
-#    error "AE_MEMORY_RANGE_TYPE is set to an unsupported value."
-#endif
+    return ae_ptr_is_valid_closed_range(begin, end);
 }
 
 bool
@@ -57,17 +46,7 @@ ae_memory_range_has_ptr(const void *self, const void *ptr)
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
 
-#if (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_CLOSED)
-    return ae_ptr_has_closed_range(begin, end, ptr); // [begin, end]
-#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_LEFT_OPENED)
-    return ae_ptr_has_left_open_range(begin, end, ptr); // (begin, end]
-#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_RIGHT_OPENED)
-    return ae_ptr_has_right_open_range(begin, end, ptr); // [begin, end)
-#elif (AE_MEMORY_RANGE_TYPE == AE_MEMORY_RANGE_TYPE_OPENED)
-    return ae_ptr_has_open_range(begin, end, ptr); // (begin, end)
-#else
-#    error "AE_MEMORY_RANGE_TYPE is set to an unsupported value."
-#endif
+    return ae_ptr_has_closed_range(begin, end, ptr);
 }
 
 ae_ptrdiff_t
@@ -117,14 +96,14 @@ void
 ae_memory_range_set_begin(void *self, void *ptr)
 {
     AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER)
-    ae_ptr_cast(ae_memory_range_t, self)->begin = ptr;
+    ae_ptr_cast(ae_memory_range_t, self)->lower = ptr;
 }
 
 void
 ae_memory_range_set_end(void *self, void *ptr)
 {
     AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER)
-    ae_ptr_cast(ae_memory_range_t, self)->end = ptr;
+    ae_ptr_cast(ae_memory_range_t, self)->upper = ptr;
 }
 
 bool
@@ -208,19 +187,20 @@ ae_memory_range_has_range(const void *self, const void *begin, const void *end)
            ae_memory_range_has_ptr(self, end);
 }
 
-void *
-ae_memory_range_at_unsafe(const void *self, ae_uoffset_t offset)
+bool
+ae_memory_range_has_offset(const void *self, ae_uoffset_t offset)
 {
-    void *begin = ae_memory_range_get_begin(self);
-    return ae_ptr_add_offset(begin, offset);
+    return offset < ae_memory_range_total_size(self);
 }
 
 void *
 ae_memory_range_at_from_begin(const void *self, ae_uoffset_t offset)
 {
-    void *ptr = ae_memory_range_at_unsafe(self, offset);
-    AE_RUNTIME_ASSERT(ae_memory_range_has_ptr(self, ptr), AE_RUNTIME_ERROR_OUT_OF_RANGE, nullptr)
-    return ptr;
+    AE_RUNTIME_ASSERT(
+        ae_memory_range_has_offset(self, offset), AE_RUNTIME_ERROR_OUT_OF_RANGE, nullptr)
+
+    void *begin = ae_memory_range_get_begin(self);
+    return ae_ptr_add_offset(begin, offset);
 }
 
 void *
