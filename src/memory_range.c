@@ -32,7 +32,6 @@ ae_memory_range_is_null(const void *self)
 bool
 ae_memory_range_is_empty(const void *self)
 {
-    AE_RUNTIME_EXPECT_IF(ae_memory_range_is_null(self), true)
     const void *end = ae_memory_range_get_end(self);
     return ae_memory_range_is_begin_equal_to(self, end);
 }
@@ -267,12 +266,18 @@ ae_memory_range_is_equal(const void *self, const void *other)
 }
 
 ae_memory_range_t
+ae_memory_range_make_empty()
+{
+    return (ae_memory_range_t)ae_memory_range_empty_initializer();
+}
+
+ae_memory_range_t
 ae_memory_range_make(void *begin, void *end)
 {
     ae_memory_range_t t = ae_memory_range_initializer(begin, end);
     AE_RUNTIME_ASSERT(ae_memory_range_is_valid(&t),
                       AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE,
-                      (ae_memory_range_t)ae_memory_range_empty_initializer())
+                      ae_memory_range_make_empty())
     return t;
 }
 
@@ -281,7 +286,7 @@ ae_memory_range_make_sub_range(void *self, void *begin, void *end)
 {
     AE_RUNTIME_ASSERT(ae_memory_range_has_range(self, begin, end),
                       AE_RUNTIME_ERROR_OUT_OF_RANGE,
-                      (ae_memory_range_t)ae_memory_range_empty_initializer())
+                      ae_memory_range_make_empty())
 
     return (ae_memory_range_t)ae_memory_range_initializer(begin, end);
 }
