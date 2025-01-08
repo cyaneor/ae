@@ -23,8 +23,16 @@ ae_memory_range_get_end(const void *self)
 }
 
 bool
+ae_memory_range_is_null(const void *self)
+{
+    ae_memory_range_t _t = ae_memory_range_empty_initializer();
+    return ae_memory_range_is_equal(self, &_t);
+}
+
+bool
 ae_memory_range_is_empty(const void *self)
 {
+    AE_RUNTIME_EXPECT_IF(ae_memory_range_is_null(self), true)
     const void *end = ae_memory_range_get_end(self);
     return ae_memory_range_is_begin_equal_to(self, end);
 }
@@ -32,7 +40,6 @@ ae_memory_range_is_empty(const void *self)
 bool
 ae_memory_range_is_valid(const void *self)
 {
-    AE_RUNTIME_EXPECT_IF(ae_memory_range_is_empty(self), true);
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
 
