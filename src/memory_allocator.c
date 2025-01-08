@@ -44,7 +44,7 @@ ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size_in_
 #if AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
     // Если включена опция заполнения нулями после выделения памяти,
     // заполняем выделенную память нулями от указателя ptr до конца выделенной области
-    ae_memory_raw_fill_zero(ptr, ae_ptr_add_offset(ptr, size_in_bytes));
+    ae_memory_raw_fill(ptr, size_in_bytes, 0);
 #endif
 
     // Возвращаем указатель на выделенную память
@@ -88,10 +88,7 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
         void *new_ptr = ae_memory_allocator_alloc(self, new_size_in_bytes);
 
         // Копируем данные из старой области памяти в новую
-        ae_memory_raw_copy(new_ptr,
-                           ae_ptr_add_offset(new_ptr, new_size_in_bytes),
-                           old_ptr,
-                           ae_ptr_add_offset(old_ptr, old_size_in_bytes));
+        ae_memory_raw_copy(new_ptr, new_size_in_bytes, old_ptr, old_size_in_bytes);
 
         // Освобождаем старую область памяти
         ae_memory_allocator_free(self, old_ptr);
@@ -178,10 +175,7 @@ ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
         void *new_ptr = ae_memory_allocator_align_alloc(self, new_size_in_bytes, alignment_size);
 
         // Копируем данные из старой области памяти в новую.
-        ae_memory_raw_copy(new_ptr,
-                           ae_ptr_add_offset(new_ptr, new_size_in_bytes),
-                           old_ptr,
-                           ae_ptr_add_offset(old_ptr, old_size_in_bytes));
+        ae_memory_raw_copy(new_ptr, new_size_in_bytes, old_ptr, old_size_in_bytes);
 
         // Освобождаем старую область памяти.
         ae_memory_allocator_align_free(self, old_ptr);

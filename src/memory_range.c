@@ -42,7 +42,7 @@ ae_memory_range_is_valid(const void *self)
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
 
-    return ae_ptr_is_valid_closed_range(begin, end);
+    return ae_ptr_is_valid_range(begin, end);
 }
 
 bool
@@ -52,7 +52,7 @@ ae_memory_range_has_ptr(const void *self, const void *ptr)
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
 
-    return ae_ptr_has_closed_range(begin, end, ptr);
+    return ae_ptr_has_range(begin, end, ptr);
 }
 
 ae_ptrdiff_t
@@ -75,7 +75,7 @@ ae_memory_range_is_multiple_of_total_size(const void *self, ae_usize_t element_s
 {
     AE_RUNTIME_ASSERT(element_size, AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, false)
     const ae_usize_t total_size = ae_memory_range_total_size(self);
-    return ae_numeric_multiple_of(total_size, element_size);
+    return ae_numeric_has_zero_remainder(total_size, element_size);
 }
 
 bool
