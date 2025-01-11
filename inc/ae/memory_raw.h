@@ -144,6 +144,10 @@ ae_memory_raw_copy64_rev(ae_u64_t       *dst,
                          ae_usize_t      src_len);
 
 AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_raw_copy_rev(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
+
+AE_ATTRIBUTE(SYMBOL)
 ae_u8_t *
 ae_memory_raw_move8(ae_u8_t *dst, ae_usize_t dst_len, const ae_u8_t *src, ae_usize_t src_len);
 
@@ -158,6 +162,10 @@ ae_memory_raw_move32(ae_u32_t *dst, ae_usize_t dst_len, const ae_u32_t *src, ae_
 AE_ATTRIBUTE(SYMBOL)
 ae_u64_t *
 ae_memory_raw_move64(ae_u64_t *dst, ae_usize_t dst_len, const ae_u64_t *src, ae_usize_t src_len);
+
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_raw_move(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
 
 AE_COMPILER(EXTERN_C_END)
 

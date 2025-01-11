@@ -481,6 +481,33 @@ ae_memory_raw_copy64_rev(ae_u64_t *dst, ae_usize_t dst_len, const ae_u64_t *src,
     return _end;
 }
 
+void *
+ae_memory_raw_copy_rev(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len)
+{
+    if (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U64_T_SIZE))
+    {
+        dst_len /= AE_U64_T_SIZE;
+        src_len /= AE_U64_T_SIZE;
+
+        return ae_memory_raw_copy64_rev(dst, dst_len, src, src_len);
+    }
+    elif (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U32_T_SIZE))
+    {
+        dst_len /= AE_U32_T_SIZE;
+        src_len /= AE_U32_T_SIZE;
+
+        return ae_memory_raw_copy32_rev(dst, dst_len, src, src_len);
+    }
+    elif (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U16_T_SIZE))
+    {
+        dst_len /= AE_U16_T_SIZE;
+        src_len /= AE_U16_T_SIZE;
+
+        return ae_memory_raw_copy16_rev(dst, dst_len, src, src_len);
+    }
+    return ae_memory_raw_copy8_rev(dst, dst_len, src, src_len);
+}
+
 ae_u8_t *
 ae_memory_raw_move8(ae_u8_t *dst, ae_usize_t dst_len, const ae_u8_t *src, ae_usize_t src_len)
 {
@@ -511,4 +538,12 @@ ae_memory_raw_move64(ae_u64_t *dst, ae_usize_t dst_len, const ae_u64_t *src, ae_
     return ae_ptr_range_is_overlapped(dst, dst + dst_len, src, src + src_len)
                ? ae_memory_raw_copy64_rev(dst, dst_len, src, src_len)
                : ae_memory_raw_copy64(dst, dst_len, src, src_len);
+}
+
+void *
+ae_memory_raw_move(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len)
+{
+    return ae_ptr_range_is_overlapped(dst, dst + dst_len, src, src + src_len)
+               ? ae_memory_raw_copy_rev(dst, dst_len, src, src_len)
+               : ae_memory_raw_copy(dst, dst_len, src, src_len);
 }
