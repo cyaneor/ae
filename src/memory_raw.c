@@ -64,22 +64,20 @@ ae_memory_raw_fill(void *ptr, ae_usize_t len, ae_u8_t value)
     if (ae_numeric_has_zero_remainder(len, AE_U64_T_SIZE))
     {
         len /= AE_U64_T_SIZE;
-        unsigned long long _value =
-            (unsigned long long)value | ((unsigned long long)value << 8) |
-            ((unsigned long long)value << 16) | ((unsigned long long)value << 24) |
-            ((unsigned long long)value << 32) | ((unsigned long long)value << 40) |
-            ((unsigned long long)value << 48) | ((unsigned long long)value << 56);
+        const ae_u64_t _value = ae_numeric_repeat64(value);
         return ae_memory_raw_fill64(ptr, len, _value);
     }
     elif (ae_numeric_has_zero_remainder(len, AE_U32_T_SIZE))
     {
         len /= AE_U32_T_SIZE;
-        return ae_memory_raw_fill32(ptr, len, value);
+        const ae_u32_t _value = ae_numeric_repeat32(value);
+        return ae_memory_raw_fill32(ptr, len, _value);
     }
     elif (ae_numeric_has_zero_remainder(len, AE_U16_T_SIZE))
     {
         len /= AE_U16_T_SIZE;
-        return ae_memory_raw_fill16(ptr, len, value);
+        const ae_u16_t _value = ae_numeric_repeat16(value);
+        return ae_memory_raw_fill16(ptr, len, _value);
     }
     return ae_memory_raw_fill8(ptr, len, value);
 }
