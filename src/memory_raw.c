@@ -64,7 +64,12 @@ ae_memory_raw_fill(void *ptr, ae_usize_t len, ae_u8_t value)
     if (ae_numeric_has_zero_remainder(len, AE_U64_T_SIZE))
     {
         len /= AE_U64_T_SIZE;
-        return ae_memory_raw_fill64(ptr, len, value);
+        unsigned long long _value =
+            (unsigned long long)value | ((unsigned long long)value << 8) |
+            ((unsigned long long)value << 16) | ((unsigned long long)value << 24) |
+            ((unsigned long long)value << 32) | ((unsigned long long)value << 40) |
+            ((unsigned long long)value << 48) | ((unsigned long long)value << 56);
+        return ae_memory_raw_fill64(ptr, len, _value);
     }
     elif (ae_numeric_has_zero_remainder(len, AE_U32_T_SIZE))
     {
