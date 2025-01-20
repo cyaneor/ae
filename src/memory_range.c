@@ -282,7 +282,7 @@ ae_memory_range_make(void *begin, void *end)
 }
 
 ae_memory_range_t
-ae_memory_range_make_sub_range(void *self, void *begin, void *end)
+ae_memory_range_slice(void *self, void *begin, void *end)
 {
     AE_RUNTIME_ASSERT(ae_memory_range_has_range(self, begin, end),
                       AE_RUNTIME_ERROR_OUT_OF_RANGE,

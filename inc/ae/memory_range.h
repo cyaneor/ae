@@ -890,7 +890,7 @@ ae_memory_range_make(void *begin, void *end);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_memory_range_t
-ae_memory_range_make_sub_range(void *self, void *begin, void *end);
+ae_memory_range_slice(void *self, void *begin, void *end);
 
 AE_COMPILER(EXTERN_C_END)
 
