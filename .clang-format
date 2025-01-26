@@ -58,9 +58,6 @@ IndentPPDirectives: AfterHash
 # Устанавливает ширину отступа на 4 пробела.
 IndentWidth: 4
 
-# Добавляет фигурные скобки в конструкциях `if`, `for`, `while` и т.д., даже если блок состоит из одной строки.
-InsertBraces: true
-
 # Не упаковывает инициализаторы конструктора на одну строку.
 PackConstructorInitializers: Never
 

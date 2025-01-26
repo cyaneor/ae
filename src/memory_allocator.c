@@ -4,10 +4,10 @@
 #include <ae/runtime_assert.h>
 #include <ae/runtime_expect.h>
 #include <ae/runtime_try.h>
-#include <ae/memory_raw.h>
 #include <ae/bit_util.h>
 #include <ae/ptr_util.h>
 #include <ae/nullptr.h>
+#include <ae/str_raw.h>
 
 ae_memory_allocator_alloc_fn *
 ae_memory_allocator_get_alloc_fn(const ae_memory_allocator_t *self)
@@ -44,7 +44,7 @@ ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size_in_
 #if AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
     // Если включена опция заполнения нулями после выделения памяти,
     // заполняем выделенную память нулями от указателя ptr до конца выделенной области
-    ae_memory_raw_fill(ptr, size_in_bytes, 0);
+    ae_str_raw_fill(ptr, size_in_bytes, 0);
 #endif
 
     // Возвращаем указатель на выделенную память
@@ -88,7 +88,7 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
         void *new_ptr = ae_memory_allocator_alloc(self, new_size_in_bytes);
 
         // Копируем данные из старой области памяти в новую
-        ae_memory_raw_copy(new_ptr, new_size_in_bytes, old_ptr, old_size_in_bytes);
+        ae_str_raw_copy(new_ptr, new_size_in_bytes, old_ptr, old_size_in_bytes);
 
         // Освобождаем старую область памяти
         ae_memory_allocator_free(self, old_ptr);
@@ -175,7 +175,7 @@ ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
         void *new_ptr = ae_memory_allocator_align_alloc(self, new_size_in_bytes, alignment_size);
 
         // Копируем данные из старой области памяти в новую.
-        ae_memory_raw_copy(new_ptr, new_size_in_bytes, old_ptr, old_size_in_bytes);
+        ae_str_raw_copy(new_ptr, new_size_in_bytes, old_ptr, old_size_in_bytes);
 
         // Освобождаем старую область памяти.
         ae_memory_allocator_align_free(self, old_ptr);

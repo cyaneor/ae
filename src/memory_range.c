@@ -5,6 +5,7 @@
 #include <ae/runtime_expect.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_try.h>
+#include <ae/memory_raw.h>
 #include <ae/ptr_util.h>
 #include <ae/nullptr.h>
 
@@ -292,11 +293,11 @@ ae_memory_range_slice(void *self, void *begin, void *end)
 }
 
 void *
-ae_memory_range_insert_value(void *self, ae_usize_t index, ae_u8_t value)
+ae_memory_range_insert_value(void *self, ae_uoffset_t offset, ae_u8_t value)
 {
     ae_runtime_try
     {
-        ae_u8_t *ptr = ae_memory_range_at(self, index, false);
+        ae_u8_t *ptr = ae_memory_range_at(self, offset, false);
         *ptr         = value;
 
         ae_runtime_try_interrupt(ptr);
