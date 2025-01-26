@@ -67,7 +67,7 @@
 #define ae_ptr_cast(T, ptr) ae_static_cast(T *, ptr)
 
 /**
- * @def ae_ptr_to_address
+ * @def ae_ptr_to_addr
  * @brief Преобразует указатель в адрес.
  *
  * Этот макрос принимает указатель и возвращает его значение
@@ -127,7 +127,7 @@
 #define ae_ptr_diff_addr(ptr1, ptr2) (ae_ptr_to_addr(ptr1) - ae_ptr_to_addr(ptr2))
 
 /**
- * @def ae_ptr_diff_from_end
+ * @def ae_ptr_dist_from_end
  * @brief Вычисляет смещение указателя относительно начала и конца диапазона.
  *
  * Этот макрос используется для вычисления разницы между указателем `ptr` и началом диапазона
@@ -143,7 +143,7 @@
  * @note Этот макрос предполагает, что указатели `begin`, `end`,
  *       и `ptr` принадлежат одному и тому же массиву или диапазону.
  */
-#define ae_ptr_diff_from_end(begin, end, ptr) ((end - (ptr - begin)))
+#define ae_ptr_dist_from_end(begin, end, ptr) ((end - (ptr - begin)))
 
 /**
  * @def ae_ptr_add_offset

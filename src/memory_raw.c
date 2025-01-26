@@ -5,147 +5,491 @@
 #include <ae/ptr_util.h>
 #include <ae/nullptr.h>
 
-#define AE_MEMORY_RAW_FILL_IMPL(N, T)                                                              \
-    ae_memory_raw_fill_def(N, T)                                                                   \
-    {                                                                                              \
-        AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)                           \
-        T *ptr = begin;                                                                            \
-        while (ptr < end)                                                                          \
-        {                                                                                          \
-            *ptr++ = value;                                                                        \
-        }                                                                                          \
-        return ptr;                                                                                \
+ae_u8_t *
+ae_memory_raw_fill_u8(ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
+{
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    ae_u8_t *ptr = begin;
+    while (ptr < end)
+    {
+        *ptr++ = value;
     }
+    return ptr;
+}
 
-#define AE_MEMORY_RAW_FIND_VALUE_IMPL(N, T)                                                        \
-    ae_memory_raw_find_value_def(N, T)                                                             \
-    {                                                                                              \
-        AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)                           \
-                                                                                                   \
-        const T *ptr = begin;                                                                      \
-        while (ptr < end)                                                                          \
-        {                                                                                          \
-            if (*ptr == value)                                                                     \
-            {                                                                                      \
-                return ptr;                                                                        \
-            }                                                                                      \
-            ptr++;                                                                                 \
-        }                                                                                          \
-        return nullptr;                                                                            \
+ae_u16_t *
+ae_memory_raw_fill_u16(ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
+{
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    ae_u16_t *ptr = begin;
+    while (ptr < end)
+    {
+        *ptr++ = value;
     }
+    return ptr;
+}
 
-#define AE_MEMORY_RAW_COMPARE_IMPL(N, T)                                                           \
-    ae_memory_raw_compare_def(N, T)                                                                \
-    {                                                                                              \
-        AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)                      \
-                                                                                                   \
-        const T *_lhs = lhs;                                                                       \
-        const T *_rhs = rhs;                                                                       \
-                                                                                                   \
-        while (_lhs < lhs_end && _rhs < rhs_end)                                                   \
-        {                                                                                          \
-            if (*_lhs != *_rhs)                                                                    \
-            {                                                                                      \
-                return _lhs;                                                                       \
-            }                                                                                      \
-            _lhs++;                                                                                \
-            _rhs++;                                                                                \
-        }                                                                                          \
-        return nullptr;                                                                            \
+ae_u32_t *
+ae_memory_raw_fill_u32(ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
+{
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    ae_u32_t *ptr = begin;
+    while (ptr < end)
+    {
+        *ptr++ = value;
     }
+    return ptr;
+}
 
-#define AE_MEMORY_RAW_COMPARE_REV_IMPL(N, T)                                                       \
-    ae_memory_raw_compare_rev_def(N, T)                                                            \
-    {                                                                                              \
-        AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)                      \
-                                                                                                   \
-        const T *_lhs = lhs_end;                                                                   \
-        const T *_rhs = rhs_end;                                                                   \
-                                                                                                   \
-        while (_lhs > lhs && _rhs > rhs)                                                           \
-        {                                                                                          \
-            if (*--_lhs != *--_rhs)                                                                \
-            {                                                                                      \
-                return _lhs;                                                                       \
-            }                                                                                      \
-        }                                                                                          \
-        return nullptr;                                                                            \
+ae_u64_t *
+ae_memory_raw_fill_u64(ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value)
+{
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    ae_u64_t *ptr = begin;
+    while (ptr < end)
+    {
+        *ptr++ = value;
     }
+    return ptr;
+}
 
-#define AE_MEMORY_RAW_COPY_IMPL(N, T)                                                              \
-    ae_memory_raw_copy_def(N, T)                                                                   \
-    {                                                                                              \
-        AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)                      \
-                                                                                                   \
-        T       *_dst = dst;                                                                       \
-        const T *_src = src;                                                                       \
-                                                                                                   \
-        while (_dst < dst_end && _src < src_end)                                                   \
-        {                                                                                          \
-            *_dst++ = *_src++;                                                                     \
-        }                                                                                          \
-                                                                                                   \
-        return _dst;                                                                               \
+const ae_u8_t *
+ae_memory_raw_find_value_u8(const ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
+{
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u8_t *ptr = begin;
+    while (ptr < end)
+    {
+        if (*ptr == value)
+        {
+            return ptr;
+        }
+        ptr++;
     }
+    return nullptr;
+}
 
-#define AE_MEMORY_RAW_COPY_REV_IMPL(N, T)                                                          \
-    ae_memory_raw_copy_rev_def(N, T)                                                               \
-    {                                                                                              \
-        AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)                      \
-                                                                                                   \
-        const T *_src = src_end;                                                                   \
-        T       *_dst = dst_end;                                                                   \
-                                                                                                   \
-        while (_dst > dst && _src > src)                                                           \
-        {                                                                                          \
-            *--_dst = *--_src;                                                                     \
-        }                                                                                          \
-                                                                                                   \
-        return _dst;                                                                               \
+const ae_u16_t *
+ae_memory_raw_find_value_u16(const ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
+{
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u16_t *ptr = begin;
+    while (ptr < end)
+    {
+        if (*ptr == value)
+        {
+            return ptr;
+        }
+        ptr++;
     }
+    return nullptr;
+}
 
-#define AE_MEMORY_RAW_MOVE_IMPL(N, T)                                                              \
-    ae_memory_raw_move_def(N, T)                                                                   \
-    {                                                                                              \
-        if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))                                \
-        {                                                                                          \
-            T *_ptr = ae_memory_raw_copy_rev_##N(dst, dst_end, src, src_end);                      \
-            return _ptr ? ae_ptr_diff_from_end(dst, dst_end, _ptr) : nullptr;                      \
-        }                                                                                          \
-        return ae_memory_raw_copy_##N(dst, dst_end, src, src_end);                                 \
+const ae_u32_t *
+ae_memory_raw_find_value_u32(const ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
+{
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u32_t *ptr = begin;
+    while (ptr < end)
+    {
+        if (*ptr == value)
+        {
+            return ptr;
+        }
+        ptr++;
     }
+    return nullptr;
+}
 
-AE_MEMORY_RAW_FILL_IMPL(u8, ae_u8_t)
-AE_MEMORY_RAW_FILL_IMPL(u16, ae_u16_t)
-AE_MEMORY_RAW_FILL_IMPL(u32, ae_u32_t)
-AE_MEMORY_RAW_FILL_IMPL(u64, ae_u64_t)
+const ae_u64_t *
+ae_memory_raw_find_value_u64(const ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value)
+{
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
 
-AE_MEMORY_RAW_FIND_VALUE_IMPL(u8, ae_u8_t)
-AE_MEMORY_RAW_FIND_VALUE_IMPL(u16, ae_u16_t)
-AE_MEMORY_RAW_FIND_VALUE_IMPL(u32, ae_u32_t)
-AE_MEMORY_RAW_FIND_VALUE_IMPL(u64, ae_u64_t)
+    const ae_u64_t *ptr = begin;
+    while (ptr < end)
+    {
+        if (*ptr == value)
+        {
+            return ptr;
+        }
+        ptr++;
+    }
+    return nullptr;
+}
 
-AE_MEMORY_RAW_COMPARE_IMPL(u8, ae_u8_t)
-AE_MEMORY_RAW_COMPARE_IMPL(u16, ae_u16_t)
-AE_MEMORY_RAW_COMPARE_IMPL(u32, ae_u32_t)
-AE_MEMORY_RAW_COMPARE_IMPL(u64, ae_u64_t)
+const ae_u8_t *
+ae_memory_raw_compare_u8(const ae_u8_t *lhs,
+                         const ae_u8_t *lhs_end,
+                         const ae_u8_t *rhs,
+                         const ae_u8_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
 
-AE_MEMORY_RAW_COMPARE_REV_IMPL(u8, ae_u8_t)
-AE_MEMORY_RAW_COMPARE_REV_IMPL(u16, ae_u16_t)
-AE_MEMORY_RAW_COMPARE_REV_IMPL(u32, ae_u32_t)
-AE_MEMORY_RAW_COMPARE_REV_IMPL(u64, ae_u64_t)
+    const ae_u8_t *_lhs = lhs;
+    const ae_u8_t *_rhs = rhs;
+    while (_lhs < lhs_end && _rhs < rhs_end)
+    {
+        if (*_lhs != *_rhs)
+        {
+            return _lhs;
+        }
+        _lhs++;
+        _rhs++;
+    }
+    return nullptr;
+}
 
-AE_MEMORY_RAW_COPY_IMPL(u8, ae_u8_t)
-AE_MEMORY_RAW_COPY_IMPL(u16, ae_u16_t)
-AE_MEMORY_RAW_COPY_IMPL(u32, ae_u32_t)
-AE_MEMORY_RAW_COPY_IMPL(u64, ae_u64_t)
+const ae_u16_t *
+ae_memory_raw_compare_u16(const ae_u16_t *lhs,
+                          const ae_u16_t *lhs_end,
+                          const ae_u16_t *rhs,
+                          const ae_u16_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
 
-AE_MEMORY_RAW_COPY_REV_IMPL(u8, ae_u8_t)
-AE_MEMORY_RAW_COPY_REV_IMPL(u16, ae_u16_t)
-AE_MEMORY_RAW_COPY_REV_IMPL(u32, ae_u32_t)
-AE_MEMORY_RAW_COPY_REV_IMPL(u64, ae_u64_t)
+    const ae_u16_t *_lhs = lhs;
+    const ae_u16_t *_rhs = rhs;
+    while (_lhs < lhs_end && _rhs < rhs_end)
+    {
+        if (*_lhs != *_rhs)
+        {
+            return _lhs;
+        }
+        _lhs++;
+        _rhs++;
+    }
+    return nullptr;
+}
 
-AE_MEMORY_RAW_MOVE_IMPL(u8, ae_u8_t)
-AE_MEMORY_RAW_MOVE_IMPL(u16, ae_u16_t)
-AE_MEMORY_RAW_MOVE_IMPL(u32, ae_u32_t)
-AE_MEMORY_RAW_MOVE_IMPL(u64, ae_u64_t)
+const ae_u32_t *
+ae_memory_raw_compare_u32(const ae_u32_t *lhs,
+                          const ae_u32_t *lhs_end,
+                          const ae_u32_t *rhs,
+                          const ae_u32_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u32_t *_lhs = lhs;
+    const ae_u32_t *_rhs = rhs;
+    while (_lhs < lhs_end && _rhs < rhs_end)
+    {
+        if (*_lhs != *_rhs)
+        {
+            return _lhs;
+        }
+        _lhs++;
+        _rhs++;
+    }
+    return nullptr;
+}
+
+const ae_u64_t *
+ae_memory_raw_compare_u64(const ae_u64_t *lhs,
+                          const ae_u64_t *lhs_end,
+                          const ae_u64_t *rhs,
+                          const ae_u64_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u64_t *_lhs = lhs;
+    const ae_u64_t *_rhs = rhs;
+    while (_lhs < lhs_end && _rhs < rhs_end)
+    {
+        if (*_lhs != *_rhs)
+        {
+            return _lhs;
+        }
+        _lhs++;
+        _rhs++;
+    }
+    return nullptr;
+}
+
+const ae_u8_t *
+ae_memory_raw_compare_rev_u8(const ae_u8_t *lhs,
+                             const ae_u8_t *lhs_end,
+                             const ae_u8_t *rhs,
+                             const ae_u8_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u8_t *_lhs = lhs_end;
+    const ae_u8_t *_rhs = rhs_end;
+
+    while (_lhs > lhs && _rhs > rhs)
+    {
+        if (*--_lhs != *--_rhs)
+        {
+            return _lhs;
+        }
+    }
+    return nullptr;
+}
+
+const ae_u16_t *
+ae_memory_raw_compare_rev_u16(const ae_u16_t *lhs,
+                              const ae_u16_t *lhs_end,
+                              const ae_u16_t *rhs,
+                              const ae_u16_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u16_t *_lhs = lhs_end;
+    const ae_u16_t *_rhs = rhs_end;
+
+    while (_lhs > lhs && _rhs > rhs)
+    {
+        if (*--_lhs != *--_rhs)
+        {
+            return _lhs;
+        }
+    }
+    return nullptr;
+}
+
+const ae_u32_t *
+ae_memory_raw_compare_rev_u32(const ae_u32_t *lhs,
+                              const ae_u32_t *lhs_end,
+                              const ae_u32_t *rhs,
+                              const ae_u32_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u32_t *_lhs = lhs_end;
+    const ae_u32_t *_rhs = rhs_end;
+
+    while (_lhs > lhs && _rhs > rhs)
+    {
+        if (*--_lhs != *--_rhs)
+        {
+            return _lhs;
+        }
+    }
+    return nullptr;
+}
+
+const ae_u64_t *
+ae_memory_raw_compare_rev_u64(const ae_u64_t *lhs,
+                              const ae_u64_t *lhs_end,
+                              const ae_u64_t *rhs,
+                              const ae_u64_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u64_t *_lhs = lhs_end;
+    const ae_u64_t *_rhs = rhs_end;
+
+    while (_lhs > lhs && _rhs > rhs)
+    {
+        if (*--_lhs != *--_rhs)
+        {
+            return _lhs;
+        }
+    }
+    return nullptr;
+}
+
+ae_u8_t *
+ae_memory_raw_copy_u8(ae_u8_t       *dst,
+                      const ae_u8_t *dst_end,
+                      const ae_u8_t *src,
+                      const ae_u8_t *src_end)
+{
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    ae_u8_t       *_dst = dst;
+    const ae_u8_t *_src = src;
+
+    while (_dst < dst_end && _src < src_end)
+    {
+        *_dst++ = *_src++;
+    }
+    return _dst;
+}
+
+ae_u16_t *
+ae_memory_raw_copy_u16(ae_u16_t       *dst,
+                       const ae_u16_t *dst_end,
+                       const ae_u16_t *src,
+                       const ae_u16_t *src_end)
+{
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    ae_u16_t       *_dst = dst;
+    const ae_u16_t *_src = src;
+
+    while (_dst < dst_end && _src < src_end)
+    {
+        *_dst++ = *_src++;
+    }
+    return _dst;
+}
+
+ae_u32_t *
+ae_memory_raw_copy_u32(ae_u32_t       *dst,
+                       const ae_u32_t *dst_end,
+                       const ae_u32_t *src,
+                       const ae_u32_t *src_end)
+{
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    ae_u32_t       *_dst = dst;
+    const ae_u32_t *_src = src;
+
+    while (_dst < dst_end && _src < src_end)
+    {
+        *_dst++ = *_src++;
+    }
+    return _dst;
+}
+
+ae_u64_t *
+ae_memory_raw_copy_u64(ae_u64_t       *dst,
+                       const ae_u64_t *dst_end,
+                       const ae_u64_t *src,
+                       const ae_u64_t *src_end)
+{
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    ae_u64_t       *_dst = dst;
+    const ae_u64_t *_src = src;
+
+    while (_dst < dst_end && _src < src_end)
+    {
+        *_dst++ = *_src++;
+    }
+    return _dst;
+}
+
+ae_u8_t *
+ae_memory_raw_copy_rev_u8(const ae_u8_t *dst,
+                          ae_u8_t       *dst_end,
+                          const ae_u8_t *src,
+                          const ae_u8_t *src_end)
+{
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u8_t *_src = src_end;
+    ae_u8_t       *_dst = dst_end;
+
+    while (_dst > dst && _src > src)
+    {
+        *--_dst = *--_src;
+    }
+    return _dst;
+}
+
+ae_u16_t *
+ae_memory_raw_copy_rev_u16(const ae_u16_t *dst,
+                           ae_u16_t       *dst_end,
+                           const ae_u16_t *src,
+                           const ae_u16_t *src_end)
+{
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u16_t *_src = src_end;
+    ae_u16_t       *_dst = dst_end;
+
+    while (_dst > dst && _src > src)
+    {
+        *--_dst = *--_src;
+    }
+    return _dst;
+}
+
+ae_u32_t *
+ae_memory_raw_copy_rev_u32(const ae_u32_t *dst,
+                           ae_u32_t       *dst_end,
+                           const ae_u32_t *src,
+                           const ae_u32_t *src_end)
+{
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u32_t *_src = src_end;
+    ae_u32_t       *_dst = dst_end;
+
+    while (_dst > dst && _src > src)
+    {
+        *--_dst = *--_src;
+    }
+    return _dst;
+}
+
+ae_u64_t *
+ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
+                           ae_u64_t       *dst_end,
+                           const ae_u64_t *src,
+                           const ae_u64_t *src_end)
+{
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    const ae_u64_t *_src = src_end;
+    ae_u64_t       *_dst = dst_end;
+
+    while (_dst > dst && _src > src)
+    {
+        *--_dst = *--_src;
+    }
+    return _dst;
+}
+
+ae_u8_t *
+ae_memory_raw_move_u8(ae_u8_t *dst, ae_u8_t *dst_end, const ae_u8_t *src, const ae_u8_t *src_end)
+{
+    if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
+    {
+        ae_u8_t *_ptr = ae_memory_raw_copy_rev_u8(dst, dst_end, src, src_end);
+        return _ptr ? ae_ptr_dist_from_end(dst, dst_end, _ptr) : nullptr;
+    }
+    return ae_memory_raw_copy_u8(dst, dst_end, src, src_end);
+}
+
+ae_u16_t *
+ae_memory_raw_move_u16(ae_u16_t       *dst,
+                       ae_u16_t       *dst_end,
+                       const ae_u16_t *src,
+                       const ae_u16_t *src_end)
+{
+    if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
+    {
+        ae_u16_t *_ptr = ae_memory_raw_copy_rev_u16(dst, dst_end, src, src_end);
+        return _ptr ? ae_ptr_dist_from_end(dst, dst_end, _ptr) : nullptr;
+    }
+    return ae_memory_raw_copy_u16(dst, dst_end, src, src_end);
+}
+
+ae_u32_t *
+ae_memory_raw_move_u32(ae_u32_t       *dst,
+                       ae_u32_t       *dst_end,
+                       const ae_u32_t *src,
+                       const ae_u32_t *src_end)
+{
+    if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
+    {
+        ae_u32_t *_ptr = ae_memory_raw_copy_rev_u32(dst, dst_end, src, src_end);
+        return _ptr ? ae_ptr_dist_from_end(dst, dst_end, _ptr) : nullptr;
+    }
+    return ae_memory_raw_copy_u32(dst, dst_end, src, src_end);
+}
+
+ae_u64_t *
+ae_memory_raw_move_u64(ae_u64_t       *dst,
+                       ae_u64_t       *dst_end,
+                       const ae_u64_t *src,
+                       const ae_u64_t *src_end)
+{
+    if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
+    {
+        ae_u64_t *_ptr = ae_memory_raw_copy_rev_u64(dst, dst_end, src, src_end);
+        return _ptr ? ae_ptr_dist_from_end(dst, dst_end, _ptr) : nullptr;
+    }
+    return ae_memory_raw_copy_u64(dst, dst_end, src, src_end);
+}
