@@ -448,7 +448,7 @@ ae_memory_raw_move_u8(ae_u8_t *dst, ae_u8_t *dst_end, const ae_u8_t *src, const 
     if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
     {
         ae_u8_t *_ptr = ae_memory_raw_copy_rev_u8(dst, dst_end, src, src_end);
-        return _ptr ? ae_ptr_mirror_from_end(dst, dst_end, _ptr) : nullptr;
+        return _ptr ? dst_end - (_ptr - dst) : nullptr;
     }
     return ae_memory_raw_copy_u8(dst, dst_end, src, src_end);
 }
@@ -462,7 +462,7 @@ ae_memory_raw_move_u16(ae_u16_t       *dst,
     if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
     {
         ae_u16_t *_ptr = ae_memory_raw_copy_rev_u16(dst, dst_end, src, src_end);
-        return _ptr ? ae_ptr_mirror_from_end(dst, dst_end, _ptr) : nullptr;
+        return _ptr ? dst_end - (_ptr - dst) : nullptr;
     }
     return ae_memory_raw_copy_u16(dst, dst_end, src, src_end);
 }
@@ -476,7 +476,7 @@ ae_memory_raw_move_u32(ae_u32_t       *dst,
     if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
     {
         ae_u32_t *_ptr = ae_memory_raw_copy_rev_u32(dst, dst_end, src, src_end);
-        return _ptr ? ae_ptr_mirror_from_end(dst, dst_end, _ptr) : nullptr;
+        return _ptr ? dst_end - (_ptr - dst) : nullptr;
     }
     return ae_memory_raw_copy_u32(dst, dst_end, src, src_end);
 }
@@ -490,7 +490,7 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
     if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
     {
         ae_u64_t *_ptr = ae_memory_raw_copy_rev_u64(dst, dst_end, src, src_end);
-        return _ptr ? ae_ptr_mirror_from_end(dst, dst_end, _ptr) : nullptr;
+        return _ptr ? dst_end - (_ptr - dst) : nullptr;
     }
     return ae_memory_raw_copy_u64(dst, dst_end, src, src_end);
 }
@@ -562,6 +562,78 @@ ae_memory_raw_find_u64(const ae_u64_t *lhs,
         if (!ae_memory_raw_compare_u64(_lhs, lhs_end, rhs, rhs_end))
         {
             return _lhs;
+        }
+    }
+    return nullptr;
+}
+
+const ae_u8_t *
+ae_memory_raw_find_rev_u8(const ae_u8_t *lhs,
+                          const ae_u8_t *lhs_end,
+                          const ae_u8_t *rhs,
+                          const ae_u8_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    for (const ae_u8_t *_lhs_end = lhs_end; _lhs_end > lhs; --_lhs_end)
+    {
+        if (!ae_memory_raw_compare_rev_u8(lhs, _lhs_end, rhs, rhs_end))
+        {
+            return _lhs_end - (rhs_end - rhs);
+        }
+    }
+    return nullptr;
+}
+
+const ae_u16_t *
+ae_memory_raw_find_rev_u16(const ae_u16_t *lhs,
+                           const ae_u16_t *lhs_end,
+                           const ae_u16_t *rhs,
+                           const ae_u16_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    for (const ae_u16_t *_lhs_end = lhs_end; _lhs_end > lhs; --_lhs_end)
+    {
+        if (!ae_memory_raw_compare_rev_u16(lhs, _lhs_end, rhs, rhs_end))
+        {
+            return _lhs_end - (rhs_end - rhs);
+        }
+    }
+    return nullptr;
+}
+
+const ae_u32_t *
+ae_memory_raw_find_rev_u32(const ae_u32_t *lhs,
+                           const ae_u32_t *lhs_end,
+                           const ae_u32_t *rhs,
+                           const ae_u32_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    for (const ae_u32_t *_lhs_end = lhs_end; _lhs_end > lhs; --_lhs_end)
+    {
+        if (!ae_memory_raw_compare_rev_u32(lhs, _lhs_end, rhs, rhs_end))
+        {
+            return _lhs_end - (rhs_end - rhs);
+        }
+    }
+    return nullptr;
+}
+
+const ae_u64_t *
+ae_memory_raw_find_rev_u64(const ae_u64_t *lhs,
+                           const ae_u64_t *lhs_end,
+                           const ae_u64_t *rhs,
+                           const ae_u64_t *rhs_end)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+
+    for (const ae_u64_t *_lhs_end = lhs_end; _lhs_end > lhs; --_lhs_end)
+    {
+        if (!ae_memory_raw_compare_rev_u64(lhs, _lhs_end, rhs, rhs_end))
+        {
+            return _lhs_end - (rhs_end - rhs);
         }
     }
     return nullptr;
