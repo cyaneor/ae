@@ -331,3 +331,80 @@ ae_str_raw_move(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_l
     }
     return ae_str_raw_move_u8(dst, dst_len, src, src_len);
 }
+
+const ae_u8_t *
+ae_str_raw_find_u8(const ae_u8_t *lhs, ae_usize_t lhs_len, const ae_u8_t *rhs, ae_usize_t rhs_len)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    return ae_memory_raw_find_u8(lhs, lhs + lhs_len, rhs, rhs + rhs_len);
+}
+
+const ae_u16_t *
+ae_str_raw_find_u16(const ae_u16_t *lhs,
+                    ae_usize_t      lhs_len,
+                    const ae_u16_t *rhs,
+                    ae_usize_t      rhs_len)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    return ae_memory_raw_find_u16(lhs, lhs + lhs_len, rhs, rhs + rhs_len);
+}
+
+const ae_u32_t *
+ae_str_raw_find_u32(const ae_u32_t *lhs,
+                    ae_usize_t      lhs_len,
+                    const ae_u32_t *rhs,
+                    ae_usize_t      rhs_len)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    return ae_memory_raw_find_u32(lhs, lhs + lhs_len, rhs, rhs + rhs_len);
+}
+
+const ae_u64_t *
+ae_str_raw_find_u64(const ae_u64_t *lhs,
+                    ae_usize_t      lhs_len,
+                    const ae_u64_t *rhs,
+                    ae_usize_t      rhs_len)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    return ae_memory_raw_find_u64(lhs, lhs + lhs_len, rhs, rhs + rhs_len);
+}
+
+const ae_u8_t *
+ae_str_raw_find_rev_u8(const ae_u8_t *lhs,
+                       ae_usize_t     lhs_len,
+                       const ae_u8_t *rhs,
+                       ae_usize_t     rhs_len)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    return ae_memory_raw_find_rev_u8(lhs, lhs + lhs_len, rhs, rhs + rhs_len);
+}
+
+const ae_u16_t *
+ae_str_raw_find_rev_u16(const ae_u16_t *lhs,
+                        ae_usize_t      lhs_len,
+                        const ae_u16_t *rhs,
+                        ae_usize_t      rhs_len)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    return ae_memory_raw_find_rev_u16(lhs, lhs + lhs_len, rhs, rhs + rhs_len);
+}
+
+const ae_u32_t *
+ae_str_raw_find_rev_u32(const ae_u32_t *lhs,
+                        ae_usize_t      lhs_len,
+                        const ae_u32_t *rhs,
+                        ae_usize_t      rhs_len)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    return ae_memory_raw_find_rev_u32(lhs, lhs + lhs_len, rhs, rhs + rhs_len);
+}
+
+const ae_u64_t *
+ae_str_raw_find_rev_u64(const ae_u64_t *lhs,
+                        ae_usize_t      lhs_len,
+                        const ae_u64_t *rhs,
+                        ae_usize_t      rhs_len)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    return ae_memory_raw_find_rev_u64(lhs, lhs + lhs_len, rhs, rhs + rhs_len);
+}
