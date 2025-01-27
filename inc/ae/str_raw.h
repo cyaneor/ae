@@ -15,35 +15,6 @@
  *
  * Все функции проверяют указатели на нулевые значения
  * и могут выбрасывать ошибки в случае некорректных входных данных.
- *
- * @see ae_str_raw_fill
- * @see ae_str_raw_fill8
- * @see ae_str_raw_fill16
- * @see ae_str_raw_fill32
- * @see ae_str_raw_fill64
- * @see ae_str_raw_find8_val
- * @see ae_str_raw_find16_val
- * @see ae_str_raw_find32_val
- * @see ae_str_raw_find64_val
- * @see ae_str_raw_compare8
- * @see ae_str_raw_compare16
- * @see ae_str_raw_compare32
- * @see ae_str_raw_compare64
- * @see ae_str_raw_copy
- * @see ae_str_raw_copy8
- * @see ae_str_raw_copy16
- * @see ae_str_raw_copy32
- * @see ae_str_raw_copy64
- * @see ae_str_raw_copy_rev
- * @see ae_str_raw_copy8_rev
- * @see ae_str_raw_copy16_rev
- * @see ae_str_raw_copy32_rev
- * @see ae_str_raw_copy64_rev
- * @see ae_str_raw_move
- * @see ae_str_raw_move8
- * @see ae_str_raw_move16
- * @see ae_str_raw_move32
- * @see ae_str_raw_move64
  */
 
 #ifndef AE_STR_RAW_H
