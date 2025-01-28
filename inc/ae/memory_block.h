@@ -237,6 +237,8 @@ ae_memory_block_element_offset(const void *self, ae_usize_t index);
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
  *        Если указанный индекс находится вне допустимого диапазона.
+ * @throw AE_RUNTIME_ERROR_INVALID_INDEX
+ *        Если индекс выходит за допустимые границы блока памяти.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
@@ -267,6 +269,8 @@ ae_memory_block_at_from_begin(const void *self, ae_usize_t index);
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
  *        Если указанный индекс находится вне допустимого диапазона.
+ * @throw AE_RUNTIME_ERROR_INVALID_INDEX
+ *        Если индекс выходит за допустимые границы блока памяти.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
@@ -299,6 +303,8 @@ ae_memory_block_at_from_end(const void *self, ae_usize_t index);
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
  *        Если указанный индекс находится вне допустимого диапазона.
+ * @throw AE_RUNTIME_ERROR_INVALID_INDEX
+ *        Если индекс выходит за допустимые границы блока памяти.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
@@ -325,6 +331,8 @@ ae_memory_block_at(const void *self, ae_usize_t index, bool reversed);
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
  *        Если блок памяти пустой.
+ * @throw AE_RUNTIME_ERROR_INVALID_INDEX
+ *        Если индекс выходит за допустимые границы блока памяти.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
@@ -350,6 +358,8 @@ ae_memory_block_front(const void *self);
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
  *        Если блок памяти пустой.
+ * @throw AE_RUNTIME_ERROR_INVALID_INDEX
+ *        Если индекс выходит за допустимые границы блока памяти.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
