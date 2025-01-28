@@ -1,3 +1,5 @@
+#include "ae/offset.h"
+#include "ae/runtime_throw.h"
 #include <ae/memory_block.h>
 /* Дополнительные модули */
 #include <ae/runtime_error_code.h>
@@ -65,12 +67,19 @@ ae_memory_block_has_index(const void *self, ae_usize_t index)
     return index < size;
 }
 
+ae_uoffset_t
+ae_memory_block_element_offset(const void *self, ae_usize_t index)
+{
+    AE_RUNTIME_ASSERT(ae_memory_block_has_index(self, index), AE_RUNTIME_ERROR_INVALID_INDEX, 0)
+    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
+    return index * element_size;
+}
+
 void *
 ae_memory_block_at_from_begin(const void *self, ae_usize_t index)
 {
-    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
-    AE_RUNTIME_ASSERT(element_size, AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, nullptr)
-    return ae_memory_range_at(self, index * element_size, false);
+    const ae_uoffset_t offset = ae_memory_block_element_offset(self, index);
+    return ae_memory_range_at(self, offset, false);
 }
 
 void *

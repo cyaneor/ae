@@ -16,6 +16,7 @@
 
 #include "memory_block_fields.h"
 #include "attribute.h"
+#include "offset.h"
 #include "bool.h"
 
 /**
@@ -194,6 +195,32 @@ ae_memory_block_exchange(void *self, void *other);
 AE_ATTRIBUTE(SYMBOL)
 bool
 ae_memory_block_has_index(const void *self, ae_usize_t index);
+
+/**
+ * @brief Вычисляет смещение элемента в блоке памяти по индексу.
+ *
+ * Эта функция вычисляет смещение в байтах элемента в блоке памяти, используя указанный индекс.
+ * Она проверяет, что индекс находится в допустимом диапазоне, а затем умножает индекс на
+ * размер одного элемента для получения смещения.
+ *
+ * @param self Указатель на блок памяти.
+ * @param index Индекс элемента в блоке памяти.
+ *
+ * @return Смещение элемента в блоке памяти.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_INVALID_INDEX
+ *        Если индекс выходит за допустимые границы блока памяти.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_uoffset_t
+ae_memory_block_element_offset(const void *self, ae_usize_t index);
 
 /**
  * @brief Получает указатель на элемент в блоке памяти по индексу, начиная с начала.
