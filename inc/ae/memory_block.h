@@ -50,6 +50,30 @@ ae_usize_t
 ae_memory_block_get_element_size(const void *self);
 
 /**
+ * @brief Проверяет, является ли блок памяти действительным.
+ *
+ * Эта функция проверяет, является ли блок памяти, представленный в параметре `self`,
+ * действительным, то есть соответствует ли его размер размеру элемента.
+ *
+ * @param self Указатель на блок памяти,
+ *             который необходимо проверить.
+ *
+ * @return `true`, если блок памяти действителен и его размер кратен размеру элемента;
+ *         `false`, если блок памяти недействителен.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_DIVISION_BY_ZERO
+ *        Если `element_size` равен нулю.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если диапазон памяти недопустим
+ *        (если `self` не является валидным диапазоном).
+ */
+AE_ATTRIBUTE(SYMBOL)
+bool
+ae_memory_block_is_valid(const void *self);
+
+/**
  * @brief Вычисляет количество элементов в блоке памяти.
  *
  * Эта функция определяет, сколько элементов заданного размера помещается в блоке памяти.
@@ -66,8 +90,9 @@ ae_memory_block_get_element_size(const void *self);
  *        Если `element_size` равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_usize_t
@@ -86,8 +111,9 @@ ae_memory_block_size(const void *self);
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
@@ -161,8 +187,9 @@ ae_memory_block_exchange(void *self, void *other);
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
@@ -187,8 +214,9 @@ ae_memory_block_has_index(const void *self, ae_usize_t index);
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
@@ -216,8 +244,9 @@ ae_memory_block_at_from_begin(const void *self, ae_usize_t index);
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
@@ -247,8 +276,9 @@ ae_memory_block_at_from_end(const void *self, ae_usize_t index);
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
@@ -272,8 +302,9 @@ ae_memory_block_at(const void *self, ae_usize_t index, bool reversed);
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
@@ -296,8 +327,9 @@ ae_memory_block_front(const void *self);
  *        Если размер элемента равен нулю.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
@@ -320,8 +352,9 @@ ae_memory_block_back(const void *self);
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер блока памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  */
 AE_ATTRIBUTE(SYMBOL)
 bool

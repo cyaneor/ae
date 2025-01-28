@@ -14,15 +14,21 @@ ae_memory_block_get_element_size(const void *self)
     return ae_ptr_cast(ae_memory_block_t, self)->element_size;
 }
 
+bool
+ae_memory_block_is_valid(const void *self)
+{
+    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
+    return ae_memory_range_is_multiple_of_size(self, element_size);
+}
+
 ae_usize_t
 ae_memory_block_size(const void *self)
 {
-    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
-    AE_RUNTIME_ASSERT(ae_memory_range_is_multiple_of_size(self, element_size),
-                      AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE,
-                      0)
+    AE_RUNTIME_ASSERT(ae_memory_block_is_valid(self), AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK, 0)
 
-    const ae_usize_t size = ae_memory_range_size(self);
+    const ae_usize_t size         = ae_memory_range_size(self);
+    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
+
     return size / element_size;
 }
 

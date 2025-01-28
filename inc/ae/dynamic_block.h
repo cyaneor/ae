@@ -80,8 +80,9 @@ ae_dynamic_block_clear(ae_dynamic_block_t *self);
  * @param self Указатель на динамический блок,
  *             который необходимо удалить.
  *
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер диапазона памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти не валиден.
  * @throw AE_RUNTIME_ERROR_DIVISION_BY_ZERO
@@ -134,8 +135,9 @@ ae_dynamic_block_is_empty(const ae_dynamic_block_t *self);
  * @return Общий размер блока памяти в байтах.
  *         Если количество элементов равно 0, возвращает 0.
  *
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер диапазона памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти не валиден.
  * @throw AE_RUNTIME_ERROR_DIVISION_BY_ZERO
@@ -165,8 +167,9 @@ ae_dynamic_block_total_size(const ae_dynamic_block_t *self);
  * @return Доступный размер блока памяти в элементах.
  *         Если доступный размер не может быть определен, возвращает 0.
  *
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер диапазона памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти не валиден.
  * @throw AE_RUNTIME_ERROR_DIVISION_BY_ZERO
@@ -195,8 +198,9 @@ ae_dynamic_block_available_size(const ae_dynamic_block_t *self);
  *         Если блок памяти пуст, возвращает указатель,
  *         указывающий на конец блока.
  *
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер диапазона памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти не валиден.
  * @throw AE_RUNTIME_ERROR_DIVISION_BY_ZERO
@@ -226,8 +230,9 @@ ae_dynamic_block_get_end(const ae_dynamic_block_t *self);
  *
  * @return Емкость динамического блока памяти в байтах.
  *
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер диапазона памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти не валиден.
  * @throw AE_RUNTIME_ERROR_DIVISION_BY_ZERO
@@ -255,8 +260,9 @@ ae_dynamic_block_capacity(const ae_dynamic_block_t *self);
  * @param self Указатель на динамический блок,
  *             который необходимо уменьшить.
  *
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер диапазона памяти не кратен размеру элемента.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти не валиден.
  * @throw AE_RUNTIME_ERROR_DIVISION_BY_ZERO
