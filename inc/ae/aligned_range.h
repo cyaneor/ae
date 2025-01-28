@@ -133,7 +133,7 @@ ae_aligned_range_exchange(void *self, void *other);
  * @param[in] self Указатель на структуру `ae_aligned_range_t`,
  *                 представляющую выровненный диапазон,
  *                 который необходимо изменить.
- * @param[in] size_in_bytes Новый размер диапазона в байтах.
+ * @param[in] size Новый размер диапазона в байтах.
  * @param[in] alignment_size Размер выравнивания в байтах,
  *                           который должен быть степенью двойки.
  *
@@ -160,7 +160,7 @@ ae_aligned_range_exchange(void *self, void *other);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_aligned_range_resize(void *self, ae_usize_t size_in_bytes, ae_usize_t alignment_size);
+ae_aligned_range_resize(void *self, ae_usize_t size, ae_usize_t alignment_size);
 
 AE_COMPILER(EXTERN_C_END)
 

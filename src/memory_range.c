@@ -65,18 +65,18 @@ ae_memory_range_diff(const void *self)
 }
 
 ae_usize_t
-ae_memory_range_total_size(const void *self)
+ae_memory_range_size(const void *self)
 {
     AE_RUNTIME_ASSERT(ae_memory_range_is_valid(self), AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE, 0)
     return (ae_usize_t)ae_memory_range_diff(self);
 }
 
 bool
-ae_memory_range_is_multiple_of_total_size(const void *self, ae_usize_t element_size)
+ae_memory_range_is_multiple_of_size(const void *self, ae_usize_t element_size)
 {
     AE_RUNTIME_ASSERT(element_size, AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, false)
-    const ae_usize_t total_size = ae_memory_range_total_size(self);
-    return ae_numeric_has_zero_remainder(total_size, element_size);
+    const ae_usize_t size = ae_memory_range_size(self);
+    return ae_numeric_has_zero_remainder(size, element_size);
 }
 
 bool
@@ -86,17 +86,6 @@ ae_memory_range_is_aligned(const void *self, ae_usize_t alignment)
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
     return ae_ptr_range_is_aligned(begin, end, alignment);
-}
-
-ae_usize_t
-ae_memory_range_size(const void *self, ae_usize_t element_size)
-{
-    AE_RUNTIME_ASSERT(ae_memory_range_is_multiple_of_total_size(self, element_size),
-                      AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE,
-                      0)
-
-    const ae_usize_t total_size = ae_memory_range_total_size(self);
-    return total_size / element_size;
 }
 
 void
@@ -159,17 +148,16 @@ ae_memory_range_set_with_validate(void *self, void *begin, void *end)
 }
 
 bool
-ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size_in_bytes)
+ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size)
 {
     AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_INVALID_ARGUMENT, false)
-    return ae_memory_range_set_with_validate(self, begin, ae_ptr_add_offset(begin, size_in_bytes));
+    return ae_memory_range_set_with_validate(self, begin, ae_ptr_add_offset(begin, size));
 }
 
 bool
-ae_memory_range_set_with_fallback(void *self, void *begin, ae_usize_t size_in_bytes)
+ae_memory_range_set_with_fallback(void *self, void *begin, ae_usize_t size)
 {
-    return begin ? ae_memory_range_set_with_size(self, begin, size_in_bytes)
-                 : ae_memory_range_clear(self);
+    return begin ? ae_memory_range_set_with_size(self, begin, size) : ae_memory_range_clear(self);
 }
 
 bool
@@ -197,7 +185,7 @@ ae_memory_range_has_range(const void *self, const void *begin, const void *end)
 bool
 ae_memory_range_has_offset(const void *self, ae_uoffset_t offset)
 {
-    return offset < ae_memory_range_total_size(self);
+    return offset < ae_memory_range_size(self);
 }
 
 void *
@@ -213,8 +201,8 @@ ae_memory_range_at_from_begin(const void *self, ae_uoffset_t offset)
 void *
 ae_memory_range_at_from_end(const void *self, ae_uoffset_t offset)
 {
-    const ae_usize_t total_size = ae_memory_range_total_size(self);
-    return ae_memory_range_at_from_begin(self, total_size - (offset + 1));
+    const ae_usize_t size = ae_memory_range_size(self);
+    return ae_memory_range_at_from_begin(self, size - (offset + 1));
 }
 
 void *
@@ -293,10 +281,10 @@ ae_memory_range_make_sub_range(void *self, void *begin, void *end)
 }
 
 ae_memory_range_t
-ae_memory_range_slice(void *self, ae_uoffset_t index, ae_uoffset_t length)
+ae_memory_range_slice(void *self, ae_uoffset_t index, ae_usize_t size)
 {
     void *begin = ae_memory_range_at(self, index, false);
-    void *end   = ae_memory_range_at(self, index + length, false);
+    void *end   = ae_memory_range_at(self, index + size, false);
     return ae_memory_range_make_sub_range(self, begin, end);
 }
 

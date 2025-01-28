@@ -172,14 +172,15 @@ ae_ptrdiff_t
 ae_memory_range_diff(const void *self);
 
 /**
- * @brief Вычисляет общий размер диапазона памяти.
+ * @brief Вычисляет размер диапазона памяти.
  *
- * Эта функция определяет общий размер диапазона памяти, используя разницу
- * между конечным и начальным адресами. Если диапазон памяти недопустим,
- * функция вызывает ошибку времени выполнения.
+ * Эта функция определяет размер диапазона памяти,
+ * используя разницу между конечным и начальным адресами.
+ * Если диапазон памяти недопустим, функция вызывает ошибку времени выполнения.
  *
- * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
- * @return Общий размер диапазона памяти в байтах.
+ * @param self Указатель на структуру ae_memory_range_t,
+ *             представляющую диапазон памяти.
+ * @return Размер диапазона памяти в байтах.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
@@ -189,7 +190,7 @@ ae_memory_range_diff(const void *self);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_usize_t
-ae_memory_range_total_size(const void *self);
+ae_memory_range_size(const void *self);
 
 /**
  * @brief Проверяет, выровнен ли диапазон памяти.
@@ -214,20 +215,20 @@ bool
 ae_memory_range_is_aligned(const void *self, ae_usize_t alignment);
 
 /**
- * @brief Проверяет, является ли общий размер диапазона
+ * @brief Проверяет, является ли размер диапазона
  *        памяти кратным заданному размеру элемента.
  *
- * Эта функция вычисляет общий размер диапазона памяти и проверяет,
+ * Эта функция вычисляет размер диапазона памяти и проверяет,
  * является ли он кратным заданному размеру элемента.
  *
- * Если общий размер диапазона памяти не кратен размеру элемента,
+ * Если размер диапазона памяти не кратен размеру элемента,
  * функция возвращает `false`, в противном случае - `true`.
  *
  * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую диапазон памяти.
  * @param element_size Размер элемента,
  *                     с которым будет производиться проверка кратности.
- * @return `true`, если общий размер диапазона памяти кратен размеру элемента;
+ * @return `true`, если размер диапазона памяти кратен размеру элемента;
  *         `false` в противном случае.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
@@ -240,33 +241,7 @@ ae_memory_range_is_aligned(const void *self, ae_usize_t alignment);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_memory_range_is_multiple_of_total_size(const void *self, ae_usize_t element_size);
-
-/**
- * @brief Вычисляет количество элементов
- *        в диапазоне памяти на основе заданного размера элемента.
- *
- * Эта функция определяет, сколько элементов заданного размера помещается в диапазон памяти.
- * Если общий размер диапазона памяти не кратен размеру элемента,
- * функция вызывает ошибку времени выполнения.
- *
- * @param self Указатель на структуру ae_memory_range_t, представляющую диапазон памяти.
- * @param element_size Размер одного элемента, для которого будет производиться расчет.
- * @return Количество элементов в диапазоне памяти.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `nullptr`.
- * @throw AE_RUNTIME_ERROR_DIVISION_BY_ZERO
- *        Если `element_size` равен нулю.
- * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
- *        Если диапазон памяти недопустим
- *        (например, если `self` не является валидным диапазоном).
- * @throw AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE
- *        Если общий размер диапазона памяти не кратен размеру элемента.
- */
-AE_ATTRIBUTE(SYMBOL)
-ae_usize_t
-ae_memory_range_size(const void *self, ae_usize_t element_size);
+ae_memory_range_is_multiple_of_size(const void *self, ae_usize_t element_size);
 
 /**
  * @brief Устанавливает указатель на начало диапазона памяти.
@@ -425,7 +400,7 @@ ae_memory_range_set_with_validate(void *self, void *begin, void *end);
  *             представляющую диапазон памяти,
  *             который необходимо установить.
  * @param begin Указатель на начало диапазона памяти.
- * @param size_in_bytes Размер диапазона памяти в байтах.
+ * @param size Размер диапазона памяти в байтах.
  *
  * @return `true`, если диапазон памяти был успешно установлен;
  *         `false`, если указатель на `self` или `begin` равен `nullptr`,
@@ -440,7 +415,7 @@ ae_memory_range_set_with_validate(void *self, void *begin, void *end);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size_in_bytes);
+ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size);
 
 /**
  * @brief Устанавливает диапазон памяти с заданным начальным адресом
@@ -453,7 +428,7 @@ ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size_in_bytes)
  * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую диапазон памяти, который необходимо установить или очистить.
  * @param begin Указатель на начало диапазона памяти.
- * @param size_in_bytes Размер диапазона памяти в байтах.
+ * @param size Размер диапазона памяти в байтах.
  *
  * @return `true`, если диапазон памяти был успешно установлен или очищен;
  *         `false`, если указатель на `self` или `begin` равен `nullptr`,
@@ -464,7 +439,7 @@ ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size_in_bytes)
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_memory_range_set_with_fallback(void *self, void *begin, ae_usize_t size_in_bytes);
+ae_memory_range_set_with_fallback(void *self, void *begin, ae_usize_t size);
 
 /**
  * @brief Обменивает значения двух диапазонов памяти.
@@ -875,7 +850,7 @@ ae_memory_range_make_sub_range(void *self, void *begin, void *end);
  *
  * @param self Указатель на структуру `ae_memory_range_t`, представляющую текущий диапазон памяти.
  * @param index Индекс начала поддиапазона относительно текущего диапазона памяти.
- * @param length Длина поддиапазона.
+ * @param size Размер диапазона памяти в байтах.
  *
  * @return Новый диапазон памяти типа `ae_memory_range_t`,
  *         представляющий срез текущего диапазона.
@@ -883,14 +858,14 @@ ae_memory_range_make_sub_range(void *self, void *begin, void *end);
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
- *        Если указанный диапазон (от `index` до `index + length`)
+ *        Если указанный диапазон (от `index` до `index + size`)
  *        выходит за пределы текущего диапазона памяти.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти недопустим или некорректен.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_memory_range_t
-ae_memory_range_slice(void *self, ae_uoffset_t index, ae_uoffset_t length);
+ae_memory_range_slice(void *self, ae_uoffset_t index, ae_usize_t size);
 
 /**
  * @brief Вставляет значение в диапазон памяти по заданному индексу.

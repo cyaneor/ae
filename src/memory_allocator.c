@@ -24,10 +24,10 @@ ae_memory_allocator_get_dealloc_fn(const ae_memory_allocator_t *self)
 }
 
 void *
-ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size_in_bytes)
+ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size)
 {
     // Проверяем запрашиваемый размер. Если равен 0 выбрасываем исключение.
-    AE_RUNTIME_ASSERT(size_in_bytes, AE_RUNTIME_ERROR_ZERO_MEMORY_SIZE, nullptr)
+    AE_RUNTIME_ASSERT(size, AE_RUNTIME_ERROR_ZERO_MEMORY_SIZE, nullptr)
 
     // Получаем указатель на функцию распределения.
     ae_memory_allocator_alloc_fn *alloc_fn = ae_memory_allocator_get_alloc_fn(self);
@@ -35,8 +35,8 @@ ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size_in_
     // Проверяем инициализирован ли указатель на функцию распределения памяти.
     AE_RUNTIME_ASSERT(alloc_fn, AE_RUNTIME_ERROR_ALLOCATOR_FUNCTION_NOT_INITIALIZED, nullptr)
 
-    // Запрашиваем выделение памяти размером size_in_bytes у аллокатора
-    void *ptr = alloc_fn(size_in_bytes);
+    // Запрашиваем выделение памяти размером size у аллокатора
+    void *ptr = alloc_fn(size);
 
     // Проверяем, успешно ли выделена память. Если нет, генерируем ошибку.
     AE_RUNTIME_ASSERT(ptr, AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED, nullptr)
@@ -44,7 +44,7 @@ ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size_in_
 #if AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
     // Если включена опция заполнения нулями после выделения памяти,
     // заполняем выделенную память нулями от указателя ptr до конца выделенной области
-    ae_str_raw_fill(ptr, size_in_bytes, 0);
+    ae_str_raw_fill(ptr, size, 0);
 #endif
 
     // Возвращаем указатель на выделенную память
@@ -66,17 +66,17 @@ ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr)
 void *
 ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
                             void                        *old_ptr,
-                            ae_usize_t                   old_size_in_bytes,
-                            ae_usize_t                   new_size_in_bytes)
+                            ae_usize_t                   old_size,
+                            ae_usize_t                   new_size)
 {
     // Проверяем, если old_ptr равен нулю, выделяем новую память
-    AE_RUNTIME_EXPECT(old_ptr, ae_memory_allocator_alloc(self, new_size_in_bytes))
+    AE_RUNTIME_EXPECT(old_ptr, ae_memory_allocator_alloc(self, new_size))
 
     // Если размеры совпадают, возвращаем существующий указатель
-    AE_RUNTIME_EXPECT_IF(old_size_in_bytes == new_size_in_bytes, old_ptr)
+    AE_RUNTIME_EXPECT_IF(old_size == new_size, old_ptr)
 
     // Если новый размер равен 0, освобождаем память и возвращаем nullptr
-    if (new_size_in_bytes == 0)
+    if (new_size == 0)
     {
         ae_memory_allocator_free(self, old_ptr);
         return nullptr;
@@ -84,11 +84,11 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
 
     ae_runtime_try
     {
-        // Выделяем новую область памяти размером new_size_in_bytes
-        void *new_ptr = ae_memory_allocator_alloc(self, new_size_in_bytes);
+        // Выделяем новую область памяти размером new_size
+        void *new_ptr = ae_memory_allocator_alloc(self, new_size);
 
         // Копируем данные из старой области памяти в новую
-        ae_str_raw_copy(new_ptr, new_size_in_bytes, old_ptr, old_size_in_bytes);
+        ae_str_raw_copy(new_ptr, new_size, old_ptr, old_size);
 
         // Освобождаем старую область памяти
         ae_memory_allocator_free(self, old_ptr);
@@ -102,7 +102,7 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
 
 void *
 ae_memory_allocator_align_alloc(const ae_memory_allocator_t *self,
-                                ae_usize_t                   size_in_bytes,
+                                ae_usize_t                   size,
                                 ae_usize_t                   alignment_size)
 {
     // Проверка, является ли alignment_size степенью двойки.
@@ -114,7 +114,7 @@ ae_memory_allocator_align_alloc(const ae_memory_allocator_t *self,
     ae_runtime_try
     {
         // Выделение памяти с учетом смещения.
-        void *unaligned_ptr = ae_memory_allocator_alloc(self, size_in_bytes + alignment_offset);
+        void *unaligned_ptr = ae_memory_allocator_alloc(self, size + alignment_offset);
 
         // Вычисление выровненного адреса.
         ae_uintptr_t aligned_address = (ae_uintptr_t)unaligned_ptr + alignment_offset;
@@ -148,22 +148,21 @@ ae_memory_allocator_align_free(const ae_memory_allocator_t *self, void *ptr)
 void *
 ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
                                   void                        *old_ptr,
-                                  ae_usize_t                   old_size_in_bytes,
-                                  ae_usize_t                   new_size_in_bytes,
+                                  ae_usize_t                   old_size,
+                                  ae_usize_t                   new_size,
                                   ae_usize_t                   alignment_size)
 {
     // Проверка, является ли alignment_size степенью двойки.
     AE_RUNTIME_ASSERT(ae_bit_is_single(alignment_size), AE_RUNTIME_ERROR_NOT_POWER_OF_TWO, nullptr)
 
     // Если old_ptr равен нулю, выделяем новую память с выравниванием.
-    AE_RUNTIME_EXPECT(old_ptr,
-                      ae_memory_allocator_align_alloc(self, new_size_in_bytes, alignment_size))
+    AE_RUNTIME_EXPECT(old_ptr, ae_memory_allocator_align_alloc(self, new_size, alignment_size))
 
     // Если размеры совпадают, возвращаем существующий указатель.
-    AE_RUNTIME_EXPECT_IF(old_size_in_bytes == new_size_in_bytes, old_ptr)
+    AE_RUNTIME_EXPECT_IF(old_size == new_size, old_ptr)
 
     // Если новый размер равен 0, освобождаем память и возвращаем nullptr.
-    if (new_size_in_bytes == 0)
+    if (new_size == 0)
     {
         ae_memory_allocator_align_free(self, old_ptr);
         return nullptr;
@@ -172,10 +171,10 @@ ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
     ae_runtime_try
     {
         // Выделяем новую область памяти с учетом выравнивания.
-        void *new_ptr = ae_memory_allocator_align_alloc(self, new_size_in_bytes, alignment_size);
+        void *new_ptr = ae_memory_allocator_align_alloc(self, new_size, alignment_size);
 
         // Копируем данные из старой области памяти в новую.
-        ae_str_raw_copy(new_ptr, new_size_in_bytes, old_ptr, old_size_in_bytes);
+        ae_str_raw_copy(new_ptr, new_size, old_ptr, old_size);
 
         // Освобождаем старую область памяти.
         ae_memory_allocator_align_free(self, old_ptr);

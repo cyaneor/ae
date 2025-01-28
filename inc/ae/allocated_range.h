@@ -109,7 +109,7 @@ ae_allocated_range_exchange(void *self, void *other);
  *
  * @param[in] self Указатель на структуру типа ae_allocated_range_t,
  *                 представляющую выделенный диапазон памяти.
- * @param[in] size_in_bytes Новый размер диапазона в байтах.
+ * @param[in] size Новый размер диапазона в байтах.
  *
  * @return `true`, если память успешно перераспределена.
  *         `false` в случае неудачи.
@@ -130,7 +130,7 @@ ae_allocated_range_exchange(void *self, void *other);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_allocated_range_resize(void *self, ae_usize_t size_in_bytes);
+ae_allocated_range_resize(void *self, ae_usize_t size);
 
 AE_COMPILER(EXTERN_C_END)
 

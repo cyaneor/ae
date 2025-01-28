@@ -23,15 +23,15 @@ ae_allocated_range_exchange(void *self, void *other)
 }
 
 bool
-ae_allocated_range_resize(void *self, ae_usize_t size_in_bytes)
+ae_allocated_range_resize(void *self, ae_usize_t size)
 {
     ae_runtime_try
     {
-        void            *begin             = ae_memory_range_get_begin(self);
-        const ae_usize_t old_size_in_bytes = ae_memory_range_total_size(self);
+        void            *begin    = ae_memory_range_get_begin(self);
+        const ae_usize_t cur_size = ae_memory_range_size(self);
 
-        void *allocated = ae_runtime_allocator_realloc(begin, old_size_in_bytes, size_in_bytes);
-        ae_runtime_try_interrupt(ae_memory_range_set_with_fallback(self, allocated, size_in_bytes));
+        void *allocated = ae_runtime_allocator_realloc(begin, cur_size, size);
+        ae_runtime_try_interrupt(ae_memory_range_set_with_fallback(self, allocated, size));
     }
     ae_runtime_raise(false);
 }

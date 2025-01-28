@@ -97,7 +97,7 @@ ae_memory_allocator_get_dealloc_fn(const ae_memory_allocator_t *self);
  * @brief Выделяет память заданного размера с использованием аллокатора.
  *
  * Эта функция запрашивает выделение памяти
- * размером `size_in_bytes` у указанного аллокатора:
+ * размером `size` у указанного аллокатора:
  *
  * - Если размер равен 0 или если аллокатор не инициализирован,
  *   будет выброшено исключение.
@@ -106,8 +106,7 @@ ae_memory_allocator_get_dealloc_fn(const ae_memory_allocator_t *self);
  *
  * @param self Указатель на структуру аллокатора памяти,
  *             которая будет использоваться для выделения памяти.
- * @param size_in_bytes Размер памяти в байтах,
- *                      который необходимо выделить.
+ * @param size Размер памяти в байтах, который необходимо выделить.
  *
  * @return Указатель на выделенный блок памяти, или `null`,
  *         если выделение памяти не удалось.
@@ -115,7 +114,7 @@ ae_memory_allocator_get_dealloc_fn(const ae_memory_allocator_t *self);
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `null`.
  * @throw AE_RUNTIME_ERROR_ZERO_MEMORY_SIZE
- *        Если `size_in_bytes` равен 0.
+ *        Если `size` равен 0.
  * @throw AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED
  *        Если память не была успешно выделена.
  * @throw AE_RUNTIME_ERROR_ALLOCATOR_FUNCTION_NOT_INITIALIZED
@@ -128,7 +127,7 @@ ae_memory_allocator_get_dealloc_fn(const ae_memory_allocator_t *self);
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size_in_bytes);
+ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size);
 
 /**
  * @brief Освобождает ранее выделенный блок памяти.
@@ -167,7 +166,7 @@ ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr);
  * выделенного ранее с помощью аллокатора:
  *
  * - Если указатель `old_ptr` равен `null`,
- *   функция выделяет новую память размером `new_size_in_bytes`.
+ *   функция выделяет новую память размером `new_size`.
  * - Если размеры старого и нового блоков совпадают,
  *   возвращается указатель на существующий блок.
  * - Если новый размер равен 0, память освобождается,
@@ -177,8 +176,8 @@ ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr);
  *             которая будет использоваться для изменения размера памяти.
  * @param old_ptr Указатель на ранее выделенный блок памяти, который
  *                необходимо изменить.
- * @param old_size_in_bytes Размер ранее выделенного блока памяти в байтах.
- * @param new_size_in_bytes Новый размер блока памяти в байтах.
+ * @param old_size Размер ранее выделенного блока памяти в байтах.
+ * @param new_size Новый размер блока памяти в байтах.
  *
  * @return Указатель на новый блок памяти,
  *         или `null`, если новый размер равен 0.
@@ -193,7 +192,7 @@ ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr);
  *        Если функция освобождения памяти не инициализирована.
  *
  * @note Если `old_ptr` равен `null`, будет выделена новая память.
- *       Если `new_size_in_bytes` равен 0, память будет освобождена.
+ *       Если `new_size` равен 0, память будет освобождена.
  *
  * @see ae_memory_allocator_alloc
  * @see ae_memory_allocator_free
@@ -202,13 +201,13 @@ AE_ATTRIBUTE(SYMBOL)
 void *
 ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
                             void                        *old_ptr,
-                            ae_usize_t                   old_size_in_bytes,
-                            ae_usize_t                   new_size_in_bytes);
+                            ae_usize_t                   old_size,
+                            ae_usize_t                   new_size);
 
 /**
  * @brief Выделяет память с заданным выравниванием.
  *
- * Эта функция выделяет блок памяти размером `size_in_bytes`,
+ * Эта функция выделяет блок памяти размером `size`,
  * выровненный по границе, заданной `alignment_size`:
  *
  * - Выравнивание должно быть степенью двойки.
@@ -217,8 +216,7 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
  *
  * @param self Указатель на структуру аллокатора памяти,
  *             которая будет использоваться для выделения памяти.
- * @param size_in_bytes Размер памяти в байтах,
- *                      который необходимо выделить.
+ * @param size Размер памяти в байтах, который необходимо выделить.
  * @param alignment_size Размер выравнивания в байтах,
  *                       который должен быть степенью двойки.
  *
@@ -242,7 +240,7 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
 AE_ATTRIBUTE(SYMBOL)
 void *
 ae_memory_allocator_align_alloc(const ae_memory_allocator_t *self,
-                                ae_usize_t                   size_in_bytes,
+                                ae_usize_t                   size,
                                 ae_usize_t                   alignment_size);
 
 /**
@@ -292,8 +290,8 @@ ae_memory_allocator_align_free(const ae_memory_allocator_t *self, void *ptr);
  *             которая будет использоваться для изменения размера памяти.
  * @param old_ptr Указатель на ранее выделенный выровненный блок памяти,
  *                который необходимо изменить.
- * @param old_size_in_bytes Размер ранее выделенного блока памяти в байтах.
- * @param new_size_in_bytes Новый размер блока памяти в байтах.
+ * @param old_size Размер ранее выделенного блока памяти в байтах.
+ * @param new_size Новый размер блока памяти в байтах.
  * @param alignment_size Размер выравнивания в байтах,
  *                       который должен быть степенью двойки.
  *
@@ -321,8 +319,8 @@ AE_ATTRIBUTE(SYMBOL)
 void *
 ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
                                   void                        *old_ptr,
-                                  ae_usize_t                   old_size_in_bytes,
-                                  ae_usize_t                   new_size_in_bytes,
+                                  ae_usize_t                   old_size,
+                                  ae_usize_t                   new_size,
                                   ae_usize_t                   alignment_size);
 
 AE_COMPILER(EXTERN_C_END)

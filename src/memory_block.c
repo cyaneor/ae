@@ -17,12 +17,13 @@ ae_memory_block_get_element_size(const void *self)
 ae_usize_t
 ae_memory_block_size(const void *self)
 {
-    ae_runtime_try
-    {
-        const ae_usize_t element_size = ae_memory_block_get_element_size(self);
-        ae_runtime_try_interrupt(ae_memory_range_size(self, element_size));
-    }
-    ae_runtime_raise(0);
+    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
+    AE_RUNTIME_ASSERT(ae_memory_range_is_multiple_of_size(self, element_size),
+                      AE_RUNTIME_ERROR_SIZE_IS_NOT_MULTIPLE_OF_ELEMENT_SIZE,
+                      0)
+
+    const ae_usize_t size = ae_memory_range_size(self);
+    return size / element_size;
 }
 
 bool
