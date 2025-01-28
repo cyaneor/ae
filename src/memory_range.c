@@ -283,13 +283,21 @@ ae_memory_range_make(void *begin, void *end)
 }
 
 ae_memory_range_t
-ae_memory_range_slice(void *self, void *begin, void *end)
+ae_memory_range_make_sub_range(void *self, void *begin, void *end)
 {
     AE_RUNTIME_ASSERT(ae_memory_range_has_range(self, begin, end),
                       AE_RUNTIME_ERROR_OUT_OF_RANGE,
                       ae_memory_range_make_empty())
 
     return (ae_memory_range_t)ae_memory_range_initializer(begin, end);
+}
+
+ae_memory_range_t
+ae_memory_range_slice(void *self, ae_uoffset_t index, ae_uoffset_t length)
+{
+    void *begin = ae_memory_range_at(self, index, false);
+    void *end   = ae_memory_range_at(self, index + length, false);
+    return ae_memory_range_make_sub_range(self, begin, end);
 }
 
 void *
