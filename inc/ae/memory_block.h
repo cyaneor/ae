@@ -373,31 +373,6 @@ void *
 ae_memory_block_back(const void *self);
 
 /**
- * @brief Проверяет, находится ли диапазон индексов в пределах блока памяти.
- *
- * Эта функция определяет,
- * находятся ли заданные начальный и конечный индексы в пределах блока памяти.
- *
- * @param self Указатель на структуру #ae_memory_block, представляющую блок памяти.
- * @param start_index Начальный индекс диапазона, который необходимо проверить.
- * @param end_index Конечный индекс диапазона, который необходимо проверить.
- *
- * @return `true`, если оба индекса находятся в пределах блока памяти;
- *         `false` в противном случае.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` равен `nullptr`.
- * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
- *        Если доступ к элементу не удался из-за недопустимого диапазона памяти.
- * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
- *        Если блок памяти не является действительным,
- *        например, если его размер не кратен размеру элемента.
- */
-AE_ATTRIBUTE(SYMBOL)
-bool
-ae_memory_block_has_index_range(const void *self, ae_usize_t start_index, ae_usize_t end_index);
-
-/**
  * @brief Проверяет, равен ли размер элемента заданному значению.
  *
  * Эта функция сравнивает размер элемента в блоке памяти с заданным значением.
@@ -457,6 +432,93 @@ ae_memory_block_is_element_size_equal(const void *self, const void *other);
 AE_ATTRIBUTE(SYMBOL)
 bool
 ae_memory_block_is_equal(const void *self, const void *other);
+
+/**
+ * @brief Создаёт и возвращает пустой блок памяти.
+ *
+ * Эта функция создаёт и возвращает пустой блок памяти с заданным размером элемента.
+ * Блок памяти инициализируется как пустой, что означает, что его диапазон не охватывает
+ * фактические данные, но предоставляет память с указанным размером элемента.
+ *
+ * @param element_size Размер элемента в блоке памяти,
+ *                     который будет создан.
+ *
+ * @return Возвращает инициализированный пустой блок памяти.
+ *
+ * @note Пустой блок памяти может быть использован для дальнейшей инициализации или для случаев,
+ *       когда нужно создать блок памяти с определённым размером, но без фактических данных.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_memory_block_t
+ae_memory_block_make_empty(ae_usize_t element_size);
+
+/**
+ * @brief Создаёт и инициализирует блок памяти.
+ *
+ * Эта функция создаёт и инициализирует блок памяти, задавая его начало, конец и размер элемента.
+ * Функция выполняет проверку валидности блока памяти, и если блок памяти недействителен,
+ * генерирует ошибку времени выполнения с помощью макроса `AE_RUNTIME_ASSERT`.
+ *
+ * @param begin Указатель на начало области памяти, которая будет использоваться в блоке.
+ * @param end Указатель на конец области памяти.
+ * @param element_size Размер элемента в блоке памяти.
+ *
+ * @return Возвращает инициализированный блок памяти типа `ae_memory_block_t`,
+ *         если блок памяти валиден. В противном случае вызывает ошибку времени выполнения.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_DIVISION_BY_ZERO
+ *        Если `element_size` равен нулю.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если диапазон памяти недопустим
+ *        (если `self` не является валидным диапазоном).
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если блок памяти не является действительным,
+ *        например, если его размер не кратен размеру элемента.
+ *
+ * @see ae_memory_block_make_empty
+ * @see ae_memory_block_is_valid
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_memory_block_t
+ae_memory_block_make(void *begin, void *end, ae_usize_t element_size);
+
+/**
+ * @brief Создаёт срез блока памяти.
+ *
+ * Эта функция создаёт новый блок памяти, который является срезом исходного блока памяти,
+ * начиная с указанного индекса и длины. Новый блок памяти создаётся с использованием
+ * того же размера элемента, что и у исходного блока памяти.
+ *
+ * Функция использует функцию `ae_memory_block_at` для вычисления начала
+ * и конца среза и вызывает `ae_memory_block_make_with_clone_element_size`
+ * для создания нового блока.
+ *
+ * @param self Указатель на исходный блок памяти,
+ *             из которого будет извлечён срез.
+ * @param index Индекс в исходном блоке,
+ *              с которого начинается срез.
+ * @param length Длина среза, т.е. количество элементов,
+ *               которое должен включать новый блок памяти.
+ *
+ * @return Возвращает новый блок памяти типа `ae_memory_block_t`,
+ *         который является срезом исходного блока памяти.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если указанный диапазон (от `index` до `index + length`)
+ *        выходит за пределы исходного блока памяти.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK
+ *        Если размер исходного блока памяти не кратен размеру элемента.
+ *
+ * @see ae_memory_block_at
+ * @see ae_memory_block_make_with_clone_element_size
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_memory_block_t
+ae_memory_block_slice(void *self, ae_usize_t index, ae_usize_t length);
 
 AE_COMPILER(EXTERN_C_END)
 

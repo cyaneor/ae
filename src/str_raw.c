@@ -3,9 +3,7 @@
 #include <ae/runtime_error_code.h>
 #include <ae/runtime_assert.h>
 #include <ae/memory_raw.h>
-#include <ae/ptr_util.h>
 #include <ae/nullptr.h>
-#include <ae/elif.h>
 
 ae_u8_t *
 ae_str_raw_fill_u8(ae_u8_t *ptr, ae_usize_t len, ae_u8_t value)
@@ -38,25 +36,8 @@ ae_str_raw_fill_u64(ae_u64_t *ptr, ae_usize_t len, ae_u64_t value)
 void *
 ae_str_raw_fill(void *ptr, ae_usize_t len, ae_u8_t value)
 {
-    if (ae_numeric_has_zero_remainder(len, AE_U64_T_SIZE))
-    {
-        len /= AE_U64_T_SIZE;
-        const ae_u64_t _value = ae_numeric_repeat64(value);
-        return ae_str_raw_fill_u64(ptr, len, _value);
-    }
-    elif (ae_numeric_has_zero_remainder(len, AE_U32_T_SIZE))
-    {
-        len /= AE_U32_T_SIZE;
-        const ae_u32_t _value = ae_numeric_repeat32(value);
-        return ae_str_raw_fill_u32(ptr, len, _value);
-    }
-    elif (ae_numeric_has_zero_remainder(len, AE_U16_T_SIZE))
-    {
-        len /= AE_U16_T_SIZE;
-        const ae_u16_t _value = ae_numeric_repeat16(value);
-        return ae_str_raw_fill_u16(ptr, len, _value);
-    }
-    return ae_str_raw_fill_u8(ptr, len, value);
+    AE_RUNTIME_ASSERT(ptr, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    return ae_memory_raw_fill(ptr, ptr + len, value);
 }
 
 const ae_u8_t *
@@ -198,28 +179,7 @@ ae_str_raw_copy_u64(ae_u64_t *dst, ae_usize_t dst_len, const ae_u64_t *src, ae_u
 void *
 ae_str_raw_copy(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len)
 {
-    if (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U64_T_SIZE))
-    {
-        dst_len /= AE_U64_T_SIZE;
-        src_len /= AE_U64_T_SIZE;
-
-        return ae_str_raw_copy_u64(dst, dst_len, src, src_len);
-    }
-    elif (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U32_T_SIZE))
-    {
-        dst_len /= AE_U32_T_SIZE;
-        src_len /= AE_U32_T_SIZE;
-
-        return ae_str_raw_copy_u32(dst, dst_len, src, src_len);
-    }
-    elif (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U16_T_SIZE))
-    {
-        dst_len /= AE_U16_T_SIZE;
-        src_len /= AE_U16_T_SIZE;
-
-        return ae_str_raw_copy_u16(dst, dst_len, src, src_len);
-    }
-    return ae_str_raw_copy_u8(dst, dst_len, src, src_len);
+    return ae_memory_raw_copy(dst, dst + dst_len, src, src + src_len);
 }
 
 ae_u8_t *
@@ -253,28 +213,7 @@ ae_str_raw_copy_rev_u64(ae_u64_t *dst, ae_usize_t dst_len, const ae_u64_t *src, 
 void *
 ae_str_raw_copy_rev(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len)
 {
-    if (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U64_T_SIZE))
-    {
-        dst_len /= AE_U64_T_SIZE;
-        src_len /= AE_U64_T_SIZE;
-
-        return ae_str_raw_copy_rev_u64(dst, dst_len, src, src_len);
-    }
-    elif (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U32_T_SIZE))
-    {
-        dst_len /= AE_U32_T_SIZE;
-        src_len /= AE_U32_T_SIZE;
-
-        return ae_str_raw_copy_rev_u32(dst, dst_len, src, src_len);
-    }
-    elif (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U16_T_SIZE))
-    {
-        dst_len /= AE_U16_T_SIZE;
-        src_len /= AE_U16_T_SIZE;
-
-        return ae_str_raw_copy_rev_u16(dst, dst_len, src, src_len);
-    }
-    return ae_str_raw_copy_rev_u8(dst, dst_len, src, src_len);
+    return ae_memory_raw_copy_rev(dst, dst + dst_len, src, src + src_len);
 }
 
 ae_u8_t *
@@ -308,28 +247,7 @@ ae_str_raw_move_u64(ae_u64_t *dst, ae_usize_t dst_len, const ae_u64_t *src, ae_u
 void *
 ae_str_raw_move(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len)
 {
-    if (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U64_T_SIZE))
-    {
-        dst_len /= AE_U64_T_SIZE;
-        src_len /= AE_U64_T_SIZE;
-
-        return ae_str_raw_move_u64(dst, dst_len, src, src_len);
-    }
-    elif (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U32_T_SIZE))
-    {
-        dst_len /= AE_U32_T_SIZE;
-        src_len /= AE_U32_T_SIZE;
-
-        return ae_str_raw_move_u32(dst, dst_len, src, src_len);
-    }
-    elif (ae_numeric_has_zero_remainder_both(dst_len, src_len, AE_U16_T_SIZE))
-    {
-        dst_len /= AE_U16_T_SIZE;
-        src_len /= AE_U16_T_SIZE;
-
-        return ae_str_raw_move_u16(dst, dst_len, src, src_len);
-    }
-    return ae_str_raw_move_u8(dst, dst_len, src, src_len);
+    return ae_memory_raw_move(dst, dst + dst_len, src, src + src_len);
 }
 
 const ae_u8_t *

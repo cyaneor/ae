@@ -56,8 +56,8 @@ AE_COMPILER(EXTERN_C_BEGIN)
  *         (указатель на `end`). Если произошла ошибка (например, `begin` является NULL),
  *         возвращается `NULL`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c begin или @c end является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u8_t *
@@ -80,8 +80,8 @@ ae_memory_raw_fill_u8(ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value);
  *         (указатель на `end`). Если произошла ошибка (например, `begin` является NULL),
  *         возвращается `NULL`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c begin или @c end является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u16_t *
@@ -104,8 +104,8 @@ ae_memory_raw_fill_u16(ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value);
  *         (указатель на `end`). Если произошла ошибка (например, `begin` является NULL),
  *         возвращается `NULL`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c begin или @c end является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
  */
 ae_u32_t *
 ae_memory_raw_fill_u32(ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value);
@@ -127,12 +127,16 @@ ae_memory_raw_fill_u32(ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value);
  *         (указатель на `end`). Если произошла ошибка (например, `begin` является NULL),
  *         возвращается `NULL`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c begin или @c end является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u64_t *
 ae_memory_raw_fill_u64(ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value);
+
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_raw_fill(void *begin, const void *end, ae_u8_t value);
 
 /**
  * @brief Находит первое вхождение заданного значения в диапазоне памяти.
@@ -149,8 +153,8 @@ ae_memory_raw_fill_u64(ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value);
  * @return Указатель на первое вхождение найденного значения в диапазоне памяти.
  *         Если значение не найдено, возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c begin или @c end является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u8_t *
@@ -171,8 +175,8 @@ ae_memory_raw_find_value_u8(const ae_u8_t *begin, const ae_u8_t *end, ae_u8_t va
  * @return Указатель на первое вхождение найденного значения в диапазоне памяти.
  *         Если значение не найдено, возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c begin или @c end является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u16_t *
@@ -194,8 +198,8 @@ ae_memory_raw_find_value_u16(const ae_u16_t *begin, const ae_u16_t *end, ae_u16_
  * @return Указатель на первое вхождение найденного значения в диапазоне памяти.
  *         Если значение не найдено, возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c begin или @c end является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u32_t *
@@ -216,8 +220,8 @@ ae_memory_raw_find_value_u32(const ae_u32_t *begin, const ae_u32_t *end, ae_u32_
  * @return Указатель на первое вхождение найденного значения в диапазоне памяти.
  *         Если значение не найдено, возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c begin или @c end является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u64_t *
@@ -244,8 +248,8 @@ ae_memory_raw_find_value_u64(const ae_u64_t *begin, const ae_u64_t *end, ae_u64_
  *         который не совпал с соответствующим элементом во втором диапазоне.
  *         Если оба диапазона равны (по длине и содержимому), возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c lhs или @c rhs является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c lhs или @c rhs является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u8_t *
@@ -276,8 +280,8 @@ ae_memory_raw_compare_u8(const ae_u8_t *lhs,
  *         который не совпал с соответствующим элементом во втором диапазоне.
  *         Если оба диапазона равны (по длине и содержимому), возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c lhs или @c rhs является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c lhs или @c rhs является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u16_t *
@@ -308,8 +312,8 @@ ae_memory_raw_compare_u16(const ae_u16_t *lhs,
  *         который не совпал с соответствующим элементом во втором диапазоне.
  *         Если оба диапазона равны (по длине и содержимому), возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c lhs или @c rhs является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c lhs или @c rhs является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u32_t *
@@ -340,8 +344,8 @@ ae_memory_raw_compare_u32(const ae_u32_t *lhs,
  *         который не совпал с соответствующим элементом во втором диапазоне.
  *         Если оба диапазона равны (по длине и содержимому), возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c lhs или @c rhs является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c lhs или @c rhs является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u64_t *
@@ -360,7 +364,6 @@ ae_memory_raw_compare_u64(const ae_u64_t *lhs,
  * - Если элементы в соответствующих позициях диапазонов не совпадают,
  *   функция возвращает указатель на первый элемент первого диапазона,
  *   который не совпал с элементом второго диапазона.
- *
  * - Если оба диапазона идентичны (по длине и содержимому),
  *   возвращается `nullptr`.
  *
@@ -373,8 +376,8 @@ ae_memory_raw_compare_u64(const ae_u64_t *lhs,
  *         который не совпал с соответствующим элементом во втором диапазоне.
  *         Если оба диапазона равны (по длине и содержимому), возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c lhs или @c rhs является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c lhs или @c rhs является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u8_t *
@@ -406,8 +409,8 @@ ae_memory_raw_compare_rev_u8(const ae_u8_t *lhs,
  *         который не совпал с соответствующим элементом во втором диапазоне.
  *         Если оба диапазона равны (по длине и содержимому), возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c lhs или @c rhs является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c lhs или @c rhs является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u16_t *
@@ -426,7 +429,6 @@ ae_memory_raw_compare_rev_u16(const ae_u16_t *lhs,
  * - Если элементы в соответствующих позициях диапазонов не совпадают,
  *   функция возвращает указатель на первый элемент первого диапазона,
  *   который не совпал с элементом второго диапазона.
- *
  * - Если оба диапазона идентичны (по длине и содержимому),
  *   возвращается `nullptr`.
  *
@@ -439,8 +441,8 @@ ae_memory_raw_compare_rev_u16(const ae_u16_t *lhs,
  *         который не совпал с соответствующим элементом во втором диапазоне.
  *         Если оба диапазона равны (по длине и содержимому), возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c lhs или @c rhs является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c lhs или @c rhs является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u32_t *
@@ -459,7 +461,6 @@ ae_memory_raw_compare_rev_u32(const ae_u32_t *lhs,
  * - Если элементы в соответствующих позициях диапазонов не совпадают,
  *   функция возвращает указатель на первый элемент первого диапазона,
  *   который не совпал с элементом второго диапазона.
- *
  * - Если оба диапазона идентичны (по длине и содержимому),
  *   возвращается `nullptr`.
  *
@@ -472,8 +473,8 @@ ae_memory_raw_compare_rev_u32(const ae_u32_t *lhs,
  *         который не совпал с соответствующим элементом во втором диапазоне.
  *         Если оба диапазона равны (по длине и содержимому), возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c lhs или @c rhs является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c lhs или @c rhs является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u64_t *
@@ -490,8 +491,7 @@ ae_memory_raw_compare_rev_u64(const ae_u64_t *lhs,
  *
  * - Если оба указателя `dst` и `src` не равны `NULL`, функция копирует данные из диапазона,
  *   определенного указателем на начало и конец диапазона исходных данных, в диапазон назначения.
- * - Копирование происходит побайтово,
- *   пока не будет достигнут конец одного из диапазонов.
+ * - Копирование происходит побайтово, пока не будет достигнут конец одного из диапазонов.
  *
  * @param dst Указатель на начало целевого диапазона памяти.
  * @param dst_end Указатель на конец целевого диапазона памяти.
@@ -501,8 +501,8 @@ ae_memory_raw_compare_rev_u64(const ae_u64_t *lhs,
  * @return Указатель на следующий элемент в целевом диапазоне после завершения копирования.
  *         Это может быть равно `dst_end`, если копирование завершено.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u8_t *
@@ -520,8 +520,7 @@ ae_memory_raw_copy_u8(ae_u8_t       *dst,
  *
  * - Если оба указателя `dst` и `src` не равны `NULL`, функция копирует данные из диапазона,
  *   определенного указателями на начало и конец диапазона исходных данных, в диапазон назначения.
- * - Копирование происходит поблочно,
- *   пока не будет достигнут конец одного из диапазонов.
+ * - Копирование происходит поблочно, пока не будет достигнут конец одного из диапазонов.
  *
  * @param dst Указатель на начало целевого диапазона памяти.
  * @param dst_end Указатель на конец целевого диапазона памяти.
@@ -531,8 +530,8 @@ ae_memory_raw_copy_u8(ae_u8_t       *dst,
  * @return Указатель на следующий элемент в целевом диапазоне после завершения копирования.
  *         Это может быть равно `dst_end`, если копирование завершено.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u16_t *
@@ -550,8 +549,7 @@ ae_memory_raw_copy_u16(ae_u16_t       *dst,
  *
  * - Если оба указателя `dst` и `src` не равны `NULL`, функция копирует данные из диапазона,
  *   определенного указателями на начало и конец диапазона исходных данных, в диапазон назначения.
- * - Копирование происходит поблочно,
- *   пока не будет достигнут конец одного из диапазонов.
+ * - Копирование происходит поблочно, пока не будет достигнут конец одного из диапазонов.
  *
  * @param dst Указатель на начало целевого диапазона памяти.
  * @param dst_end Указатель на конец целевого диапазона памяти.
@@ -561,8 +559,8 @@ ae_memory_raw_copy_u16(ae_u16_t       *dst,
  * @return Указатель на следующий элемент в целевом диапазоне после завершения копирования.
  *         Это может быть равно `dst_end`, если копирование завершено.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u32_t *
@@ -580,8 +578,7 @@ ae_memory_raw_copy_u32(ae_u32_t       *dst,
  *
  * - Если оба указателя `dst` и `src` не равны `NULL`, функция копирует данные из диапазона,
  *   определенного указателями на начало и конец диапазона исходных данных, в диапазон назначения.
- * - Копирование происходит поблочно,
- *   пока не будет достигнут конец одного из диапазонов.
+ * - Копирование происходит поблочно, пока не будет достигнут конец одного из диапазонов.
  *
  * @param dst Указатель на начало целевого диапазона памяти.
  * @param dst_end Указатель на конец целевого диапазона памяти.
@@ -591,8 +588,8 @@ ae_memory_raw_copy_u32(ae_u32_t       *dst,
  * @return Указатель на следующий элемент в целевом диапазоне после завершения копирования.
  *         Это может быть равно `dst_end`, если копирование завершено.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u64_t *
@@ -600,6 +597,31 @@ ae_memory_raw_copy_u64(ae_u64_t       *dst,
                        const ae_u64_t *dst_end,
                        const ae_u64_t *src,
                        const ae_u64_t *src_end);
+
+/**
+ * @brief Копирует данные из одного диапазона памяти в другой с учётом выравнивания.
+ *
+ * Эта функция копирует данные из исходного диапазона памяти в целевой диапазон, с учётом
+ * выравнивания по различным типам данных, таким как 64-битные, 32-битные, 16-битные и 8-битные.
+ * В зависимости от выравнивания указателей, функция вызывает соответствующую функцию копирования
+ * для нужного размера данных.
+ *
+ * @param dst Указатель на начало целевого диапазона памяти.
+ * @param dst_end Указатель на конец целевого диапазона памяти.
+ * @param src Указатель на начало исходного диапазона памяти.
+ * @param src_end Указатель на конец исходного диапазона памяти.
+ *
+ * @return Возвращает указатель на новый целевой диапазон памяти (в зависимости от типа данных).
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
+ *
+ * @note Функция использует различные типы выравнивания: 64-битные, 32-битные, 16-битные и 8-битные.
+ *       Для каждого типа данных используется соответствующая функция копирования.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_raw_copy(void *dst, const void *dst_end, const void *src, const void *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой в обратном порядке.
@@ -622,8 +644,8 @@ ae_memory_raw_copy_u64(ae_u64_t       *dst,
  *         Это будет тот элемент, в который было скопировано последнее значение из исходного
  *         диапазона. Если диапазоны пусты или указатели `NULL`, возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u8_t *
@@ -653,8 +675,8 @@ ae_memory_raw_copy_rev_u8(const ae_u8_t *dst,
  *         Это будет тот элемент, в который было скопировано последнее значение из исходного
  *         диапазона. Если диапазоны пусты или указатели `NULL`, возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u16_t *
@@ -684,8 +706,8 @@ ae_memory_raw_copy_rev_u16(const ae_u16_t *dst,
  *         Это будет тот элемент, в который было скопировано последнее значение из исходного
  *         диапазона. Если диапазоны пусты или указатели `NULL`, возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u32_t *
@@ -715,8 +737,8 @@ ae_memory_raw_copy_rev_u32(const ae_u32_t *dst,
  *         Это будет тот элемент, в который было скопировано последнее значение из исходного
  *         диапазона. Если диапазоны пусты или указатели `NULL`, возвращается `nullptr`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u64_t *
@@ -724,6 +746,31 @@ ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
                            ae_u64_t       *dst_end,
                            const ae_u64_t *src,
                            const ae_u64_t *src_end);
+
+/**
+ * @brief Копирует данные в обратном порядке с учётом выравнивания.
+ *
+ * Эта функция копирует данные из исходного диапазона памяти в целевой диапазон в обратном порядке,
+ * с учётом выравнивания по различным типам данных, таким как 64-битные, 32-битные, 16-битные и
+ * 8-битные. В зависимости от выравнивания указателей она вызывает соответствующую функцию для
+ * копирования данных с нужным размером.
+ *
+ * @param dst Указатель на начало целевого диапазона памяти.
+ * @param dst_end Указатель на конец целевого диапазона памяти.
+ * @param src Указатель на начало исходного диапазона памяти.
+ * @param src_end Указатель на конец исходного диапазона памяти.
+ *
+ * @return Возвращает указатель на новый целевой диапазон памяти (в зависимости от типа данных).
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
+ *
+ * @note Функция использует различные типы выравнивания: 64-битные, 32-битные, 16-битные и 8-битные.
+ *       Для каждого типа данных используется отдельная функция копирования.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_raw_copy_rev(const void *dst, void *dst_end, const void *src, const void *src_end);
 
 /**
  * @brief Перемещает данные из одного диапазона памяти в другой.
@@ -753,8 +800,8 @@ ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
  *         Если диапазоны памяти не были перемещены,
  *         возвращается указатель на `dst`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  *
  * @note Эта функция проверяет на перекрытие диапазонов памяти
  *       и выбирает соответствующую функцию копирования данных.
@@ -794,8 +841,8 @@ ae_memory_raw_move_u8(ae_u8_t *dst, ae_u8_t *dst_end, const ae_u8_t *src, const 
  *         Если диапазоны памяти не были перемещены,
  *         возвращается указатель на `dst`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  *
  * @note Эта функция проверяет на перекрытие диапазонов памяти
  *       и выбирает соответствующую функцию копирования данных.
@@ -816,9 +863,8 @@ ae_memory_raw_move_u16(ae_u16_t       *dst,
  * Эта функция выполняет перемещение данных
  * между двумя диапазонами памяти.
  *
- * - Если диапазоны памяти перекрываются,
- *   то данные копируются в обратном порядке
- *   с использованием функции `ae_memory_raw_copy_rev_u32`.
+ * - Если диапазоны памяти перекрываются, то данные копируются
+ *   в обратном порядке с использованием функции `ae_memory_raw_copy_rev_u32`.
  * - В случае отсутствия перекрытия диапазонов,
  *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_u32`.
  *
@@ -838,8 +884,8 @@ ae_memory_raw_move_u16(ae_u16_t       *dst,
  *         Если диапазоны памяти не были перемещены,
  *         возвращается указатель на `dst`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  *
  * @note Эта функция проверяет на перекрытие диапазонов памяти
  *       и выбирает соответствующую функцию копирования данных.
@@ -882,8 +928,8 @@ ae_memory_raw_move_u32(ae_u32_t       *dst,
  *         Если диапазоны памяти не были перемещены,
  *         возвращается указатель на `dst`.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  *
  * @note Эта функция проверяет на перекрытие диапазонов памяти
  *       и выбирает соответствующую функцию копирования данных.
@@ -897,6 +943,32 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
                        ae_u64_t       *dst_end,
                        const ae_u64_t *src,
                        const ae_u64_t *src_end);
+
+/**
+ * @brief Перемещает данные из одного диапазона памяти в другой с учётом выравнивания.
+ *
+ * Эта функция выполняет перемещение данных из исходного диапазона памяти в целевой диапазон
+ * с учётом различных типов данных, таких как 64-битные, 32-битные, 16-битные или 8-битные значения.
+ * В зависимости от выравнивания указателей, она вызывает соответствующую функцию для перемещения
+ * данных с нужным размером.
+ *
+ * @param dst Указатель на начало целевого диапазона памяти.
+ * @param dst_end Указатель на конец целевого диапазона памяти.
+ * @param src Указатель на начало исходного диапазона памяти.
+ * @param src_end Указатель на конец исходного диапазона памяти.
+ *
+ * @return Возвращает указатель на новый целевой диапазон памяти
+ *         (в зависимости от типа данных).
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
+ *
+ * @note Функция использует различные типы выравнивания: 64-битные, 32-битные, 16-битные и 8-битные.
+ *       Для каждого типа данных используется отдельная функция перемещения.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_raw_move(void *dst, void *dst_end, const void *src, const void *src_end);
 
 /**
  * @brief Находит первое вхождение последовательности
@@ -914,8 +986,8 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
  * @return Указатель на первый элемент в массиве `lhs`, с которого начинается последовательность,
  *         совпадающая с `rhs`, или nullptr, если совпадение не найдено.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u8_t *
@@ -940,8 +1012,8 @@ ae_memory_raw_find_u8(const ae_u8_t *lhs,
  * @return Указатель на первый элемент в массиве `lhs`, с которого начинается последовательность,
  *         совпадающая с `rhs`, или nullptr, если совпадение не найдено.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u16_t *
@@ -966,8 +1038,8 @@ ae_memory_raw_find_u16(const ae_u16_t *lhs,
  * @return Указатель на первый элемент в массиве `lhs`, с которого начинается последовательность,
  *         совпадающая с `rhs`, или nullptr, если совпадение не найдено.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u32_t *
@@ -992,8 +1064,8 @@ ae_memory_raw_find_u32(const ae_u32_t *lhs,
  * @return Указатель на первый элемент в массиве `lhs`, с которого начинается последовательность,
  *         совпадающая с `rhs`, или nullptr, если совпадение не найдено.
  *
- * @throws AE_RUNTIME_ERROR_NULL_POINTER
- *         Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u64_t *
@@ -1020,6 +1092,9 @@ ae_memory_raw_find_u64(const ae_u64_t *lhs,
  *
  * @return Указатель на первое вхождение подстроки `rhs` в области памяти от `lhs`
  *         до `lhs_end` в обратном порядке, или `nullptr`, если подстрока не найдена.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  *
  * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_rev_u8`,
  *       чтобы сравнить подстроку с участком памяти. Также функция включает
@@ -1051,6 +1126,9 @@ ae_memory_raw_find_rev_u8(const ae_u8_t *lhs,
  * @return Указатель на первое вхождение подстроки `rhs` в области памяти от `lhs`
  *         до `lhs_end` в обратном порядке, или `nullptr`, если подстрока не найдена.
  *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
+ *
  * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_rev_u8`,
  *       чтобы сравнить подстроку с участком памяти. Также функция включает
  *       проверку на нулевые указатели с помощью макроса `AE_RUNTIME_ASSERT`.
@@ -1081,6 +1159,9 @@ ae_memory_raw_find_rev_u16(const ae_u16_t *lhs,
  * @return Указатель на первое вхождение подстроки `rhs` в области памяти от `lhs`
  *         до `lhs_end` в обратном порядке, или `nullptr`, если подстрока не найдена.
  *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
+ *
  * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_rev_u8`,
  *       чтобы сравнить подстроку с участком памяти. Также функция включает
  *       проверку на нулевые указатели с помощью макроса `AE_RUNTIME_ASSERT`.
@@ -1110,6 +1191,9 @@ ae_memory_raw_find_rev_u32(const ae_u32_t *lhs,
  *
  * @return Указатель на первое вхождение подстроки `rhs` в области памяти от `lhs`
  *         до `lhs_end` в обратном порядке, или `nullptr`, если подстрока не найдена.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  *
  * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_rev_u8`,
  *       чтобы сравнить подстроку с участком памяти. Также функция включает

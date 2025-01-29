@@ -1,7 +1,6 @@
-#include "ae/offset.h"
-#include "ae/runtime_throw.h"
 #include <ae/memory_block.h>
 /* Дополнительные модули */
+#include <ae/memory_block_initializer.h>
 #include <ae/runtime_error_code.h>
 #include <ae/runtime_assert.h>
 #include <ae/memory_range.h>
@@ -78,8 +77,12 @@ ae_memory_block_element_offset(const void *self, ae_usize_t index)
 void *
 ae_memory_block_at_from_begin(const void *self, ae_usize_t index)
 {
-    const ae_uoffset_t offset = ae_memory_block_element_offset(self, index);
-    return ae_memory_range_at(self, offset, false);
+    ae_runtime_try
+    {
+        const ae_uoffset_t offset = ae_memory_block_element_offset(self, index);
+        ae_runtime_try_interrupt(ae_memory_range_at(self, offset, false));
+    }
+    ae_runtime_raise(nullptr);
 }
 
 void *
@@ -109,14 +112,6 @@ ae_memory_block_back(const void *self)
 }
 
 bool
-ae_memory_block_has_index_range(const void *self, ae_usize_t start_index, ae_usize_t end_index)
-{
-    return ae_memory_range_has_range(self,
-                                     ae_memory_block_at(self, start_index, false),
-                                     ae_memory_block_at(self, end_index, false));
-}
-
-bool
 ae_memory_block_is_element_size_equal_to(const void *self, ae_usize_t element_size)
 {
     AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, false)
@@ -136,4 +131,34 @@ ae_memory_block_is_equal(const void *self, const void *other)
     AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, false)
     return ae_memory_block_is_element_size_equal(self, other) &&
            ae_memory_range_is_equal(self, other);
+}
+
+ae_memory_block_t
+ae_memory_block_make_empty(ae_usize_t element_size)
+{
+    return (ae_memory_block_t)ae_memory_block_empty_initializer(element_size);
+}
+
+ae_memory_block_t
+ae_memory_block_make(void *begin, void *end, ae_usize_t element_size)
+{
+    ae_memory_block_t _t = ae_memory_block_initializer(begin, end, element_size);
+    AE_RUNTIME_ASSERT(ae_memory_block_is_valid(&_t),
+                      AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK,
+                      ae_memory_block_make_empty(element_size))
+    return _t;
+}
+
+ae_memory_block_t
+ae_memory_block_slice(void *self, ae_usize_t index, ae_usize_t length)
+{
+    const ae_usize_t element_size = ae_memory_block_get_element_size(self);
+    ae_runtime_try
+    {
+        void *begin = ae_memory_block_at(self, index, false);
+        void *end   = ae_memory_block_at(self, index + length, false);
+        ae_runtime_try_interrupt(
+            (ae_memory_block_t)ae_memory_block_initializer(begin, end, element_size));
+    }
+    ae_runtime_raise(ae_memory_block_make_empty(element_size));
 }

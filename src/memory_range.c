@@ -271,7 +271,7 @@ ae_memory_range_make(void *begin, void *end)
 }
 
 ae_memory_range_t
-ae_memory_range_make_sub_range(void *self, void *begin, void *end)
+ae_memory_range_make_subrange(void *self, void *begin, void *end)
 {
     AE_RUNTIME_ASSERT(ae_memory_range_has_range(self, begin, end),
                       AE_RUNTIME_ERROR_OUT_OF_RANGE,
@@ -283,9 +283,13 @@ ae_memory_range_make_sub_range(void *self, void *begin, void *end)
 ae_memory_range_t
 ae_memory_range_slice(void *self, ae_uoffset_t index, ae_usize_t size)
 {
-    void *begin = ae_memory_range_at(self, index, false);
-    void *end   = ae_memory_range_at(self, index + size, false);
-    return ae_memory_range_make_sub_range(self, begin, end);
+    ae_runtime_try
+    {
+        void *begin = ae_memory_range_at(self, index, false);
+        void *end   = ae_memory_range_at(self, index + size, false);
+        ae_runtime_try_interrupt(ae_memory_range_make_subrange(self, begin, end));
+    }
+    ae_runtime_raise(ae_memory_range_make_empty());
 }
 
 void *
@@ -297,6 +301,22 @@ ae_memory_range_insert_value(void *self, ae_uoffset_t offset, ae_u8_t value)
         *ptr         = value;
 
         ae_runtime_try_interrupt(ptr);
+    }
+    ae_runtime_raise(nullptr);
+}
+
+void *
+ae_memory_range_insert_values(void        *self,
+                              ae_uoffset_t offset,
+                              ae_usize_t   size,
+                              void        *begin,
+                              void        *end)
+{
+    ae_runtime_try
+    {
+        void *_begin = ae_memory_range_at(self, offset, false);
+        void *_end   = ae_memory_range_at(self, offset + size, false);
+        ae_runtime_try_interrupt(ae_memory_raw_move(_begin, _end, begin, end));
     }
     ae_runtime_raise(nullptr);
 }

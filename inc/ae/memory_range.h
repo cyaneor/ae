@@ -806,8 +806,8 @@ ae_memory_range_make_empty();
  * @return Структура типа @ref ae_memory_range_t,
  *         представляющая диапазон памяти.
  *
- * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
- *        Если диапазон памяти невалиден.
+ * @throw AE_RUNTIME_ERROR_INVALID_RANGE
+ *        Если диапазон невалиден.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_memory_range_t
@@ -834,12 +834,12 @@ ae_memory_range_make(void *begin, void *end);
  * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
  *        Если указанный диапазон (от `begin` до `end`)
  *        выходит за пределы текущего диапазона памяти.
- * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
- *        Если диапазон памяти недопустим или некорректен.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_SUBRANGE
+ *        Если поддиапазон памяти недопустим или некорректен.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_memory_range_t
-ae_memory_range_make_sub_range(void *self, void *begin, void *end);
+ae_memory_range_make_subrange(void *self, void *begin, void *end);
 
 /**
  * @brief Создает поддиапазон памяти из текущего диапазона, начиная с указанного индекса.
@@ -861,7 +861,10 @@ ae_memory_range_make_sub_range(void *self, void *begin, void *end);
  *        Если указанный диапазон (от `index` до `index + size`)
  *        выходит за пределы текущего диапазона памяти.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
- *        Если диапазон памяти недопустим или некорректен.
+ *        Если диапазон памяти недопустим
+ *        (например, если `self` не является валидным диапазоном).
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_SUBRANGE
+ *        Если поддиапазон памяти недопустим или некорректен.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_memory_range_t
@@ -894,6 +897,36 @@ ae_memory_range_slice(void *self, ae_uoffset_t index, ae_usize_t size);
 AE_ATTRIBUTE(SYMBOL)
 void *
 ae_memory_range_insert_value(void *self, ae_uoffset_t offset, ae_u8_t value);
+
+/**
+ * @brief Вставляет значения в диапазон памяти.
+ *
+ * Эта функция вставляет значения из диапазона `[begin, end)` в память, начиная с указанного
+ * смещения и размера. Функция проверяет диапазоны памяти и выполняет перемещение данных с
+ * использованием вспомогательной функции для манипуляции сырыми байтами.
+ *
+ * @param self Указатель на объект, в памяти которого будет производиться вставка значений.
+ * @param offset Смещение в памяти, с которого начинается вставка.
+ * @param size Размер памяти, в которую будут вставлены данные.
+ * @param begin Указатель на начало диапазона данных, которые необходимо вставить.
+ * @param end Указатель на конец диапазона данных, которые необходимо вставить.
+ *
+ * @return Возвращает указатель на объект памяти после выполнения вставки значений.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_OUT_OF_RANGE
+ *        Если указанный индекс выходит за пределы допустимого диапазона памяти.
+ * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
+ *        Если диапазон памяти недопустим или некорректен.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_range_insert_values(void        *self,
+                              ae_uoffset_t offset,
+                              ae_usize_t   size,
+                              void        *begin,
+                              void        *end);
 
 AE_COMPILER(EXTERN_C_END)
 
