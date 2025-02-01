@@ -33,12 +33,6 @@ ae_error_set(void *self, ae_error_code_t code, ae_error_desc_t desc)
 }
 
 void
-ae_error_set_code(void *self, ae_error_code_t code)
-{
-    ae_error_set(self, code, nullptr);
-}
-
-void
 ae_error_assign(void *self, const void *other)
 {
     const ae_error_code_t code = ae_error_get_code(other);

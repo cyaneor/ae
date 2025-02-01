@@ -114,28 +114,6 @@ void
 ae_error_set(void *self, ae_error_code_t code, ae_error_desc_t desc);
 
 /**
- * @brief Сбрасывает код ошибки в структуре `ae_error_t`.
- *
- * Эта функция устанавливает код ошибки в переданной структуре
- * типа `ae_error_t`, сбрасывая сообщение об ошибке на `nullptr`.
- * Функция вызывает `ae_error_set` для выполнения сброса.
- *
- * Если указатель на структуру равен `nullptr`, будет вызван
- * макрос `AE_RUNTIME_ASSERT` в функции `ae_error_set`.
- *
- * @param self Указатель на структуру `ae_error_t`,
- *             в которой необходимо сбросить код ошибки.
- * @param code Код ошибки типа `ae_error_code_t`,
- *             который будет установлен в структуре.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель `self` равен `nullptr`.
- */
-AE_ATTRIBUTE(SYMBOL)
-void
-ae_error_set_code(void *self, ae_error_code_t code);
-
-/**
  * @brief Копирует состояние ошибки из одной структуры `ae_error_t` в другую.
  *
  * Эта функция присваивает код ошибки и сообщение об ошибке
