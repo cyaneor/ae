@@ -58,17 +58,13 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * @param[in] self Указатель на структуру типа ae_allocated_range_t,
  *                 представляющую выделенный диапазон памяти.
  *
- * @return `true`, если диапазон памяти был успешно очищен;
- *         `false`, если указатель на `self` равен `nullptr`,
- *                  или если произошла ошибка при освобождении памяти.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
  *        Если функция освобождения памяти не инициализирована.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_allocated_range_clear(void *self);
 
 /**
@@ -82,17 +78,13 @@ ae_allocated_range_clear(void *self);
  * @param[in,out] other Указатель на структуру типа ae_allocated_range_t,
  *                      представляющую второй выделенный диапазон памяти.
  *
- * @return `true`, если обмен содержимым двух выделенных диапазонов памяти был успешным;
- *         `false`, если один из указателей (`self` или `other`) равен `nullptr`,
- *                  или если произошла ошибка при обмене содержимым.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
  *        Если функция освобождения памяти не инициализирована.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_allocated_range_exchange(void *self, void *other);
 
 /**
@@ -103,16 +95,9 @@ ae_allocated_range_exchange(void *self, void *other);
  * нехватки памяти), функция выбрасывает исключение, и предыдущий диапазон
  * памяти остается нетронутым, что предотвращает потерю данных.
  *
- * Функция возвращает `true`, если изменение размера памяти прошло успешно,
- * и `false`, если операция завершилась неудачей (например, из-за ошибки
- * выделения памяти).
- *
  * @param[in] self Указатель на структуру типа ae_allocated_range_t,
  *                 представляющую выделенный диапазон памяти.
  * @param[in] size Новый размер диапазона в байтах.
- *
- * @return `true`, если память успешно перераспределена.
- *         `false` в случае неудачи.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
@@ -129,7 +114,7 @@ ae_allocated_range_exchange(void *self, void *other);
  *       от потери данных.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_allocated_range_resize(void *self, ae_usize_t size);
 
 AE_COMPILER(EXTERN_C_END)

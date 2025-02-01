@@ -80,7 +80,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * @see ae_runtime_allocator_align_free
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_aligned_range_clear(void *self);
 
 /**
@@ -98,9 +98,6 @@ ae_aligned_range_clear(void *self);
  * @param other Указатель на структуру `ae_aligned_range_t`,
  *              представляющую выровненный диапазон, с которым будет произведен обмен.
  *
- * @return `true`, если обмен содержимым двух выровненных диапазонов был успешным;
- *         `false`, если один из указателей (`self` или `other`) равен `nullptr`.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
@@ -113,7 +110,7 @@ ae_aligned_range_clear(void *self);
  * @see ae_memory_range_swap
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_aligned_range_exchange(void *self, void *other);
 
 /**
@@ -121,8 +118,6 @@ ae_aligned_range_exchange(void *self, void *other);
  *
  * Эта функция изменяет размер выровненного диапазона `self`
  * на заданное количество байт с учетом выравнивания, указанного в `alignment_size`.
- * Если перераспределение памяти не удастся, то диапазон останется неизменным,
- * и функция вернет `false`. В случае успешного выполнения возвращается `true`.
  *
  * Функция выполняет следующие шаги:
  * - Проверяет указатель `self` на `nullptr` и выбрасывает исключение, если он равен `null`.
@@ -136,9 +131,6 @@ ae_aligned_range_exchange(void *self, void *other);
  * @param[in] size Новый размер диапазона в байтах.
  * @param[in] alignment_size Размер выравнивания в байтах,
  *                           который должен быть степенью двойки.
- *
- * @return `true`, если перераспределение памяти прошло успешно.
- *         `false` в случае неудачи.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
@@ -159,7 +151,7 @@ ae_aligned_range_exchange(void *self, void *other);
  * @see ae_memory_range_set_with_fallback
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_aligned_range_resize(void *self, ae_usize_t size, ae_usize_t alignment_size);
 
 AE_COMPILER(EXTERN_C_END)

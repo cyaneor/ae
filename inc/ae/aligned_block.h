@@ -78,31 +78,24 @@ ae_aligned_block_get_alignment_size(const void *self);
  * @param[in,out] other Указатель на структуру типа ae_allocated_block_t,
  *                      представляющую второй выделенный блок памяти.
  *
- * @return `true`, если обмен содержимым двух блоков памяти был успешным;
- *         `false`, если один из указателей (`self` или `other`) равен `nullptr`,
- *                  или если возникла ошибка с инициализацией освобождения памяти.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
  *        Если функция освобождения памяти не инициализирована.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_aligned_block_exchange(void *self, void *other);
 
 /**
  * @brief Изменяет размер выровненного блока памяти.
  *
- * Эта функция изменяет размер выровненного блока памяти,
- * представленного структурой `ae_aligned_block_t`,
- * на заданное количество элементов.
+ * Эта функция изменяет размер выровненного блока памяти, представленного
+ * структурой `ae_aligned_block_t`, на заданное количество элементов.
  *
  * Новый размер определяется умножением `number_of_elements` на размер элемента в блоке памяти.
  * Функция сначала проверяет, не превышает ли новый размер максимально допустимый размер блока,
  * и если проверка проходит, вызывает функцию `ae_aligned_range_resize` для изменения размера блока.
- * Если перераспределение памяти не удастся, блок останется неизменным, и функция вернет `false`.
- * В случае успешного выполнения возвращается `true`.
  *
  * - Проверяется, что новый размер не превышает максимально допустимый размер блока памяти.
  * - При успешном изменении размера блока памяти вызывается функция для изменения размера
@@ -112,9 +105,6 @@ ae_aligned_block_exchange(void *self, void *other);
  *             представляющую выровненный блок памяти,
  *             который необходимо изменить.
  * @param number_of_elements Новое количество элементов в блоке памяти.
- *
- * @return `true`, если перераспределение памяти прошло успешно.
- *         `false` в случае неудачи.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на объект `self` равен `null`.
@@ -139,7 +129,7 @@ ae_aligned_block_exchange(void *self, void *other);
  * @see ae_allocated_block_is_max_size_exceeds
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_aligned_block_resize(void *self, ae_usize_t number_of_elements);
 
 /**

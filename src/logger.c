@@ -3,6 +3,7 @@
 #include <ae/runtime_error_code.h>
 #include <ae/runtime_expect.h>
 #include <ae/runtime_assert.h>
+#include <ae/runtime_throw.h>
 #include <ae/ptr_util.h>
 #include <ae/bit_util.h>
 #include <ae/nullptr.h>
@@ -10,14 +11,20 @@
 ae_logger_log_fn *
 ae_logger_get_log_fn(const void *self)
 {
-    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    ae_runtime_assert(self)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
+    }
     return ae_ptr_cast(ae_logger_t, self)->log_fn;
 }
 
 ae_logger_level_flag_t
 ae_logger_get_level_flag(const void *self)
 {
-    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, AE_LOGGER_LEVEL_FLAG_NONE)
+    ae_runtime_assert(self)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, AE_LOGGER_LEVEL_FLAG_NONE);
+    }
     return ae_ptr_cast(ae_logger_t, self)->log_flag;
 }
 

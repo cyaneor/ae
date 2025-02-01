@@ -60,10 +60,6 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * @param[in,out] other Указатель на второй блок памяти,
  *                      содержимое которого будет обменяно.
  *
- * @return `true`, если обмен содержимым двух блоков памяти был успешным;
- *         `false`, если один из указателей (`self` или `other`) равен `nullptr`,
- *                  или если размеры элементов в блоках памяти различаются.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE
@@ -72,7 +68,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  *        Если функция освобождения памяти не инициализирована.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_allocated_block_exchange(void *self, void *other);
 
 /**
@@ -140,9 +136,6 @@ ae_allocated_block_is_max_size_exceeds(const void *self, ae_usize_t number_of_el
  * @param number_of_elements Количество элементов,
  *                           для которых нужно изменить размер блока.
  *
- * @return Возвращает `true`, если операция изменения размера блока прошла успешно.
- *         В случае ошибки возвращает `false`.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на объект `self` равен `null`.
  * @throw AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE
@@ -157,7 +150,7 @@ ae_allocated_block_is_max_size_exceeds(const void *self, ae_usize_t number_of_el
  *        Если функция освобождения памяти не инициализирована.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_allocated_block_resize(void *self, ae_usize_t number_of_elements);
 
 AE_COMPILER(EXTERN_C_END)

@@ -3,6 +3,7 @@
 #include <ae/runtime_error_code.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_expect.h>
+#include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
 #include <ae/bit_util.h>
 #include <ae/ptr_util.h>
@@ -12,14 +13,20 @@
 ae_memory_allocator_alloc_fn *
 ae_memory_allocator_get_alloc_fn(const ae_memory_allocator_t *self)
 {
-    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    ae_runtime_assert(self)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
+    }
     return self->alloc_fn;
 }
 
 ae_memory_allocator_dealloc_fn *
 ae_memory_allocator_get_dealloc_fn(const ae_memory_allocator_t *self)
 {
-    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    ae_runtime_assert(self)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
+    }
     return self->dealloc_fn;
 }
 
@@ -27,19 +34,28 @@ void *
 ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size)
 {
     // Проверяем запрашиваемый размер. Если равен 0 выбрасываем исключение.
-    AE_RUNTIME_ASSERT(size, AE_RUNTIME_ERROR_ZERO_MEMORY_SIZE, nullptr)
+    ae_runtime_assert(size)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_ZERO_MEMORY_SIZE, nullptr);
+    }
 
     // Получаем указатель на функцию распределения.
     ae_memory_allocator_alloc_fn *alloc_fn = ae_memory_allocator_get_alloc_fn(self);
 
     // Проверяем инициализирован ли указатель на функцию распределения памяти.
-    AE_RUNTIME_ASSERT(alloc_fn, AE_RUNTIME_ERROR_ALLOCATOR_FUNCTION_NOT_INITIALIZED, nullptr)
+    ae_runtime_assert(alloc_fn)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_ALLOCATOR_FUNCTION_NOT_INITIALIZED, nullptr);
+    }
 
     // Запрашиваем выделение памяти размером size у аллокатора
     void *ptr = alloc_fn(size);
 
     // Проверяем, успешно ли выделена память. Если нет, генерируем ошибку.
-    AE_RUNTIME_ASSERT(ptr, AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED, nullptr)
+    ae_runtime_assert(ptr)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED, nullptr);
+    }
 
 #if AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
     // Если включена опция заполнения нулями после выделения памяти,
@@ -58,7 +74,10 @@ ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr)
     AE_RUNTIME_EXPECT(ptr)
 
     ae_memory_allocator_dealloc_fn *dealloc_fn = ae_memory_allocator_get_dealloc_fn(self);
-    AE_RUNTIME_ASSERT(dealloc_fn, AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED)
+    ae_runtime_assert(dealloc_fn)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED);
+    }
 
     dealloc_fn(ptr);
 }
@@ -106,7 +125,10 @@ ae_memory_allocator_align_alloc(const ae_memory_allocator_t *self,
                                 ae_usize_t                   alignment_size)
 {
     // Проверка, является ли alignment_size степенью двойки.
-    AE_RUNTIME_ASSERT(ae_bit_is_single(alignment_size), AE_RUNTIME_ERROR_NOT_POWER_OF_TWO, nullptr)
+    ae_runtime_assert(ae_bit_is_single(alignment_size))
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_NOT_POWER_OF_TWO, nullptr);
+    }
 
     // Вычисление смещения для выравнивания.
     ae_usize_t alignment_offset = sizeof(void *) + alignment_size - 1;
@@ -153,7 +175,10 @@ ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
                                   ae_usize_t                   alignment_size)
 {
     // Проверка, является ли alignment_size степенью двойки.
-    AE_RUNTIME_ASSERT(ae_bit_is_single(alignment_size), AE_RUNTIME_ERROR_NOT_POWER_OF_TWO, nullptr)
+    ae_runtime_assert(ae_bit_is_single(alignment_size))
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_NOT_POWER_OF_TWO, nullptr);
+    }
 
     // Если old_ptr равен нулю, выделяем новую память с выравниванием.
     AE_RUNTIME_EXPECT(old_ptr, ae_memory_allocator_align_alloc(self, new_size, alignment_size))

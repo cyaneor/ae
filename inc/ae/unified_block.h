@@ -61,10 +61,6 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * @param self Указатель на блок памяти,
  *             который необходимо очистить.
  *
- * @return `true`, если блок памяти был успешно очищен;
- *         `false`, если указатель на `self` равен `nullptr`
- *                  или если выравнивание блока некорректно.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_ALIGNMENT
@@ -75,7 +71,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * @see ae_aligned_block_get_alignment_size
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_unified_block_clear(void *self);
 
 /**
@@ -111,22 +107,22 @@ ae_unified_block_exchange(void *self, void *other);
 /**
  * @brief Изменяет размер блока памяти в зависимости от его выравнивания.
  *
- * Эта функция изменяет размер блока памяти, представленного указателем `self`,
- * в зависимости от выравнивания. Если блок памяти выровнен, используется функция
- * `ae_aligned_block_resize` для изменения размера выровненного блока. Если блок
- * не выровнен, вызывается функция `ae_allocated_block_resize` для изменения размера
- * выделенного блока памяти.
+ * Эта функция изменяет размер блока памяти,
+ * представленного указателем `self`, в зависимости от выравнивания.
+ *
+ * - Если блок памяти выровнен, используется функция
+ *   `ae_aligned_block_resize` для изменения размера выровненного блока.
+ * - Если блок не выровнен, вызывается функция
+ *   `ae_allocated_block_resize` для изменения размера выделенного блока памяти.
  *
  * Функция сначала проверяет выравнивание блока с помощью `ae_aligned_block_get_alignment_size`.
- * После этого она передает управление соответствующей функции изменения размера блока в зависимости
- * от выравнивания.
+ * После этого она передает управление соответствующей функции изменения размера блока
+ * в зависимости от выравнивания.
  *
  * @param[in,out] self Указатель на блок памяти, размер которого нужно изменить.
  *                     Тип блока определяется через выравнивание.
  * @param[in] number_of_elements Новое количество элементов в блоке памяти.
  *                               Это значение используется для расчета нового размера блока.
- *
- * @return `true`, если перераспределение памяти прошло успешно, иначе `false`.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `null`.
@@ -146,7 +142,7 @@ ae_unified_block_exchange(void *self, void *other);
  * @see ae_aligned_block_get_alignment_size
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_unified_block_resize(void *self, ae_usize_t number_of_elements);
 
 AE_COMPILER(EXTERN_C_END)

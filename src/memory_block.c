@@ -3,6 +3,7 @@
 #include <ae/memory_block_initializer.h>
 #include <ae/runtime_error_code.h>
 #include <ae/runtime_assert.h>
+#include <ae/runtime_throw.h>
 #include <ae/memory_range.h>
 #include <ae/runtime_try.h>
 #include <ae/ptr_util.h>
@@ -11,7 +12,10 @@
 ae_usize_t
 ae_memory_block_get_element_size(const void *self)
 {
-    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, 0)
+    ae_runtime_assert(self)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, 0);
+    }
     return ae_ptr_cast(ae_memory_block_t, self)->element_size;
 }
 
@@ -25,7 +29,10 @@ ae_memory_block_is_valid(const void *self)
 ae_usize_t
 ae_memory_block_size(const void *self)
 {
-    AE_RUNTIME_ASSERT(ae_memory_block_is_valid(self), AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK, 0)
+    ae_runtime_assert(ae_memory_block_is_valid(self))
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK, 0);
+    }
 
     const ae_usize_t size         = ae_memory_range_size(self);
     const ae_usize_t element_size = ae_memory_block_get_element_size(self);
@@ -39,24 +46,25 @@ ae_memory_block_is_empty(const void *self)
     return ae_memory_block_size(self) == 0;
 }
 
-bool
+void
 ae_memory_block_swap(void *self, void *other)
 {
-    AE_RUNTIME_ASSERT(ae_memory_block_is_element_size_equal(self, other),
-                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE,
-                      false)
+    ae_runtime_assert(ae_memory_block_is_element_size_equal(self, other))
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE);
+    }
 
-    return ae_memory_range_swap(self, other);
+    ae_memory_range_swap(self, other);
 }
 
-bool
+void
 ae_memory_block_exchange(void *self, void *other)
 {
-    AE_RUNTIME_ASSERT(ae_memory_block_is_element_size_equal(self, other),
-                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE,
-                      false)
-
-    return ae_memory_range_exchange(self, other);
+    ae_runtime_assert(ae_memory_block_is_element_size_equal(self, other))
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE);
+    }
+    ae_memory_range_exchange(self, other);
 }
 
 bool
@@ -69,7 +77,11 @@ ae_memory_block_has_index(const void *self, ae_usize_t index)
 ae_uoffset_t
 ae_memory_block_element_offset(const void *self, ae_usize_t index)
 {
-    AE_RUNTIME_ASSERT(ae_memory_block_has_index(self, index), AE_RUNTIME_ERROR_INVALID_INDEX, 0)
+    ae_runtime_assert(ae_memory_block_has_index(self, index))
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_INVALID_INDEX, 0);
+    }
+
     const ae_usize_t element_size = ae_memory_block_get_element_size(self);
     return index * element_size;
 }
@@ -114,7 +126,6 @@ ae_memory_block_back(const void *self)
 bool
 ae_memory_block_is_element_size_equal_to(const void *self, ae_usize_t element_size)
 {
-    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, false)
     return ae_memory_block_get_element_size(self) == element_size;
 }
 
@@ -128,7 +139,6 @@ ae_memory_block_is_element_size_equal(const void *self, const void *other)
 bool
 ae_memory_block_is_equal(const void *self, const void *other)
 {
-    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, false)
     return ae_memory_block_is_element_size_equal(self, other) &&
            ae_memory_range_is_equal(self, other);
 }
@@ -143,9 +153,11 @@ ae_memory_block_t
 ae_memory_block_make(void *begin, void *end, ae_usize_t element_size)
 {
     ae_memory_block_t _t = ae_memory_block_initializer(begin, end, element_size);
-    AE_RUNTIME_ASSERT(ae_memory_block_is_valid(&_t),
-                      AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK,
-                      ae_memory_block_make_empty(element_size))
+    ae_runtime_assert(ae_memory_block_is_valid(&_t))
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_INVALID_MEMORY_BLOCK,
+                         ae_memory_block_make_empty(element_size));
+    }
     return _t;
 }
 

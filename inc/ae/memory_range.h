@@ -200,7 +200,7 @@ ae_memory_range_size(const void *self);
  * памяти, а затем вызывает функцию для проверки выравнивания указанных границ.
  *
  * @param self Указатель на структуру или объект, содержащий диапазон памяти.
- * @param alignment Требуемое выравнивание в байтах. Не может быть равно нулю.
+ * @param alignment_size Требуемое выравнивание в байтах. Не может быть равно нулю.
  *
  * @return `true`, если диапазон памяти выровнен относительно указанного выравнивания,
  *         иначе `false`.
@@ -212,7 +212,7 @@ ae_memory_range_size(const void *self);
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
-ae_memory_range_is_aligned(const void *self, ae_usize_t alignment);
+ae_memory_range_is_aligned(const void *self, ae_usize_t alignment_size);
 
 /**
  * @brief Проверяет, является ли размер диапазона
@@ -287,14 +287,11 @@ ae_memory_range_set_end(void *self, void *ptr);
  * @param begin Указатель на начало диапазона памяти.
  * @param end Указатель на конец диапазона памяти.
  *
- * @return `true`, если диапазон памяти был успешно установлен;
- *         `false`, если указатель на `self` равен `nullptr`.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_range_set(void *self, void *begin, void *end);
 
 /**
@@ -308,14 +305,11 @@ ae_memory_range_set(void *self, void *begin, void *end);
  * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую источник диапазона памяти.
  *
- * @return `true`, если диапазон памяти был успешно скопирован;
- *         `false`, если указатель на `other` равен `nullptr`.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_range_assign(void *self, const void *other);
 
 /**
@@ -327,14 +321,11 @@ ae_memory_range_assign(void *self, const void *other);
  * @param self Указатель на структуру ae_memory_range_t,
  *             представляющую диапазон памяти, который необходимо очистить.
  *
- * @return `true`, если диапазон памяти был успешно очищен;
- *         `false`, если указатель на `self` равен `nullptr`.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_range_clear(void *self);
 
 /**
@@ -350,17 +341,13 @@ ae_memory_range_clear(void *self);
  * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую источник диапазона памяти.
  *
- * @return `true`, если диапазон памяти был успешно скопирован;
- *         `false`, если указатель на `other` равен `nullptr`
- *                  или если диапазон памяти `other` недопустим.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если диапазон памяти `other` недопустим.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_range_assign_with_validate(void *self, const void *other);
 
 /**
@@ -376,17 +363,13 @@ ae_memory_range_assign_with_validate(void *self, const void *other);
  * @param begin Указатель на начало диапазона памяти.
  * @param end Указатель на конец диапазона памяти.
  *
- * @return `true`, если диапазон памяти был успешно установлен;
- *         `false`, если указатель на `self` равен `nullptr`
- *                  или если создаваемый диапазон памяти недопустим.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
  *        Если создаваемый диапазон памяти недопустим.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_range_set_with_validate(void *self, void *begin, void *end);
 
 /**
@@ -402,10 +385,6 @@ ae_memory_range_set_with_validate(void *self, void *begin, void *end);
  * @param begin Указатель на начало диапазона памяти.
  * @param size Размер диапазона памяти в байтах.
  *
- * @return `true`, если диапазон памяти был успешно установлен;
- *         `false`, если указатель на `self` или `begin` равен `nullptr`,
- *                  или если создаваемый диапазон памяти недопустим.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_ARGUMENT
@@ -414,7 +393,7 @@ ae_memory_range_set_with_validate(void *self, void *begin, void *end);
  *        Если создаваемый диапазон памяти недопустим.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size);
 
 /**
@@ -430,15 +409,11 @@ ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size);
  * @param begin Указатель на начало диапазона памяти.
  * @param size Размер диапазона памяти в байтах.
  *
- * @return `true`, если диапазон памяти был успешно установлен или очищен;
- *         `false`, если указатель на `self` или `begin` равен `nullptr`,
- *                  или если возникает ошибка при очистке диапазона.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_range_set_with_fallback(void *self, void *begin, ae_usize_t size);
 
 /**
@@ -452,14 +427,13 @@ ae_memory_range_set_with_fallback(void *self, void *begin, ae_usize_t size);
  * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую второй диапазон памяти.
  *
- * @return `true`, если обмен значениями двух диапазонов памяти был успешным;
- *         `false`, если один из указателей (`self` или `other`) равен `nullptr`.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` или `other` равен `nullptr`.
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_OTHER
+ *        Если указатель на `other` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_range_swap(void *self, void *other);
 
 /**
@@ -474,14 +448,13 @@ ae_memory_range_swap(void *self, void *other);
  * @param other Указатель на структуру ae_memory_range_t,
  *              представляющую диапазон памяти, с которым будет произведен обмен.
  *
- * @return `true`, если обмен значениями двух диапазонов памяти был успешным;
- *         `false`, если один из указателей (`self` или `other`) равен `nullptr`.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `self` или `other` равен `nullptr`.
+ *        Если указатель на `self` равен `nullptr`.
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER_AT_OTHER
+ *        Если указатель на `other` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_range_exchange(void *self, void *other);
 
 /**
@@ -725,7 +698,7 @@ ae_memory_range_is_end_equal_to(const void *self, const void *ptr);
  *                 на начало диапазона второго объекта; `false` в противном случае.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
 bool
@@ -746,7 +719,7 @@ ae_memory_range_is_begin_equal(const void *self, const void *other);
  *          на начало диапазона второго объекта; `false` в противном случае.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если указатель на `other` равен `nullptr`.
+ *        Если указатель на `self` или `other` равен `nullptr`.
  */
 AE_ATTRIBUTE(SYMBOL)
 bool

@@ -131,10 +131,6 @@ ae_memory_block_is_empty(const void *self);
  * @param other Указатель на структуру #ae_memory_block,
  *              представляющую второй блок памяти.
  *
- * @return `true`, если обмен содержимым блоков памяти был успешным;
- *         `false`, если один из указателей (`self` или `other`) равен `nullptr`,
- *                  или если размеры элементов в блоках памяти различаются.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
@@ -143,7 +139,7 @@ ae_memory_block_is_empty(const void *self);
  *        Если размеры элементов в блоках памяти различаются.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_block_swap(void *self, void *other);
 
 /**
@@ -158,10 +154,6 @@ ae_memory_block_swap(void *self, void *other);
  * @param other Указатель на структуру #ae_memory_block,
  *              представляющую второй блок памяти.
  *
- * @return `true`, если обмен содержимым блоков памяти был успешным;
- *         `false`, если один из указателей (`self` или `other`) равен `nullptr`,
- *                  или если размеры элементов в блоках памяти различаются.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` или `other` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE
@@ -170,7 +162,7 @@ ae_memory_block_swap(void *self, void *other);
  *        Если размеры элементов в блоках памяти различаются.
  */
 AE_ATTRIBUTE(SYMBOL)
-bool
+void
 ae_memory_block_exchange(void *self, void *other);
 
 /**

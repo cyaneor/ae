@@ -6,11 +6,16 @@
 #include <ae/runtime_try.h>
 #include <ae/ptr_util.h>
 #include <ae/nullptr.h>
+#include <ae/runtime_throw.h>
 
 ae_error_code_t
 ae_error_get_code(const void *self)
 {
-    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, AE_ERROR_CODE_NONE)
+    ae_runtime_assert(self)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, AE_ERROR_CODE_NONE);
+    }
+
     const ae_error_t *err = ae_ptr_cast(ae_error_t, self);
     return err->code;
 }
@@ -18,7 +23,11 @@ ae_error_get_code(const void *self)
 ae_error_desc_t
 ae_error_get_desc(const void *self)
 {
-    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, nullptr)
+    ae_runtime_assert(self)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, AE_ERROR_CODE_NONE);
+    }
+
     const ae_error_t *err = ae_ptr_cast(ae_error_t, self);
     return err->desc;
 }
@@ -26,7 +35,11 @@ ae_error_get_desc(const void *self)
 void
 ae_error_set(void *self, ae_error_code_t code, ae_error_desc_t desc)
 {
-    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER)
+    ae_runtime_assert(self)
+    {
+        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER);
+    }
+
     ae_error_t *err = ae_ptr_cast(ae_error_t, self);
     err->code       = code;
     err->desc       = desc;
