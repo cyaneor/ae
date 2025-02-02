@@ -93,86 +93,6 @@ ae_memory_raw_fill(void *begin, const void *end, ae_u8_t value)
 }
 
 const ae_u8_t *
-ae_memory_raw_find_value_u8(const ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
-{
-    ae_runtime_assert(begin)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
-
-    const ae_u8_t *ptr = begin;
-    while (ptr < end)
-    {
-        if (*ptr == value)
-        {
-            return ptr;
-        }
-        ptr++;
-    }
-    return nullptr;
-}
-
-const ae_u16_t *
-ae_memory_raw_find_value_u16(const ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
-{
-    ae_runtime_assert(begin)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
-
-    const ae_u16_t *ptr = begin;
-    while (ptr < end)
-    {
-        if (*ptr == value)
-        {
-            return ptr;
-        }
-        ptr++;
-    }
-    return nullptr;
-}
-
-const ae_u32_t *
-ae_memory_raw_find_value_u32(const ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
-{
-    ae_runtime_assert(begin)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
-
-    const ae_u32_t *ptr = begin;
-    while (ptr < end)
-    {
-        if (*ptr == value)
-        {
-            return ptr;
-        }
-        ptr++;
-    }
-    return nullptr;
-}
-
-const ae_u64_t *
-ae_memory_raw_find_value_u64(const ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value)
-{
-    ae_runtime_assert(begin)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
-
-    const ae_u64_t *ptr = begin;
-    while (ptr < end)
-    {
-        if (*ptr == value)
-        {
-            return ptr;
-        }
-        ptr++;
-    }
-    return nullptr;
-}
-
-const ae_u8_t *
 ae_memory_raw_compare_u8(const ae_u8_t *lhs,
                          const ae_u8_t *lhs_end,
                          const ae_u8_t *rhs,
@@ -809,4 +729,28 @@ ae_memory_raw_find_rev_u64(const ae_u64_t *lhs,
         }
     }
     return nullptr;
+}
+
+const ae_u8_t *
+ae_memory_raw_find_value_u8(const ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
+{
+    return ae_memory_raw_find_u8(begin, end, &value, &value + 1);
+}
+
+const ae_u16_t *
+ae_memory_raw_find_value_u16(const ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
+{
+    return ae_memory_raw_find_u16(begin, end, &value, &value + 1);
+}
+
+const ae_u32_t *
+ae_memory_raw_find_value_u32(const ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
+{
+    return ae_memory_raw_find_u32(begin, end, &value, &value + 1);
+}
+
+const ae_u64_t *
+ae_memory_raw_find_value_u64(const ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value)
+{
+    return ae_memory_raw_find_u64(begin, end, &value, &value + 1);
 }
