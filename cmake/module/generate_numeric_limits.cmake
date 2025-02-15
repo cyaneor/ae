@@ -20,6 +20,7 @@ set(AE_NUMERIC_LIMITS_OUTPUT_FILE "${AE_TARGET_INCLUDE_DIR}/${PROJECT_NAME}/nume
 set(AE_NUMERIC_LIMITS_SOURCE_CODE "
 #include <stdio.h>
 #include <errno.h>
+#include <wchar.h>
 #include \"${AE_TARGET_INCLUDE_DIR}/${PROJECT_NAME}/numeric_types.h\"
 #include \"${AE_TARGET_INCLUDE_DIR}/${PROJECT_NAME}/numeric_limit.h\"
 #include \"${AE_TARGET_INCLUDE_DIR}/${PROJECT_NAME}/compiler.h\"
@@ -54,6 +55,15 @@ int main() {
     fprintf(file, \"#ifndef AE_CHAR_T_SIZE\\n\");
     fprintf(file, \"#define AE_CHAR_T_SIZE %zu\\n\", sizeof(ae_uchar_t));
     fprintf(file, \"#endif // AE_CHAR_T_SIZE\\n\");
+    fprintf(file, \"\\n\");
+
+    fprintf(file, \"/**\\n\");
+    fprintf(file, \" * @def AE_WCHAR_T_SIZE\\n\");
+    fprintf(file, \" * @brief Размер типа `wchar_t`, который используется для представления широких символов.\\n\");
+    fprintf(file, \" */\\n\");
+    fprintf(file, \"#ifndef AE_WCHAR_T_SIZE\\n\");
+    fprintf(file, \"#define AE_WCHAR_T_SIZE %zu\\n\", sizeof(wchar_t));
+    fprintf(file, \"#endif // AE_WCHAR_T_SIZE\\n\");
     fprintf(file, \"\\n\");
 
     fprintf(file, \"/**\\n\");

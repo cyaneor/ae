@@ -64,10 +64,6 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * @param self Указатель на структуру `ae_aligned_range_t`,
  *             представляющую выровненный диапазон, который необходимо очистить.
  *
- * @return `true`, если ресурсы выровненного диапазона были успешно освобождены;
- *         `false`, если указатель на `self` равен `nullptr`,
- *                  или если произошла ошибка при освобождении памяти.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если указатель на `self` равен `nullptr`.
  * @throw AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED
