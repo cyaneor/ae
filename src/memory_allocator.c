@@ -5,9 +5,10 @@
 #include <ae/runtime_expect.h>
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
+#include <ae/memory_raw.h>
 #include <ae/bit_util.h>
+#include <ae/ptr_util.h>
 #include <ae/nullptr.h>
-#include <ae/str_raw.h>
 
 ae_memory_allocator_alloc_fn *
 ae_memory_allocator_get_alloc_fn(const ae_memory_allocator_t *self)
@@ -44,7 +45,10 @@ ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size)
 #if AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
     // Если включена опция заполнения нулями после выделения памяти,
     // заполняем выделенную память нулями от указателя ptr до конца выделенной области
-    ae_str_raw_fill_to(ptr, size, 0);
+    {
+        const void *_end = ae_ptr_add_offset(ptr, size);
+        ae_memory_raw_fill(ptr, _end, 0);
+    }
 #endif
 
     // Возвращаем указатель на выделенную память
@@ -88,7 +92,11 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
         void *new_ptr = ae_memory_allocator_alloc(self, new_size);
 
         // Копируем данные из старой области памяти в новую
-        ae_str_raw_copy_to(new_ptr, new_size, old_ptr, old_size);
+        {
+            void       *_new_end = ae_ptr_add_offset(new_ptr, new_size);
+            const void *_old_end = ae_ptr_add_offset(old_ptr, old_size);
+            ae_memory_raw_copy(new_ptr, _new_end, old_ptr, _old_end);
+        }
 
         // Освобождаем старую область памяти
         ae_memory_allocator_free(self, old_ptr);
@@ -173,8 +181,12 @@ ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
         // Выделяем новую область памяти с учетом выравнивания.
         void *new_ptr = ae_memory_allocator_align_alloc(self, new_size, alignment_size);
 
-        // Копируем данные из старой области памяти в новую.
-        ae_str_raw_copy_to(new_ptr, new_size, old_ptr, old_size);
+        // Копируем данные из старой области памяти в новую
+        {
+            void       *_new_end = ae_ptr_add_offset(new_ptr, new_size);
+            const void *_old_end = ae_ptr_add_offset(old_ptr, old_size);
+            ae_memory_raw_copy(new_ptr, _new_end, old_ptr, _old_end);
+        }
 
         // Освобождаем старую область памяти.
         ae_memory_allocator_align_free(self, old_ptr);
