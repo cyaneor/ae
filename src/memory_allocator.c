@@ -6,7 +6,6 @@
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
 #include <ae/bit_util.h>
-#include <ae/ptr_util.h>
 #include <ae/nullptr.h>
 #include <ae/str_raw.h>
 
@@ -71,7 +70,7 @@ void
 ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr)
 {
     // Если указатель пустой, выходим без генерации ошибки
-    AE_RUNTIME_EXPECT(ptr)
+    AE_RUNTIME_EXPECT(ptr);
 
     ae_memory_allocator_dealloc_fn *dealloc_fn = ae_memory_allocator_get_dealloc_fn(self);
     ae_runtime_assert(dealloc_fn)
@@ -89,10 +88,10 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
                             ae_usize_t                   new_size)
 {
     // Проверяем, если old_ptr равен нулю, выделяем новую память
-    AE_RUNTIME_EXPECT(old_ptr, ae_memory_allocator_alloc(self, new_size))
+    AE_RUNTIME_EXPECT(old_ptr, ae_memory_allocator_alloc(self, new_size));
 
     // Если размеры совпадают, возвращаем существующий указатель
-    AE_RUNTIME_EXPECT_IF(old_size == new_size, old_ptr)
+    AE_RUNTIME_EXPECT_IF(old_size == new_size, old_ptr);
 
     // Если новый размер равен 0, освобождаем память и возвращаем nullptr
     if (new_size == 0)
@@ -158,7 +157,7 @@ void
 ae_memory_allocator_align_free(const ae_memory_allocator_t *self, void *ptr)
 {
     // Проверка, что указатель не равен nullptr.
-    AE_RUNTIME_EXPECT(ptr)
+    AE_RUNTIME_EXPECT(ptr);
 
     // Извлечение указателя на невыравненную память.
     void *unaligned_ptr = ((void **)ptr)[-1];
@@ -181,10 +180,10 @@ ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
     }
 
     // Если old_ptr равен нулю, выделяем новую память с выравниванием.
-    AE_RUNTIME_EXPECT(old_ptr, ae_memory_allocator_align_alloc(self, new_size, alignment_size))
+    AE_RUNTIME_EXPECT(old_ptr, ae_memory_allocator_align_alloc(self, new_size, alignment_size));
 
     // Если размеры совпадают, возвращаем существующий указатель.
-    AE_RUNTIME_EXPECT_IF(old_size == new_size, old_ptr)
+    AE_RUNTIME_EXPECT_IF(old_size == new_size, old_ptr);
 
     // Если новый размер равен 0, освобождаем память и возвращаем nullptr.
     if (new_size == 0)
