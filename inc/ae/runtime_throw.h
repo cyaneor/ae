@@ -59,8 +59,14 @@
  * @see ae_runtime_frame_state_load
  */
 #define ae_runtime_throw(error_code, ...)                                                          \
-    ae_runtime_frame_state_load(error_code);                                                       \
-    ae_runtime_throw_error_code(error_code, __VA_ARGS__)
+    do                                                                                             \
+    {                                                                                              \
+        if (!ae_runtime_frame_state_is_begin())                                                    \
+        {                                                                                          \
+            ae_runtime_frame_state_load(error_code);                                               \
+        }                                                                                          \
+        ae_runtime_throw_error_code(error_code, __VA_ARGS__);                                      \
+    } while (0)
 
 /**
  * @def ae_runtime_rethrow

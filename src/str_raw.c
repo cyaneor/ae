@@ -138,10 +138,7 @@ ae_usize_t
 ae_str_raw_len_to(const ae_char_t *str, ae_usize_t str_len)
 {
     const void *_ptr = ae_str_raw_find_value_to(str, str_len, AE_STR_RAW_NULL_TERMINATOR);
-    ae_runtime_assert(_ptr)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NO_NULL_TERMINATOR, 0);
-    }
+    AE_RUNTIME_ASSERT(_ptr, AE_RUNTIME_ERROR_NO_NULL_TERMINATOR, 0);
     return ae_ptr_diff(_ptr, str);
 }
 

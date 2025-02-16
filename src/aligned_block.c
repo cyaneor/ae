@@ -11,21 +11,15 @@
 ae_usize_t
 ae_aligned_block_get_alignment_size(const void *self)
 {
-    ae_runtime_assert(self)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, 0);
-    }
+    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, 0);
     return ae_ptr_cast(ae_aligned_block_t, self)->alignment_size;
 }
 
 void
 ae_aligned_block_exchange(void *self, void *other)
 {
-    ae_runtime_assert(ae_memory_block_is_element_size_equal(self, other))
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE);
-    }
-
+    AE_RUNTIME_ASSERT(ae_memory_block_is_element_size_equal(self, other),
+                      AE_RUNTIME_ERROR_DIFFERENT_ELEMENT_SIZE);
     ae_runtime_try
     {
         ae_aligned_range_clear(self);
@@ -38,10 +32,8 @@ ae_aligned_block_exchange(void *self, void *other)
 void
 ae_aligned_block_resize(void *self, ae_usize_t number_of_elements)
 {
-    ae_runtime_assert(ae_allocated_block_is_max_size_exceeds(self, number_of_elements))
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_EXCEEDS_MAX_SIZE);
-    }
+    AE_RUNTIME_ASSERT(ae_allocated_block_is_max_size_exceeds(self, number_of_elements),
+                      AE_RUNTIME_ERROR_EXCEEDS_MAX_SIZE);
 
     const ae_usize_t element_size   = ae_memory_block_get_element_size(self);
     const ae_usize_t alignment_size = ae_aligned_block_get_alignment_size(self);

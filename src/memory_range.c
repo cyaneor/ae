@@ -13,20 +13,14 @@
 void *
 ae_memory_range_get_begin(const void *self)
 {
-    ae_runtime_assert(self)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
     return ae_ptr_cast(ae_memory_range_t, self)->lower;
 }
 
 void *
 ae_memory_range_get_end(const void *self)
 {
-    ae_runtime_assert(self)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
     return ae_ptr_cast(ae_memory_range_t, self)->upper;
 }
 
@@ -56,10 +50,7 @@ ae_memory_range_is_valid(const void *self)
 bool
 ae_memory_range_has_ptr(const void *self, const void *ptr)
 {
-    ae_runtime_assert(ae_memory_range_is_valid(self))
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE, false);
-    }
+    AE_RUNTIME_ASSERT(ae_memory_range_is_valid(self), AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE, false);
 
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
@@ -78,20 +69,14 @@ ae_memory_range_diff(const void *self)
 ae_usize_t
 ae_memory_range_size(const void *self)
 {
-    ae_runtime_assert(ae_memory_range_is_valid(self))
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE, 0);
-    }
+    AE_RUNTIME_ASSERT(ae_memory_range_is_valid(self), AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE, 0);
     return (ae_usize_t)ae_memory_range_diff(self);
 }
 
 bool
 ae_memory_range_is_multiple_of_size(const void *self, ae_usize_t element_size)
 {
-    ae_runtime_assert(element_size)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, false);
-    }
+    AE_RUNTIME_ASSERT(element_size, AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, false);
     const ae_usize_t size = ae_memory_range_size(self);
     return ae_numeric_has_zero_remainder(size, element_size);
 }
@@ -99,10 +84,7 @@ ae_memory_range_is_multiple_of_size(const void *self, ae_usize_t element_size)
 bool
 ae_memory_range_is_aligned(const void *self, ae_usize_t alignment_size)
 {
-    ae_runtime_assert(alignment_size)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_ZERO_ALIGNMENT_SIZE, false);
-    }
+    AE_RUNTIME_ASSERT(alignment_size, AE_RUNTIME_ERROR_ZERO_ALIGNMENT_SIZE, false);
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
     return ae_ptr_range_is_aligned(begin, end, alignment_size);
@@ -111,20 +93,14 @@ ae_memory_range_is_aligned(const void *self, ae_usize_t alignment_size)
 void
 ae_memory_range_set_begin(void *self, void *ptr)
 {
-    ae_runtime_assert(self)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER);
-    }
+    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER);
     ae_ptr_cast(ae_memory_range_t, self)->lower = ptr;
 }
 
 void
 ae_memory_range_set_end(void *self, void *ptr)
 {
-    ae_runtime_assert(self)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER);
-    }
+    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER);
     ae_ptr_cast(ae_memory_range_t, self)->upper = ptr;
 }
 
@@ -159,10 +135,7 @@ ae_memory_range_clear(void *self)
 void
 ae_memory_range_assign_with_validate(void *self, const void *other)
 {
-    ae_runtime_assert(ae_memory_range_is_valid(other))
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE);
-    }
+    AE_RUNTIME_ASSERT(ae_memory_range_is_valid(other), AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE);
     ae_memory_range_assign(self, other);
 }
 
@@ -176,10 +149,7 @@ ae_memory_range_set_with_validate(void *self, void *begin, void *end)
 void
 ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size)
 {
-    ae_runtime_assert(begin)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_INVALID_ARGUMENT);
-    }
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_INVALID_ARGUMENT);
     ae_memory_range_set_with_validate(self, begin, ae_ptr_add_offset(begin, size));
 }
 
@@ -233,10 +203,8 @@ ae_memory_range_has_offset(const void *self, ae_uoffset_t offset)
 void *
 ae_memory_range_at_from_begin(const void *self, ae_uoffset_t offset)
 {
-    ae_runtime_assert(ae_memory_range_has_offset(self, offset))
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_OUT_OF_RANGE, nullptr);
-    }
+    AE_RUNTIME_ASSERT(
+        ae_memory_range_has_offset(self, offset), AE_RUNTIME_ERROR_OUT_OF_RANGE, nullptr);
 
     void *begin = ae_memory_range_get_begin(self);
     return ae_ptr_add_offset(begin, offset);
@@ -308,20 +276,18 @@ ae_memory_range_t
 ae_memory_range_make(void *begin, void *end)
 {
     ae_memory_range_t t = ae_memory_range_initializer(begin, end);
-    ae_runtime_assert(ae_memory_range_is_valid(&t))
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE, ae_memory_range_make_empty());
-    }
+    AE_RUNTIME_ASSERT(ae_memory_range_is_valid(&t),
+                      AE_RUNTIME_ERROR_INVALID_MEMORY_RANGE,
+                      ae_memory_range_make_empty());
     return t;
 }
 
 ae_memory_range_t
 ae_memory_range_make_subrange(void *self, void *begin, void *end)
 {
-    ae_runtime_assert(ae_memory_range_has_range(self, begin, end))
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_OUT_OF_RANGE, ae_memory_range_make_empty());
-    }
+    AE_RUNTIME_ASSERT(ae_memory_range_has_range(self, begin, end),
+                      AE_RUNTIME_ERROR_OUT_OF_RANGE,
+                      ae_memory_range_make_empty());
     return (ae_memory_range_t)ae_memory_range_initializer(begin, end);
 }
 

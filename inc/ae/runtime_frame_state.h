@@ -66,7 +66,6 @@
  *       где был сделан снимок состояния.
  */
 #define ae_runtime_frame_state_load(return_value)                                                  \
-    if (!ae_runtime_frame_state_is_begin())                                                        \
     longjmp(*ae_runtime_frame_state_prev(), return_value)
 
 /**

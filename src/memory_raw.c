@@ -10,10 +10,7 @@
 ae_u8_t *
 ae_memory_raw_fill_u8(ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
 {
-    ae_runtime_assert(begin)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     ae_u8_t *ptr = begin;
     while (ptr < end)
@@ -26,10 +23,7 @@ ae_memory_raw_fill_u8(ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
 ae_u16_t *
 ae_memory_raw_fill_u16(ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
 {
-    ae_runtime_assert(begin)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     ae_u16_t *ptr = begin;
     while (ptr < end)
@@ -42,10 +36,7 @@ ae_memory_raw_fill_u16(ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
 ae_u32_t *
 ae_memory_raw_fill_u32(ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
 {
-    ae_runtime_assert(begin)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     ae_u32_t *ptr = begin;
     while (ptr < end)
@@ -58,10 +49,7 @@ ae_memory_raw_fill_u32(ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
 ae_u64_t *
 ae_memory_raw_fill_u64(ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value)
 {
-    ae_runtime_assert(begin)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(begin, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     ae_u64_t *ptr = begin;
     while (ptr < end)
@@ -98,10 +86,7 @@ ae_memory_raw_compare_u8(const ae_u8_t *lhs,
                          const ae_u8_t *rhs,
                          const ae_u8_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u8_t *_lhs = lhs;
     const ae_u8_t *_rhs = rhs;
@@ -123,10 +108,7 @@ ae_memory_raw_compare_u16(const ae_u16_t *lhs,
                           const ae_u16_t *rhs,
                           const ae_u16_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u16_t *_lhs = lhs;
     const ae_u16_t *_rhs = rhs;
@@ -148,10 +130,7 @@ ae_memory_raw_compare_u32(const ae_u32_t *lhs,
                           const ae_u32_t *rhs,
                           const ae_u32_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u32_t *_lhs = lhs;
     const ae_u32_t *_rhs = rhs;
@@ -173,10 +152,7 @@ ae_memory_raw_compare_u64(const ae_u64_t *lhs,
                           const ae_u64_t *rhs,
                           const ae_u64_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u64_t *_lhs = lhs;
     const ae_u64_t *_rhs = rhs;
@@ -198,10 +174,7 @@ ae_memory_raw_compare_rev_u8(const ae_u8_t *lhs,
                              const ae_u8_t *rhs,
                              const ae_u8_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u8_t *_lhs = lhs_end;
     const ae_u8_t *_rhs = rhs_end;
@@ -222,10 +195,7 @@ ae_memory_raw_compare_rev_u16(const ae_u16_t *lhs,
                               const ae_u16_t *rhs,
                               const ae_u16_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u16_t *_lhs = lhs_end;
     const ae_u16_t *_rhs = rhs_end;
@@ -246,10 +216,7 @@ ae_memory_raw_compare_rev_u32(const ae_u32_t *lhs,
                               const ae_u32_t *rhs,
                               const ae_u32_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u32_t *_lhs = lhs_end;
     const ae_u32_t *_rhs = rhs_end;
@@ -270,10 +237,7 @@ ae_memory_raw_compare_rev_u64(const ae_u64_t *lhs,
                               const ae_u64_t *rhs,
                               const ae_u64_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u64_t *_lhs = lhs_end;
     const ae_u64_t *_rhs = rhs_end;
@@ -294,10 +258,7 @@ ae_memory_raw_copy_u8(ae_u8_t       *dst,
                       const ae_u8_t *src,
                       const ae_u8_t *src_end)
 {
-    ae_runtime_assert(dst && src)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     ae_u8_t       *_dst = dst;
     const ae_u8_t *_src = src;
@@ -315,10 +276,7 @@ ae_memory_raw_copy_u16(ae_u16_t       *dst,
                        const ae_u16_t *src,
                        const ae_u16_t *src_end)
 {
-    ae_runtime_assert(dst && src)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     ae_u16_t       *_dst = dst;
     const ae_u16_t *_src = src;
@@ -336,10 +294,7 @@ ae_memory_raw_copy_u32(ae_u32_t       *dst,
                        const ae_u32_t *src,
                        const ae_u32_t *src_end)
 {
-    ae_runtime_assert(dst && src)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     ae_u32_t       *_dst = dst;
     const ae_u32_t *_src = src;
@@ -357,10 +312,7 @@ ae_memory_raw_copy_u64(ae_u64_t       *dst,
                        const ae_u64_t *src,
                        const ae_u64_t *src_end)
 {
-    ae_runtime_assert(dst && src)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     ae_u64_t       *_dst = dst;
     const ae_u64_t *_src = src;
@@ -396,10 +348,7 @@ ae_memory_raw_copy_rev_u8(const ae_u8_t *dst,
                           const ae_u8_t *src,
                           const ae_u8_t *src_end)
 {
-    ae_runtime_assert(dst && src)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u8_t *_src = src_end;
     ae_u8_t       *_dst = dst_end;
@@ -417,10 +366,7 @@ ae_memory_raw_copy_rev_u16(const ae_u16_t *dst,
                            const ae_u16_t *src,
                            const ae_u16_t *src_end)
 {
-    ae_runtime_assert(dst && src)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u16_t *_src = src_end;
     ae_u16_t       *_dst = dst_end;
@@ -438,10 +384,7 @@ ae_memory_raw_copy_rev_u32(const ae_u32_t *dst,
                            const ae_u32_t *src,
                            const ae_u32_t *src_end)
 {
-    ae_runtime_assert(dst && src)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u32_t *_src = src_end;
     ae_u32_t       *_dst = dst_end;
@@ -459,10 +402,7 @@ ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
                            const ae_u64_t *src,
                            const ae_u64_t *src_end)
 {
-    ae_runtime_assert(dst && src)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     const ae_u64_t *_src = src_end;
     ae_u64_t       *_dst = dst_end;
@@ -569,10 +509,7 @@ ae_memory_raw_find_u8(const ae_u8_t *lhs,
                       const ae_u8_t *rhs,
                       const ae_u8_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     for (const ae_u8_t *_lhs = lhs; _lhs < lhs_end; ++_lhs)
     {
@@ -590,10 +527,7 @@ ae_memory_raw_find_u16(const ae_u16_t *lhs,
                        const ae_u16_t *rhs,
                        const ae_u16_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     for (const ae_u16_t *_lhs = lhs; _lhs < lhs_end; ++_lhs)
     {
@@ -611,10 +545,7 @@ ae_memory_raw_find_u32(const ae_u32_t *lhs,
                        const ae_u32_t *rhs,
                        const ae_u32_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     for (const ae_u32_t *_lhs = lhs; _lhs < lhs_end; ++_lhs)
     {
@@ -632,10 +563,7 @@ ae_memory_raw_find_u64(const ae_u64_t *lhs,
                        const ae_u64_t *rhs,
                        const ae_u64_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     for (const ae_u64_t *_lhs = lhs; _lhs < lhs_end; ++_lhs)
     {
@@ -653,10 +581,7 @@ ae_memory_raw_find_rev_u8(const ae_u8_t *lhs,
                           const ae_u8_t *rhs,
                           const ae_u8_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     for (const ae_u8_t *_lhs_end = lhs_end; _lhs_end > lhs; --_lhs_end)
     {
@@ -674,10 +599,7 @@ ae_memory_raw_find_rev_u16(const ae_u16_t *lhs,
                            const ae_u16_t *rhs,
                            const ae_u16_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     for (const ae_u16_t *_lhs_end = lhs_end; _lhs_end > lhs; --_lhs_end)
     {
@@ -695,10 +617,7 @@ ae_memory_raw_find_rev_u32(const ae_u32_t *lhs,
                            const ae_u32_t *rhs,
                            const ae_u32_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     for (const ae_u32_t *_lhs_end = lhs_end; _lhs_end > lhs; --_lhs_end)
     {
@@ -716,10 +635,7 @@ ae_memory_raw_find_rev_u64(const ae_u64_t *lhs,
                            const ae_u64_t *rhs,
                            const ae_u64_t *rhs_end)
 {
-    ae_runtime_assert(lhs && rhs)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    }
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
     for (const ae_u64_t *_lhs_end = lhs_end; _lhs_end > lhs; --_lhs_end)
     {

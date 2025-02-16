@@ -20,20 +20,14 @@ ae_dynamic_block_get_begin(const ae_dynamic_block_t *self)
 ae_usize_t
 ae_dynamic_block_size(const ae_dynamic_block_t *self)
 {
-    ae_runtime_assert(self)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER, 0);
-    }
+    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER, 0);
     return self->number_of_elements;
 }
 
 void
 ae_dynamic_block_clear(ae_dynamic_block_t *self)
 {
-    ae_runtime_assert(self)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_NULL_POINTER);
-    }
+    AE_RUNTIME_ASSERT(self, AE_RUNTIME_ERROR_NULL_POINTER);
     self->number_of_elements = 0;
 }
 
@@ -47,11 +41,8 @@ ae_usize_t
 ae_dynamic_block_total_size(const ae_dynamic_block_t *self)
 {
     const ae_usize_t element_size = ae_memory_block_get_element_size(self);
-    ae_runtime_assert(element_size)
-    {
-        ae_runtime_throw(AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, 0);
-    }
-
+    AE_RUNTIME_ASSERT(element_size, AE_RUNTIME_ERROR_ZERO_ELEMENT_SIZE, 0);
+    
     const ae_usize_t size = ae_dynamic_block_size(self);
     return size * element_size;
 }
