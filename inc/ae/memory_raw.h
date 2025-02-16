@@ -107,6 +107,7 @@ ae_memory_raw_fill_u16(ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value);
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если @c begin или @c end является NULL.
  */
+AE_ATTRIBUTE(SYMBOL)
 ae_u32_t *
 ae_memory_raw_fill_u32(ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value);
 
