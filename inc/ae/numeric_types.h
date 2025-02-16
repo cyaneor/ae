@@ -54,32 +54,32 @@ typedef unsigned long long int ae_ullong_t;
  * @typedef ae_schar_t
  * @brief Определение знакового однобайтового целого типа.
  */
-typedef signed char ae_schar_t;
+typedef char ae_schar_t;
 
 /**
  * @typedef ae_sshort_t
  * @brief Определение знакового двухбайтового целого типа.
  */
-typedef signed short ae_sshort_t;
+typedef short ae_sshort_t;
 
 /**
  * @typedef ae_sint_t
  * @brief Определение знакового четырехбайтового целого типа.
  */
-typedef signed int ae_sint_t;
+typedef int ae_sint_t;
 
 /**
  * @typedef ae_slong_t
  * @brief Определение знакового целого типа
  *        с длиной в четыре или восемь байт (в зависимости от платформы).
  */
-typedef signed long ae_slong_t;
+typedef long ae_slong_t;
 
 /**
  * @typedef ae_sllong_t
  * @brief Определение знакового целого типа
  *        с длиной в восемь байт.
  */
-typedef signed long long ae_sllong_t;
+typedef long long ae_sllong_t;
 
 #endif // AE_NUMERIC_TYPES_H
