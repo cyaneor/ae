@@ -148,3 +148,13 @@ ae_str_raw_len(const ae_char_t *str)
     const ae_usize_t _len = AE_UINTPTR_T_MAX - ae_ptr_to_addr(str);
     return ae_str_raw_len_to(str, _len);
 }
+
+ae_char_t *
+ae_str_raw_cat_from(ae_char_t *str,
+                    ae_usize_t       str_len,
+                    const ae_char_t *src,
+                    ae_usize_t       src_len)
+{
+    ae_char_t *_str = ae_ptr_add_offset(str, str_len);
+    return ae_str_raw_copy_to(_str, src_len, src, src_len);
+}

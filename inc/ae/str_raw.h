@@ -352,6 +352,13 @@ AE_ATTRIBUTE(SYMBOL)
 ae_usize_t
 ae_str_raw_len(const ae_char_t *str);
 
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_cat_from(ae_char_t *str,
+                    ae_usize_t       str_len,
+                    const ae_char_t *src,
+                    ae_usize_t       src_len);
+
 AE_COMPILER(EXTERN_C_END)
 
 #endif // AE_STR_RAW_H
