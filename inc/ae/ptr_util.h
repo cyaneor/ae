@@ -109,7 +109,7 @@
 #define ae_ptr_diff(ptr1, ptr2) (ae_ptr_to_diff(ptr1) - ae_ptr_to_diff(ptr2))
 
 /**
- * @def ae_ptr_diff_addr
+ * @def ae_addr_diff
  * @brief Вычисляет разницу между двумя указателями в виде адресов.
  *
  * Этот макрос вычисляет разницу между двумя указателями, преобразуя
@@ -124,7 +124,7 @@
  *         в виде целого числа типа `ae_intptr_t`, которое представляет собой
  *         разницу между двумя адресами.
  */
-#define ae_ptr_diff_addr(ptr1, ptr2) (ae_ptr_to_addr(ptr1) - ae_ptr_to_addr(ptr2))
+#define ae_addr_diff(ptr1, ptr2) (ae_ptr_to_addr(ptr1) - ae_ptr_to_addr(ptr2))
 
 /**
  * @def ae_ptr_add_offset
