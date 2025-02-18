@@ -13,9 +13,11 @@
 
 #include "attribute.h"
 #include "char.h"
+#include "bool.h"
 #include "size.h"
 
 /**
+ * @def AE_STR_RAW_NULL_TERMINATOR
  * @brief Определение символа null-терминатора в строках.
  *
  * Этот макрос задает символ null-терминатора для строк.
@@ -39,7 +41,11 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * @param[in] str_len Длина строки, в пределах которой производится поиск.
  * @param[in] value Символ, который необходимо найти в строке.
  *
- * @return Указатель на первый найденный символ в строке, или NULL, если символ не найден.
+ * @return Указатель на первый найденный символ в строке,
+ *         или NULL, если символ не найден.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
@@ -56,6 +62,9 @@ ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t str_len, ae_char_t v
  *
  * @return Указатель на символ терминатора NULL в строке,
  *         или NULL, если символ не найден.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
@@ -73,6 +82,9 @@ ae_str_raw_find_null_terminator_with(const ae_char_t *str, ae_usize_t str_len);
  *
  * @return Указатель на символ терминатора NULL в строке,
  *         или NULL, если символ не найден.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
@@ -94,6 +106,8 @@ ae_str_raw_find_null_terminator(const ae_char_t *str);
  * @return Длина строки (в символах)
  *         от начала до символа терминатора NULL.
  *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
  * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
  *        Если не был найден символ терминатора NULL.
  */
@@ -110,10 +124,105 @@ ae_str_raw_len_with(const ae_char_t *str, ae_usize_t str_len);
  *
  * @param[in] str Указатель на строку, длина которой будет вычислена.
  * @return Длина строки (в символах) от начала до символа терминатора NULL.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_usize_t
 ae_str_raw_len(const ae_char_t *str);
+
+/**
+ * @brief Копирует данные из одного буфера в другой.
+ *
+ * Эта функция копирует данные из исходного буфера `src` в целевой буфер `str`.
+ * Буфер источника и буфер назначения могут иметь разные размеры,
+ * но копирование происходит только в пределах переданных длины этих буферов.
+ *
+ * @param str Указатель на целевой буфер,
+ *            в который будет произведено копирование.
+ * @param str_len Длина целевого буфера.
+ * @param src Указатель на исходный буфер,
+ *            из которого будет произведено копирование.
+ * @param src_len Длина исходного буфера.
+ *
+ * @return Указатель на целевой буфер `str`,
+ *         после копирования данных.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
+ *
+ * @note Функция предполагает, что целевой и исходный буферы не пересекаются.
+ *       Если это условие не выполняется, поведение функции может быть неопределённым.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len);
+
+/**
+ * @brief Копирует данные из одного буфера
+ *        в другой с использованием длины исходного буфера.
+ *
+ * Эта функция является обёрткой для функции `ae_str_raw_copy_from`.
+ * Она копирует данные из исходного буфера `src` в целевой буфер `str`,
+ * используя длину исходного буфера как размер для обоих буферов.
+ *
+ * @param str Указатель на целевой буфер, в который будет произведено копирование.
+ * @param src Указатель на исходный буфер, из которого будет произведено копирование.
+ * @param src_len Длина исходного буфера.
+ *
+ * @return Указатель на целевой буфер `str`,
+ *         после копирования данных.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
+ *
+ * @note Эта функция предполагает, что целевой и исходный буферы не пересекаются.
+ *       Если это условие не выполняется, поведение может быть неопределённым.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_copy_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len);
+
+/**
+ * @brief Копирует данные из исходного буфера в целевой буфер
+ *        с автоматическим определением длины исходного буфера.
+ *
+ * Эта функция копирует данные из исходного буфера `src` в целевой буфер `str`.
+ * Длина исходного буфера определяется автоматически с использованием функции `ae_str_raw_len`.
+ * После этого данные копируются с помощью функции `ae_str_raw_copy_with`,
+ * которая выполняет сам процесс копирования.
+ *
+ * @param str Указатель на целевой буфер,
+ *            в который будет произведено копирование.
+ * @param src Указатель на исходный буфер,
+ *            из которого будет произведено копирование.
+ *
+ * @return Указатель на целевой буфер `str`,
+ *         после копирования данных.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c dst или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_copy(ae_char_t *str, const ae_char_t *src);
+
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len);
+
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len);
+
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_cat(ae_char_t *str, const ae_char_t *src);
 
 AE_COMPILER(EXTERN_C_END)
 

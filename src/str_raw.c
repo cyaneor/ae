@@ -12,7 +12,8 @@ ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t str_len, ae_char_t v
 {
     ae_u8_t *_str = ae_ptr_cast(ae_u8_t, str);
     ae_u8_t  _val = ae_static_cast(ae_u8_t, value);
-    return ae_ptr_cast(ae_char_t, ae_memory_raw_find_value_u8(_str, _str + str_len, _val));
+    ae_u8_t *_end = ae_ptr_add_offset(_str, str_len);
+    return ae_ptr_cast(ae_char_t, ae_memory_raw_find_value_u8(_str, _end, _val));
 }
 
 const ae_char_t *
@@ -42,4 +43,61 @@ ae_usize_t
 ae_str_raw_len(const ae_char_t *str)
 {
     return ae_str_raw_len_with(str, 0);
+}
+
+ae_char_t *
+ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
+{
+    ae_u8_t *_str     = ae_ptr_cast(ae_u8_t, str);
+    ae_u8_t *_str_end = ae_ptr_add_offset(_str, str_len);
+    ae_u8_t *_src     = ae_ptr_cast(ae_u8_t, src);
+    ae_u8_t *_src_end = ae_ptr_add_offset(_src, src_len);
+
+    return ae_memory_raw_move(_str, _str_end, _src, _src_end);
+}
+
+ae_char_t *
+ae_str_raw_copy_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len)
+{
+    return ae_str_raw_copy_from(str, src_len, src, src_len);
+}
+
+ae_char_t *
+ae_str_raw_copy(ae_char_t *str, const ae_char_t *src)
+{
+    ae_runtime_try
+    {
+        const ae_usize_t src_len = ae_str_raw_len(src);
+        ae_runtime_try_interrupt(ae_str_raw_copy_with(str, src, src_len));
+    }
+    ae_runtime_raise(nullptr);
+}
+
+ae_char_t *
+ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
+{
+    ae_char_t *_str = ae_ptr_add_offset(str, str_len);
+    return ae_str_raw_copy_with(_str, src, src_len);
+}
+
+ae_char_t *
+ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len)
+{
+    ae_runtime_try
+    {
+        ae_usize_t _str_len = ae_str_raw_len(str);
+        ae_runtime_try_interrupt(ae_str_raw_cat_from(str, _str_len, src, src_len));
+    }
+    ae_runtime_try_interrupt(nullptr);
+}
+
+ae_char_t *
+ae_str_raw_cat(ae_char_t *str, const ae_char_t *src)
+{
+    ae_runtime_try
+    {
+        ae_usize_t _src_len = ae_str_raw_len(src);
+        ae_runtime_try_interrupt(ae_str_raw_cat_with(str, src, _src_len));
+    }
+    ae_runtime_try_interrupt(nullptr);
 }
