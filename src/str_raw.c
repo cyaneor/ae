@@ -77,7 +77,12 @@ ae_char_t *
 ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
 {
     ae_char_t *_str = ae_ptr_add_offset(str, str_len);
-    return ae_str_raw_copy_with(_str, src, src_len);
+    ae_char_t *_end = ae_str_raw_copy_with(_str, src, src_len);
+    if (_end)
+    {
+        *_end = AE_STR_RAW_NULL_TERMINATOR;
+    }
+    return _end;
 }
 
 ae_char_t *
