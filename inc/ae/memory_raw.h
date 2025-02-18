@@ -37,6 +37,26 @@
 #include "attribute.h"
 #include "size.h"
 
+/**
+ * @def ae_memory_raw_swap
+ * @brief Обмен значений двух переменных с использованием побитового XOR.
+ *
+ * Этот макрос меняет местами значения двух переменных типа, поддерживающего побитовые операции
+ * (например, int). Он использует операцию побитового исключающего ИЛИ (XOR) для обмена значениями
+ * без использования временной переменной.
+ *
+ * @param a Первая переменная, чье значение будет обменяно.
+ * @param b Вторая переменная, чье значение будет обменяно.
+ *
+ * @note Этот метод может быть неэффективным на некоторых архитектурах или компиляторах.
+ * @note Не рекомендуется использовать для типов данных, которые могут быть некорректно
+ *       обработаны с помощью побитовых операций (например, с плавающей запятой или указателями).
+ */
+#define ae_memory_raw_swap(a, b)                                                                   \
+    a ^= b;                                                                                        \
+    b ^= a;                                                                                        \
+    a ^= b
+
 AE_COMPILER(EXTERN_C_BEGIN)
 
 /**
@@ -1237,6 +1257,70 @@ ae_memory_raw_find_value_u32(const ae_u32_t *begin, const ae_u32_t *end, ae_u32_
 AE_ATTRIBUTE(SYMBOL)
 const ae_u64_t *
 ae_memory_raw_find_value_u64(const ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value);
+
+/**
+ * @brief Обмен значениями двух переменных типа ae_u8_t.
+ *
+ * Эта функция меняет местами значения двух переменных
+ * типа `ae_u8_t` с использованием макроса `ae_memory_raw_swap`.
+ *
+ * @param lhs Указатель на первую переменную, чье значение будет обменяно.
+ * @param rhs Указатель на вторую переменную, чье значение будет обменяно.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_memory_raw_swap_u8(ae_u8_t *lhs, ae_u8_t *rhs);
+
+/**
+ * @brief Обмен значениями двух переменных типа ae_u16_t.
+ *
+ * Эта функция меняет местами значения двух переменных
+ * типа `ae_u16_t` с использованием макроса `ae_memory_raw_swap`.
+ *
+ * @param lhs Указатель на первую переменную типа `ae_u16_t`, чье значение будет обменяно.
+ * @param rhs Указатель на вторую переменную типа `ae_u16_t`, чье значение будет обменяно.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_memory_raw_swap_u16(ae_u16_t *lhs, ae_u16_t *rhs);
+
+/**
+ * @brief Обмен значениями двух переменных типа ae_u32_t.
+ *
+ * Эта функция меняет местами значения двух переменных
+ * типа `ae_u32_t` с использованием макроса `ae_memory_raw_swap`.
+ *
+ * @param lhs Указатель на первую переменную типа `ae_u32_t`, чье значение будет обменяно.
+ * @param rhs Указатель на вторую переменную типа `ae_u32_t`, чье значение будет обменяно.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_memory_raw_swap_u32(ae_u32_t *lhs, ae_u32_t *rhs);
+
+/**
+ * @brief Обмен значениями двух переменных типа ae_u64_t.
+ *
+ * Эта функция меняет местами значения двух переменных
+ * типа `ae_u64_t` с использованием макроса `ae_memory_raw_swap`.
+ *
+ * @param lhs Указатель на первую переменную типа `ae_u64_t`, чье значение будет обменяно.
+ * @param rhs Указатель на вторую переменную типа `ae_u64_t`, чье значение будет обменяно.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_memory_raw_swap_u64(ae_u64_t *lhs, ae_u64_t *rhs);
 
 AE_COMPILER(EXTERN_C_END)
 

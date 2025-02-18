@@ -670,3 +670,31 @@ ae_memory_raw_find_value_u64(const ae_u64_t *begin, const ae_u64_t *end, ae_u64_
 {
     return ae_memory_raw_find_u64(begin, end, &value, ae_ptr_add_offset(&value, sizeof(ae_u64_t)));
 }
+
+void
+ae_memory_raw_swap_u8(ae_u8_t *lhs, ae_u8_t *rhs)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER);
+    ae_memory_raw_swap(*lhs, *rhs);
+}
+
+void
+ae_memory_raw_swap_u16(ae_u16_t *lhs, ae_u16_t *rhs)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER);
+    ae_memory_raw_swap(*lhs, *rhs);
+}
+
+void
+ae_memory_raw_swap_u32(ae_u32_t *lhs, ae_u32_t *rhs)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER);
+    ae_memory_raw_swap(*lhs, *rhs);
+}
+
+void
+ae_memory_raw_swap_u64(ae_u64_t *lhs, ae_u64_t *rhs)
+{
+    AE_RUNTIME_ASSERT(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER);
+    ae_memory_raw_swap(*lhs, *rhs);
+}
