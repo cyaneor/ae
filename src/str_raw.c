@@ -24,7 +24,7 @@ ae_str_raw_find_null_terminator_with(const ae_char_t *str, ae_usize_t str_len)
 const ae_char_t *
 ae_str_raw_find_null_terminator(const ae_char_t *str)
 {
-    const ae_usize_t str_max = AE_UINT_T_MAX - ae_ptr_to_addr(str);
+    const ae_usize_t str_max = AE_UINTPTR_T_MAX - ae_ptr_to_addr(str);
     return ae_str_raw_find_null_terminator_with(str, str_max);
 }
 
