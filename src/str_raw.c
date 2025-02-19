@@ -46,7 +46,7 @@ ae_str_raw_len(const ae_char_t *str)
 }
 
 ae_char_t *
-ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
+ae_str_raw_move_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
 {
     ae_u8_t *_str     = ae_ptr_cast(ae_u8_t, str);
     ae_u8_t *_str_end = ae_ptr_add_offset(_str, str_len);
@@ -54,6 +54,17 @@ ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, a
     ae_u8_t *_src_end = ae_ptr_add_offset(_src, src_len);
 
     return ae_memory_raw_move(_str, _str_end, _src, _src_end);
+}
+
+ae_char_t *
+ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
+{
+    ae_char_t *_end = ae_str_raw_move_from(str, str_len, src, src_len);
+    if (_end)
+    {
+        *_end = AE_STR_RAW_NULL_TERMINATOR;
+    }
+    return _end;
 }
 
 ae_char_t *
@@ -77,12 +88,7 @@ ae_char_t *
 ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
 {
     ae_char_t *_str = ae_ptr_add_offset(str, str_len);
-    ae_char_t *_end = ae_str_raw_copy_with(_str, src, src_len);
-    if (_end)
-    {
-        *_end = AE_STR_RAW_NULL_TERMINATOR;
-    }
-    return _end;
+    return ae_str_raw_copy_with(_str, src, src_len);
 }
 
 ae_char_t *
