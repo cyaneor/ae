@@ -2,10 +2,12 @@
 /* Дополнительные модули */
 #include <ae/runtime_error_code.h>
 #include <ae/runtime_assert.h>
+#include <ae/runtime_expect.h>
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
 #include <ae/memory_raw.h>
 #include <ae/ptr_util.h>
+#include <string.h>
 
 const ae_char_t *
 ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t str_len, ae_char_t value)
@@ -59,12 +61,12 @@ ae_str_raw_move_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, a
 ae_char_t *
 ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
 {
-    ae_char_t *_end = ae_str_raw_move_from(str, str_len, src, src_len);
-    if (_end)
-    {
-        *_end = AE_STR_RAW_NULL_TERMINATOR;
-    }
-    return _end;
+    ae_u8_t *_str     = ae_ptr_cast(ae_u8_t, str);
+    ae_u8_t *_str_end = ae_ptr_add_offset(_str, str_len);
+    ae_u8_t *_src     = ae_ptr_cast(ae_u8_t, src);
+    ae_u8_t *_src_end = ae_ptr_add_offset(_src, src_len);
+
+    return ae_memory_raw_copy(_str, _str_end, _src, _src_end);
 }
 
 ae_char_t *
@@ -116,12 +118,19 @@ ae_str_raw_cat(ae_char_t *str, const ae_char_t *src)
 ae_char_t *
 str_raw_shift_left_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift)
 {
-    if (shift >= str_len)
+    if (shift)
     {
-        str[0] = AE_STR_RAW_NULL_TERMINATOR;
-        return str;
+        if (shift >= str_len)
+        {
+            str[0] = AE_STR_RAW_NULL_TERMINATOR; // Устанавливаем строку в пустую
+        }
+        else
+        {
+            ae_str_raw_copy_with(str, str + shift, str_len - shift); // Сдвигаем строку
+            str[str_len - shift] = AE_STR_RAW_NULL_TERMINATOR; // Добавляем терминатор в конец
+        }
     }
-    return ae_str_raw_move_from(str, str_len, str + shift, str_len - shift);
+    return str;
 }
 
 ae_char_t *
