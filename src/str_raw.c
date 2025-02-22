@@ -112,3 +112,47 @@ ae_str_raw_cat(ae_char_t *str, const ae_char_t *src)
     }
     ae_runtime_try_interrupt(nullptr);
 }
+
+ae_char_t *
+str_raw_shift_left_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift)
+{
+    if (shift >= str_len)
+    {
+        str[0] = AE_STR_RAW_NULL_TERMINATOR;
+        return str;
+    }
+    return ae_str_raw_move_from(str, str_len, str + shift, str_len - shift);
+}
+
+ae_char_t *
+str_raw_shift_left(ae_char_t *str, ae_usize_t shift)
+{
+    ae_runtime_try
+    {
+        ae_usize_t len = ae_str_raw_len(str);
+        ae_runtime_try_interrupt(str_raw_shift_left_with(str, len, shift));
+    }
+    ae_runtime_raise(nullptr);
+}
+
+ae_char_t *
+str_raw_shift_right_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift)
+{
+    if (shift >= str_len)
+    {
+        str[0] = AE_STR_RAW_NULL_TERMINATOR;
+        return str;
+    }
+    return ae_str_raw_move_from(str + str_len - shift, str_len, str, shift);
+}
+
+ae_char_t *
+str_raw_shift_right(ae_char_t *str, ae_usize_t shift)
+{
+    ae_runtime_try
+    {
+        ae_usize_t len = ae_str_raw_len(str);
+        ae_runtime_try_interrupt(str_raw_shift_right_with(str, len, shift));
+    }
+    ae_runtime_raise(nullptr);
+}

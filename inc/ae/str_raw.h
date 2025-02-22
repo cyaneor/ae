@@ -45,7 +45,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  *         или NULL, если символ не найден.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
@@ -64,7 +64,7 @@ ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t str_len, ae_char_t v
  *         или NULL, если символ не найден.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
@@ -84,7 +84,7 @@ ae_str_raw_find_null_terminator_with(const ae_char_t *str, ae_usize_t str_len);
  *         или NULL, если символ не найден.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
@@ -107,7 +107,7 @@ ae_str_raw_find_null_terminator(const ae_char_t *str);
  *         от начала до символа терминатора NULL.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str или @c src является NULL.
  * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
  *        Если не был найден символ терминатора NULL.
  */
@@ -126,7 +126,7 @@ ae_str_raw_len_with(const ae_char_t *str, ae_usize_t str_len);
  * @return Длина строки (в символах) от начала до символа терминатора NULL.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str или @c src является NULL.
  * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
  *        Если не был найден символ терминатора NULL.
  */
@@ -149,6 +149,9 @@ ae_str_raw_len(const ae_char_t *str);
  * @param[in] src_len Длина исходной строки.
  *
  * @return Указатель на целевую строку после перемещения данных.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str или @c src является NULL.
  *
  * @note Функция использует низкоуровневые операции с памятью и предполагает,
  *       что память для строк была выделена заранее.
@@ -175,7 +178,7 @@ ae_str_raw_move_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, a
  *         после копирования данных.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str или @c src является NULL.
  *
  * @note Функция предполагает, что целевой и исходный буферы не пересекаются.
  *       Если это условие не выполняется, поведение функции может быть неопределённым.
@@ -200,7 +203,7 @@ ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, a
  *         после копирования данных.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str или @c src является NULL.
  *
  * @note Эта функция предполагает, что целевой и исходный буферы не пересекаются.
  *       Если это условие не выполняется, поведение может быть неопределённым.
@@ -227,7 +230,7 @@ ae_str_raw_copy_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len);
  *         после копирования данных.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str или @c src является NULL.
  * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
  *        Если не был найден символ терминатора NULL.
  */
@@ -252,7 +255,7 @@ ae_str_raw_copy(ae_char_t *str, const ae_char_t *src);
  * @return Указатель на целевую строку после добавления данных.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str или @c src является NULL.
  *
  * @note Функция использует вспомогательную функцию `ae_str_raw_copy_with`
  *       для выполнения копирования данных.
@@ -275,7 +278,7 @@ ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae
  * @param[in] src_len Длина исходной строки.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str или @c src является NULL.
  * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
  *        Если не был найден символ терминатора NULL.
  *
@@ -299,7 +302,7 @@ ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len);
  * @return Указатель на целевую строку после добавления данных.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c str или @c src является NULL.
  * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
  *        Если не был найден символ терминатора NULL.
  *
@@ -309,6 +312,88 @@ ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len);
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
 ae_str_raw_cat(ae_char_t *str, const ae_char_t *src);
+
+/**
+ * @brief Сдвигает строку влево на заданное количество символов.
+ *
+ * Функция выполняет сдвиг строки на заданное количество позиций влево.
+ * Если сдвиг превышает или равен длине строки,
+ * то строка обнуляется (первый символ становится терминатором строки).
+ *
+ * @param[in] str Указатель на строку, которая будет сдвигаться.
+ * @param[in] str_len Длина строки.
+ * @param[in] shift Количество позиций для сдвига влево.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ *
+ * @return Указатель на строку после сдвига.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+str_raw_shift_left_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift);
+
+/**
+ * @brief Сдвигает строку влево на заданное количество символов.
+ *
+ * Функция выполняет сдвиг строки на заданное количество позиций влево,
+ * используя вспомогательную функцию. Если строка слишком коротка для сдвига,
+ * возникает ошибка выполнения.
+ *
+ * @param[in] str Указатель на строку, которая будет сдвигаться.
+ * @param[in] shift Количество позиций для сдвига влево.
+ *
+ * @return Указатель на строку после сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+str_raw_shift_left(ae_char_t *str, ae_usize_t shift);
+
+/**
+ * @brief Сдвигает строку вправо на заданное количество символов.
+ *
+ * Функция выполняет сдвиг строки на заданное количество позиций вправо.
+ * Если сдвиг превышает или равен длине строки,
+ * то строка обнуляется (первый символ становится терминатором строки).
+ *
+ * @param[in] str Указатель на строку, которая будет сдвигаться.
+ * @param[in] str_len Длина строки.
+ * @param[in] shift Количество позиций для сдвига вправо.
+ *
+ * @return Указатель на строку после сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+str_raw_shift_right_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift);
+
+/**
+ * @brief Сдвигает строку вправо на заданное количество символов.
+ *
+ * Функция выполняет сдвиг строки на заданное количество позиций вправо,
+ * используя вспомогательную функцию. Если строка слишком коротка для сдвига,
+ * возникает ошибка выполнения.
+ *
+ * @param[in] str Указатель на строку, которая будет сдвигаться.
+ * @param[in] shift Количество позиций для сдвига вправо.
+ *
+ * @return Указатель на строку после сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+str_raw_shift_right(ae_char_t *str, ae_usize_t shift);
 
 AE_COMPILER(EXTERN_C_END)
 
