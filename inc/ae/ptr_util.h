@@ -314,6 +314,6 @@
  *       неопределенного поведения.
  */
 #define ae_ptr_range_is_overlapped(lhs_begin, lhs_end, rhs_begin, rhs_end)                         \
-    ((lhs_begin < rhs_end) && (lhs_end > rhs_begin))
+    (((lhs_begin) < (rhs_end)) && ((lhs_end) > (rhs_begin)))
 
 #endif // AE_PTR_UTIL_H

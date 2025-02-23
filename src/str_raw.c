@@ -7,7 +7,6 @@
 #include <ae/runtime_try.h>
 #include <ae/memory_raw.h>
 #include <ae/ptr_util.h>
-#include <string.h>
 
 const ae_char_t *
 ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t str_len, ae_char_t value)
@@ -66,7 +65,7 @@ ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, a
     ae_u8_t *_src     = ae_ptr_cast(ae_u8_t, src);
     ae_u8_t *_src_end = ae_ptr_add_offset(_src, src_len);
 
-    return ae_memory_raw_copy(_str, _str_end, _src, _src_end);
+    return ae_memory_raw_copy_forward(_str, _str_end, _src, _src_end);
 }
 
 ae_char_t *

@@ -469,10 +469,10 @@ ae_memory_raw_compare_rev_u64(const ae_u64_t *lhs,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u8_t *
-ae_memory_raw_copy_u8(ae_u8_t       *dst,
-                      const ae_u8_t *dst_end,
-                      const ae_u8_t *src,
-                      const ae_u8_t *src_end);
+ae_memory_raw_copy_forward_u8(ae_u8_t       *dst,
+                              const ae_u8_t *dst_end,
+                              const ae_u8_t *src,
+                              const ae_u8_t *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой.
@@ -498,10 +498,10 @@ ae_memory_raw_copy_u8(ae_u8_t       *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u16_t *
-ae_memory_raw_copy_u16(ae_u16_t       *dst,
-                       const ae_u16_t *dst_end,
-                       const ae_u16_t *src,
-                       const ae_u16_t *src_end);
+ae_memory_raw_copy_forward_u16(ae_u16_t       *dst,
+                               const ae_u16_t *dst_end,
+                               const ae_u16_t *src,
+                               const ae_u16_t *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой.
@@ -527,10 +527,10 @@ ae_memory_raw_copy_u16(ae_u16_t       *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u32_t *
-ae_memory_raw_copy_u32(ae_u32_t       *dst,
-                       const ae_u32_t *dst_end,
-                       const ae_u32_t *src,
-                       const ae_u32_t *src_end);
+ae_memory_raw_copy_forward_u32(ae_u32_t       *dst,
+                               const ae_u32_t *dst_end,
+                               const ae_u32_t *src,
+                               const ae_u32_t *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой.
@@ -556,10 +556,10 @@ ae_memory_raw_copy_u32(ae_u32_t       *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u64_t *
-ae_memory_raw_copy_u64(ae_u64_t       *dst,
-                       const ae_u64_t *dst_end,
-                       const ae_u64_t *src,
-                       const ae_u64_t *src_end);
+ae_memory_raw_copy_forward_u64(ae_u64_t       *dst,
+                               const ae_u64_t *dst_end,
+                               const ae_u64_t *src,
+                               const ae_u64_t *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой с учётом выравнивания.
@@ -584,7 +584,7 @@ ae_memory_raw_copy_u64(ae_u64_t       *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_raw_copy(void *dst, const void *dst_end, const void *src, const void *src_end);
+ae_memory_raw_copy_forward(void *dst, const void *dst_end, const void *src, const void *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой в обратном порядке.
@@ -612,10 +612,10 @@ ae_memory_raw_copy(void *dst, const void *dst_end, const void *src, const void *
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u8_t *
-ae_memory_raw_copy_rev_u8(const ae_u8_t *dst,
-                          ae_u8_t       *dst_end,
-                          const ae_u8_t *src,
-                          const ae_u8_t *src_end);
+ae_memory_raw_copy_backward_u8(const ae_u8_t *dst,
+                               ae_u8_t       *dst_end,
+                               const ae_u8_t *src,
+                               const ae_u8_t *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой в обратном порядке.
@@ -674,10 +674,10 @@ ae_memory_raw_copy_rev_u16(const ae_u16_t *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u32_t *
-ae_memory_raw_copy_rev_u32(const ae_u32_t *dst,
-                           ae_u32_t       *dst_end,
-                           const ae_u32_t *src,
-                           const ae_u32_t *src_end);
+ae_memory_raw_copy_backward_u32(const ae_u32_t *dst,
+                                ae_u32_t       *dst_end,
+                                const ae_u32_t *src,
+                                const ae_u32_t *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой в обратном порядке.
@@ -705,10 +705,10 @@ ae_memory_raw_copy_rev_u32(const ae_u32_t *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u64_t *
-ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
-                           ae_u64_t       *dst_end,
-                           const ae_u64_t *src,
-                           const ae_u64_t *src_end);
+ae_memory_raw_copy_backward_u64(const ae_u64_t *dst,
+                                ae_u64_t       *dst_end,
+                                const ae_u64_t *src,
+                                const ae_u64_t *src_end);
 
 /**
  * @brief Копирует данные в обратном порядке с учётом выравнивания.
@@ -733,7 +733,7 @@ ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_raw_copy_rev(const void *dst, void *dst_end, const void *src, const void *src_end);
+ae_memory_raw_copy_backward(const void *dst, void *dst_end, const void *src, const void *src_end);
 
 /**
  * @brief Перемещает данные из одного диапазона памяти в другой.
@@ -743,9 +743,9 @@ ae_memory_raw_copy_rev(const void *dst, void *dst_end, const void *src, const vo
  *
  * - Если диапазоны памяти перекрываются,
  *   то данные копируются в обратном порядке
- *   с использованием функции `ae_memory_raw_copy_rev_u8`.
+ *   с использованием функции `ae_memory_raw_copy_backward_u8`.
  * - В случае отсутствия перекрытия диапазонов,
- *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_u8`.
+ *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_forward_u8`.
  *
  * Это позволяет эффективно перемещать данные,
  * учитывая возможное перекрытие исходных и целевых диапазонов.
@@ -786,7 +786,7 @@ ae_memory_raw_move_u8(ae_u8_t *dst, ae_u8_t *dst_end, const ae_u8_t *src, const 
  *   то данные копируются в обратном порядке
  *   с использованием функции `ae_memory_raw_copy_rev_u16`.
  * - В случае отсутствия перекрытия диапазонов,
- *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_u16`.
+ *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_forward_u16`.
  *
  * Это позволяет эффективно перемещать данные,
  * учитывая возможное перекрытие исходных и целевых диапазонов.
@@ -827,9 +827,9 @@ ae_memory_raw_move_u16(ae_u16_t       *dst,
  * между двумя диапазонами памяти.
  *
  * - Если диапазоны памяти перекрываются, то данные копируются
- *   в обратном порядке с использованием функции `ae_memory_raw_copy_rev_u32`.
+ *   в обратном порядке с использованием функции `ae_memory_raw_copy_backward_u32`.
  * - В случае отсутствия перекрытия диапазонов,
- *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_u32`.
+ *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_forward_u32`.
  *
  * Это позволяет эффективно перемещать данные,
  * учитывая возможное перекрытие исходных и целевых диапазонов.
@@ -871,9 +871,9 @@ ae_memory_raw_move_u32(ae_u32_t       *dst,
  *
  * - Если диапазоны памяти перекрываются,
  *   то данные копируются в обратном порядке
- *   с использованием функции `ae_memory_raw_copy_rev_u64`.
+ *   с использованием функции `ae_memory_raw_copy_backward_u64`.
  * - В случае отсутствия перекрытия диапазонов,
- *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_u64`.
+ *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_forward_u64`.
  *
  * Это позволяет эффективно перемещать данные,
  * учитывая возможное перекрытие исходных и целевых диапазонов.
