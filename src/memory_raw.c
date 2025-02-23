@@ -435,7 +435,7 @@ ae_memory_raw_copy_backward(const void *dst, void *dst_end, const void *src, con
 ae_u8_t *
 ae_memory_raw_move_u8(ae_u8_t *dst, ae_u8_t *dst_end, const ae_u8_t *src, const ae_u8_t *src_end)
 {
-    if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
+    if (ae_ptr_range_is_overlapped(dst, src, src_end))
     {
         ae_u8_t *_ptr = ae_memory_raw_copy_backward_u8(dst, dst_end, src, src_end);
         return _ptr ? dst_end - (_ptr - dst) : nullptr;
@@ -449,7 +449,7 @@ ae_memory_raw_move_u16(ae_u16_t       *dst,
                        const ae_u16_t *src,
                        const ae_u16_t *src_end)
 {
-    if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
+    if (ae_ptr_range_is_overlapped(dst, src, src_end))
     {
         ae_u16_t *_ptr = ae_memory_raw_copy_backward_u16(dst, dst_end, src, src_end);
         return _ptr ? dst_end - (_ptr - dst) : nullptr;
@@ -463,7 +463,7 @@ ae_memory_raw_move_u32(ae_u32_t       *dst,
                        const ae_u32_t *src,
                        const ae_u32_t *src_end)
 {
-    if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
+    if (ae_ptr_range_is_overlapped(dst, src, src_end))
     {
         ae_u32_t *_ptr = ae_memory_raw_copy_backward_u32(dst, dst_end, src, src_end);
         return _ptr ? dst_end - (_ptr - dst) : nullptr;
@@ -477,7 +477,7 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
                        const ae_u64_t *src,
                        const ae_u64_t *src_end)
 {
-    if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
+    if (ae_ptr_range_is_overlapped(dst, src, src_end))
     {
         ae_u64_t *_ptr = ae_memory_raw_copy_backward_u64(dst, dst_end, src, src_end);
         return _ptr ? dst_end - (_ptr - dst) : nullptr;
