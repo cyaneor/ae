@@ -9,18 +9,18 @@
 #include <ae/ptr_util.h>
 
 const ae_char_t *
-ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t str_len, ae_char_t value)
+ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t len, ae_char_t value)
 {
     ae_u8_t *_str = ae_ptr_cast(ae_u8_t, str);
     ae_u8_t  _val = ae_static_cast(ae_u8_t, value);
-    ae_u8_t *_end = ae_ptr_add_offset(_str, str_len);
+    ae_u8_t *_end = ae_ptr_add_offset(_str, len);
     return ae_ptr_cast(ae_char_t, ae_memory_raw_find_value_u8(_str, _end, _val));
 }
 
 const ae_char_t *
-ae_str_raw_find_null_terminator_with(const ae_char_t *str, ae_usize_t str_len)
+ae_str_raw_find_null_terminator_with(const ae_char_t *str, ae_usize_t len)
 {
-    return ae_str_raw_find_value_with(str, str_len, AE_STR_RAW_NULL_TERMINATOR);
+    return ae_str_raw_find_value_with(str, len, AE_STR_RAW_NULL_TERMINATOR);
 }
 
 const ae_char_t *
@@ -31,10 +31,10 @@ ae_str_raw_find_null_terminator(const ae_char_t *str)
 }
 
 ae_usize_t
-ae_str_raw_len_with(const ae_char_t *str, ae_usize_t str_len)
+ae_str_raw_len_with(const ae_char_t *str, ae_usize_t len)
 {
-    const ae_char_t *cur = str_len ? ae_str_raw_find_null_terminator_with(str, str_len)
-                                   : ae_str_raw_find_null_terminator(str);
+    const ae_char_t *cur =
+        len ? ae_str_raw_find_null_terminator_with(str, len) : ae_str_raw_find_null_terminator(str);
 
     AE_RUNTIME_ASSERT(cur, AE_RUNTIME_ERROR_NO_NULL_TERMINATOR, 0);
     return ae_addr_diff(cur, str);
@@ -58,9 +58,9 @@ ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, a
 }
 
 ae_char_t *
-ae_str_raw_copy_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len)
+ae_str_raw_copy_with(ae_char_t *str, const ae_char_t *src, ae_usize_t len)
 {
-    return ae_str_raw_copy_from(str, src_len, src, src_len);
+    return ae_str_raw_copy_from(str, len, src, len);
 }
 
 ae_char_t *
@@ -100,12 +100,12 @@ ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae
 }
 
 ae_char_t *
-ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len)
+ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t len)
 {
     ae_runtime_try
     {
         ae_usize_t _str_len = ae_str_raw_len(str);
-        ae_runtime_try_interrupt(ae_str_raw_cat_from(str, _str_len, src, src_len));
+        ae_runtime_try_interrupt(ae_str_raw_cat_from(str, _str_len, src, len));
     }
     ae_runtime_try_interrupt(nullptr);
 }
@@ -122,18 +122,18 @@ ae_str_raw_cat(ae_char_t *str, const ae_char_t *src)
 }
 
 ae_char_t *
-str_raw_shift_left_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift)
+str_raw_shift_left_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift)
 {
     if (shift)
     {
-        if (shift >= str_len)
+        if (shift >= len)
         {
             str[0] = AE_STR_RAW_NULL_TERMINATOR;
         }
         else
         {
-            ae_str_raw_copy_with(str, str + shift, str_len - shift);
-            str[str_len - shift] = AE_STR_RAW_NULL_TERMINATOR;
+            ae_str_raw_copy_with(str, str + shift, len - shift);
+            str[len - shift] = AE_STR_RAW_NULL_TERMINATOR;
         }
     }
     return str;
@@ -151,26 +151,31 @@ str_raw_shift_left(ae_char_t *str, ae_usize_t shift)
 }
 
 ae_char_t *
-str_raw_shift_right_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift)
+str_raw_shift_right_and_fill_value(ae_char_t *str,
+                                   ae_usize_t len,
+                                   ae_usize_t shift,
+                                   ae_char_t  value)
 {
     if (shift)
     {
-        if (shift >= str_len)
+        if (shift >= len)
         {
-            str[0] = AE_STR_RAW_NULL_TERMINATOR; // Устанавливаем строку в пустую
+            str[0] = AE_STR_RAW_NULL_TERMINATOR;
         }
         else
         {
-            // Сдвигаем строку вправо
-            ae_str_raw_copy_with(
-                str + shift, str, str_len - shift); // Копируем символы на новое место
-            for (ae_usize_t i = 0; i < shift; i++)
-            {
-                str[i] = AE_STR_RAW_NULL_TERMINATOR; // Заполняем начало строки нулями
-            }
+            ae_str_raw_copy_with(str + shift, str, len - shift);
+            ae_str_raw_fill_with(str, shift, value);
+            str[len] = AE_STR_RAW_NULL_TERMINATOR;
         }
     }
     return str;
+}
+
+ae_char_t *
+str_raw_shift_right_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift)
+{
+    return str_raw_shift_right_and_fill_value(str, len, shift, AE_STR_RAW_SPACE_SYMBOL);
 }
 
 ae_char_t *

@@ -28,6 +28,17 @@
  */
 #define AE_STR_RAW_NULL_TERMINATOR ((ae_char_t)'\0')
 
+/**
+ * @def AE_STR_RAW_SPACE_SYMBOL
+ * @brief Определение макроса для символа пробела.
+ *
+ * Этот макрос задает символ пробела в виде значения типа `ae_char_t`.
+ * Используется для работы с пробелами в строках или других текстовых данных.
+ *
+ * @note Тип `ae_char_t` должен быть предварительно определен в коде.
+ */
+#define AE_STR_RAW_SPACE_SYMBOL ((ae_char_t)' ')
+
 AE_COMPILER(EXTERN_C_BEGIN)
 
 /**
@@ -38,7 +49,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * или NULL, если символ не найден.
  *
  * @param[in] str Указатель на строку, в которой будет произведен поиск.
- * @param[in] str_len Длина строки, в пределах которой производится поиск.
+ * @param[in] len Длина строки, в пределах которой производится поиск.
  * @param[in] value Символ, который необходимо найти в строке.
  *
  * @return Указатель на первый найденный символ в строке,
@@ -49,7 +60,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
-ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t str_len, ae_char_t value);
+ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t len, ae_char_t value);
 
 /**
  * @brief Ищет символ терминатора NULL в строке.
@@ -58,7 +69,7 @@ ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t str_len, ae_char_t v
  * Она использует вспомогательную функцию для поиска конкретного символа в строке.
  *
  * @param[in] str Указатель на строку, в которой будет произведен поиск.
- * @param[in] str_len Длина строки, в пределах которой производится поиск.
+ * @param[in] len Длина строки, в пределах которой производится поиск.
  *
  * @return Указатель на символ терминатора NULL в строке,
  *         или NULL, если символ не найден.
@@ -68,7 +79,7 @@ ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t str_len, ae_char_t v
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
-ae_str_raw_find_null_terminator_with(const ae_char_t *str, ae_usize_t str_len);
+ae_str_raw_find_null_terminator_with(const ae_char_t *str, ae_usize_t len);
 
 /**
  * @brief Ищет символ терминатора NULL в строке без указания длины.
@@ -99,7 +110,7 @@ ae_str_raw_find_null_terminator(const ae_char_t *str);
  * до первого встреченного символа терминатора NULL.
  *
  * @param[in] str Указатель на строку, длина которой будет вычислена.
- * @param[in] str_len Длина строки для поиска символа терминатора.
+ * @param[in] len Длина строки для поиска символа терминатора.
  *                    Если она равна 0, длина будет вычисляться автоматически,
  *                    используя функцию поиска символа терминатора NULL.
  *
@@ -113,7 +124,7 @@ ae_str_raw_find_null_terminator(const ae_char_t *str);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_usize_t
-ae_str_raw_len_with(const ae_char_t *str, ae_usize_t str_len);
+ae_str_raw_len_with(const ae_char_t *str, ae_usize_t len);
 
 /**
  * @brief Вычисляет длину строки с учетом символа терминатора NULL.
@@ -171,7 +182,7 @@ ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, a
  *
  * @param str Указатель на целевой буфер, в который будет произведено копирование.
  * @param src Указатель на исходный буфер, из которого будет произведено копирование.
- * @param src_len Длина исходного буфера.
+ * @param len Длина исходного буфера.
  *
  * @return Указатель на целевой буфер `str`,
  *         после копирования данных.
@@ -184,7 +195,7 @@ ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, a
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_copy_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len);
+ae_str_raw_copy_with(ae_char_t *str, const ae_char_t *src, ae_usize_t len);
 
 /**
  * @brief Копирует данные из исходного буфера в целевой буфер
@@ -290,7 +301,7 @@ ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae
  *                в конец которой будут добавлены данные.
  * @param[in] src Указатель на исходную строку,
  *                данные из которой будут добавлены в конец целевой строки.
- * @param[in] src_len Длина исходной строки.
+ * @param[in] len Длина исходной строки.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если @c str или @c src является NULL.
@@ -301,7 +312,7 @@ ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len);
+ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t len);
 
 /**
  * @brief Конкатенирует строки, добавляя данные из исходной строки в конец целевой строки.
@@ -336,7 +347,7 @@ ae_str_raw_cat(ae_char_t *str, const ae_char_t *src);
  * то строка обнуляется (первый символ становится терминатором строки).
  *
  * @param[in] str Указатель на строку, которая будет сдвигаться.
- * @param[in] str_len Длина строки.
+ * @param[in] len Длина строки.
  * @param[in] shift Количество позиций для сдвига влево.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
@@ -346,7 +357,7 @@ ae_str_raw_cat(ae_char_t *str, const ae_char_t *src);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-str_raw_shift_left_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift);
+str_raw_shift_left_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift);
 
 /**
  * @brief Сдвигает строку влево на заданное количество символов.
@@ -370,24 +381,55 @@ ae_char_t *
 str_raw_shift_left(ae_char_t *str, ae_usize_t shift);
 
 /**
- * @brief Сдвигает строку вправо на заданное количество символов.
+ * @brief Сдвигает строку вправо на заданное количество позиций
+ *        и заполняет левую часть строки указанным значением.
  *
- * Функция выполняет сдвиг строки на заданное количество позиций вправо.
- * Если сдвиг превышает или равен длине строки,
- * то строка обнуляется (первый символ становится терминатором строки).
+ * Эта функция выполняет сдвиг символов в строке вправо на заданное количество позиций (`shift`).
+ * Символы, которые выходят за пределы строки, отбрасываются, а левая часть строки заполняется
+ * указанным символом (`value`). Если значение сдвига больше или равно длине строки (`len`),
+ * строка сразу становится строкой с нулевым терминатором.
  *
- * @param[in] str Указатель на строку, которая будет сдвигаться.
- * @param[in] str_len Длина строки.
- * @param[in] shift Количество позиций для сдвига вправо.
+ * @param str Указатель на строку, которую нужно сдвигать.
+ * @param len Длина строки (не включая нулевой терминатор).
+ * @param shift Количество позиций для сдвига строки вправо.
+ * @param value Символ, которым заполняется левая часть строки после сдвига.
  *
- * @return Указатель на строку после сдвига.
+ * @return Указатель на результат сдвига и заполнения строки.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ *
+ * @note Если значение сдвига больше или равно длине строки,
+ *       строка будет завершена нулевым терминатором,
+ *       а все её содержимое будет отброшено.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+str_raw_shift_right_and_fill_value(ae_char_t *str,
+                                   ae_usize_t len,
+                                   ae_usize_t shift,
+                                   ae_char_t  value);
+
+/**
+ * @brief Сдвигает строку вправо на заданное количество символов,
+ *        заполняя освободившиеся позиции пробелами.
+ *
+ * Эта функция использует функцию `str_raw_shift_right_and_fill_value` для сдвига строки на
+ * заданное количество позиций вправо и заполняет освободившиеся позиции символом пробела,
+ * который определяется через макрос `AE_STR_RAW_SPACE_SYMBOL`.
+ *
+ * @param[in,out] str Указатель на строку, которую необходимо сдвигать.
+ * @param[in] len Длина строки `str`.
+ * @param[in] shift Количество позиций, на которое нужно сдвигать строку вправо.
+ *
+ * @return Возвращает указатель на модифицированную строку.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-str_raw_shift_right_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift);
+str_raw_shift_right_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift);
 
 /**
  * @brief Сдвигает строку вправо на заданное количество символов.
