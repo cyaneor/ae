@@ -47,17 +47,6 @@ ae_str_raw_len(const ae_char_t *str)
 }
 
 ae_char_t *
-ae_str_raw_move_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
-{
-    ae_u8_t *_str     = ae_ptr_cast(ae_u8_t, str);
-    ae_u8_t *_str_end = ae_ptr_add_offset(_str, str_len);
-    ae_u8_t *_src     = ae_ptr_cast(ae_u8_t, src);
-    ae_u8_t *_src_end = ae_ptr_add_offset(_src, src_len);
-
-    return ae_memory_raw_move(_str, _str_end, _src, _src_end);
-}
-
-ae_char_t *
 ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
 {
     ae_u8_t *_str     = ae_ptr_cast(ae_u8_t, str);
@@ -65,7 +54,7 @@ ae_str_raw_copy_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, a
     ae_u8_t *_src     = ae_ptr_cast(ae_u8_t, src);
     ae_u8_t *_src_end = ae_ptr_add_offset(_src, src_len);
 
-    return ae_memory_raw_copy_forward(_str, _str_end, _src, _src_end);
+    return ae_memory_raw_move(_str, _str_end, _src, _src_end);
 }
 
 ae_char_t *
@@ -151,7 +140,7 @@ str_raw_shift_right_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift)
         str[0] = AE_STR_RAW_NULL_TERMINATOR;
         return str;
     }
-    return ae_str_raw_move_from(str + str_len - shift, str_len, str, shift);
+    return ae_str_raw_copy_from(str + str_len - shift, str_len, str, shift);
 }
 
 ae_char_t *
