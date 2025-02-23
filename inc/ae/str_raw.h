@@ -407,13 +407,13 @@ ae_str_raw_shift_left(ae_char_t *str, ae_usize_t shift);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_shift_right_for(ae_char_t *str, ae_usize_t len, ae_usize_t shift, ae_char_t value);
+ae_str_raw_shift_right_fill_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift, ae_char_t value);
 
 /**
  * @brief Сдвигает строку вправо на заданное количество символов,
  *        заполняя освободившиеся позиции пробелами.
  *
- * Эта функция использует функцию `ae_str_raw_shift_right_for` для сдвига строки на
+ * Эта функция использует функцию `ae_str_raw_shift_right_fill_with` для сдвига строки на
  * заданное количество позиций вправо и заполняет освободившиеся позиции символом пробела,
  * который определяется через макрос `AE_STR_RAW_SPACE_SYMBOL`.
  *
@@ -428,7 +428,7 @@ ae_str_raw_shift_right_for(ae_char_t *str, ae_usize_t len, ae_usize_t shift, ae_
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_shift_right_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift);
+ae_str_raw_shift_right_fill_space(ae_char_t *str, ae_usize_t len, ae_usize_t shift);
 
 /**
  * @brief Сдвигает строку вправо на заданное количество символов.

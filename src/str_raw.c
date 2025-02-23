@@ -162,7 +162,7 @@ ae_str_raw_shift_left(ae_char_t *str, ae_usize_t shift)
 }
 
 ae_char_t *
-ae_str_raw_shift_right_for(ae_char_t *str, ae_usize_t len, ae_usize_t shift, ae_char_t value)
+ae_str_raw_shift_right_fill_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift, ae_char_t value)
 {
     if (shift)
     {
@@ -181,9 +181,9 @@ ae_str_raw_shift_right_for(ae_char_t *str, ae_usize_t len, ae_usize_t shift, ae_
 }
 
 ae_char_t *
-ae_str_raw_shift_right_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift)
+ae_str_raw_shift_right_fill_space(ae_char_t *str, ae_usize_t len, ae_usize_t shift)
 {
-    return ae_str_raw_shift_right_for(str, len, shift, AE_ASCII_MAP_SPACE_SYMBOL);
+    return ae_str_raw_shift_right_fill_with(str, len, shift, AE_ASCII_MAP_SPACE_SYMBOL);
 }
 
 ae_char_t *
@@ -192,7 +192,7 @@ ae_str_raw_shift_right(ae_char_t *str, ae_usize_t shift)
     ae_runtime_try
     {
         ae_usize_t len = ae_str_raw_len(str);
-        ae_runtime_try_interrupt(ae_str_raw_shift_right_with(str, len, shift));
+        ae_runtime_try_interrupt(ae_str_raw_shift_right_fill_space(str, len, shift));
     }
     ae_runtime_raise(nullptr);
 }
