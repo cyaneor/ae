@@ -20,7 +20,7 @@ ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t len, ae_char_t value
 const ae_char_t *
 ae_str_raw_find_null_terminator_with(const ae_char_t *str, ae_usize_t len)
 {
-    return ae_str_raw_find_value_with(str, len, AE_STR_RAW_NULL_TERMINATOR);
+    return ae_str_raw_find_value_with(str, len, AE_ASCII_MAP_NULL_TERMINATOR);
 }
 
 const ae_char_t *
@@ -128,12 +128,12 @@ ae_str_raw_shift_left_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift)
     {
         if (shift >= len)
         {
-            str[0] = AE_STR_RAW_NULL_TERMINATOR;
+            str[0] = AE_ASCII_MAP_NULL_TERMINATOR;
         }
         else
         {
             ae_str_raw_copy_with(str, str + shift, len - shift);
-            str[len - shift] = AE_STR_RAW_NULL_TERMINATOR;
+            str[len - shift] = AE_ASCII_MAP_NULL_TERMINATOR;
         }
     }
     return str;
@@ -157,13 +157,13 @@ ae_str_raw_shift_right_for(ae_char_t *str, ae_usize_t len, ae_usize_t shift, ae_
     {
         if (shift >= len)
         {
-            str[0] = AE_STR_RAW_NULL_TERMINATOR;
+            str[0] = AE_ASCII_MAP_NULL_TERMINATOR;
         }
         else
         {
             ae_str_raw_copy_with(str + shift, str, len - shift);
             ae_str_raw_fill_with(str, shift, value);
-            str[len] = AE_STR_RAW_NULL_TERMINATOR;
+            str[len] = AE_ASCII_MAP_NULL_TERMINATOR;
         }
     }
     return str;
@@ -172,7 +172,7 @@ ae_str_raw_shift_right_for(ae_char_t *str, ae_usize_t len, ae_usize_t shift, ae_
 ae_char_t *
 ae_str_raw_shift_right_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift)
 {
-    return ae_str_raw_shift_right_for(str, len, shift, AE_STR_RAW_SPACE_SYMBOL);
+    return ae_str_raw_shift_right_for(str, len, shift, AE_ASCII_MAP_SPACE_SYMBOL);
 }
 
 ae_char_t *

@@ -12,32 +12,9 @@
 #define AE_STR_RAW_H
 
 #include "attribute.h"
-#include "char.h"
+#include "ascii_map.h"
 #include "bool.h"
 #include "size.h"
-
-/**
- * @def AE_STR_RAW_NULL_TERMINATOR
- * @brief Определение символа null-терминатора в строках.
- *
- * Этот макрос задает символ null-терминатора для строк.
- * Используется для явного указания конца строки в строковых данных.
- * Обратите внимание, что это значение представляет собой символ с кодом 0 (пустой символ).
- *
- * @see ae_char_t
- */
-#define AE_STR_RAW_NULL_TERMINATOR ((ae_char_t)'\0')
-
-/**
- * @def AE_STR_RAW_SPACE_SYMBOL
- * @brief Определение макроса для символа пробела.
- *
- * Этот макрос задает символ пробела в виде значения типа `ae_char_t`.
- * Используется для работы с пробелами в строках или других текстовых данных.
- *
- * @note Тип `ae_char_t` должен быть предварительно определен в коде.
- */
-#define AE_STR_RAW_SPACE_SYMBOL ((ae_char_t)' ')
 
 AE_COMPILER(EXTERN_C_BEGIN)
 
