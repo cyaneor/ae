@@ -33,11 +33,36 @@ AE_COMPILER(EXTERN_C_BEGIN)
  *         или NULL, если символ не найден.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c str является NULL.
+ *        Если @c str или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
 ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t len, ae_char_t value);
+
+/**
+ * @brief Ищет первое вхождение символа в строке.
+ *
+ * Эта функция находит первое вхождение символа в строке, вычисляя её длину
+ * с использованием функции `ae_str_raw_len` и затем выполняя поиск с помощью
+ * `ae_str_raw_find_value_with`.
+ *
+ * Функция возвращает указатель на первый найденный символ в строке,
+ * если он существует, или NULL в случае отсутствия символа.
+ *
+ * @param[in] str Указатель на строку, в которой будет произведен поиск.
+ * @param[in] value Символ, который необходимо найти в строке.
+ *
+ * @return Указатель на первый найденный символ в строке,
+ *         или NULL, если символ не найден.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+const ae_char_t *
+ae_str_raw_find_value(const ae_char_t *str, ae_char_t value);
 
 /**
  * @brief Ищет символ терминатора NULL в строке.
@@ -425,6 +450,73 @@ ae_str_raw_shift_right_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift);
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
 ae_str_raw_shift_right(ae_char_t *str, ae_usize_t shift);
+
+/**
+ * @brief Удаляет заданные символы с начала строки.
+ *
+ * Эта функция удаляет все символы из строки, которые присутствуют в массиве @c characters,
+ * начиная с первого символа. Функция выполняет поиск каждого символа из строки в массиве символов
+ * @c characters и сдвигает строку влево на количество удаленных символов. Возвращается указатель
+ * на модифицированную строку после сдвига.
+ *
+ * @param[in] str Указатель на строку, из которой будут удалены символы.
+ * @param[in] len Длина строки, в пределах которой будет произведен сдвиг.
+ * @param[in] characters Массив символов, которые должны быть удалены с начала строки.
+ *
+ * @return Указатель на строку после удаления символов и сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_trim_left_for(ae_char_t *str, ae_usize_t len, const char characters[]);
+
+/**
+ * @brief Удаляет заданные символы с начала строки, вычисляя её длину.
+ *
+ * Эта функция сначала вычисляет длину строки с помощью функции `ae_str_raw_len`,
+ * а затем вызывает функцию `ae_str_raw_trim_left_for` для удаления символов из начала строки.
+ * Массив символов для удаления передается в качестве параметра @c characters.
+ * Возвращается указатель на строку после удаления символов.
+ *
+ * @param[in] str Указатель на строку, из которой будут удалены символы.
+ * @param[in] characters Массив символов, которые должны быть удалены с начала строки.
+ *
+ * @return Указатель на строку после удаления символов и сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_trim_left_with(ae_char_t *str, const char characters[]);
+
+/**
+ * @brief Удаляет пробельные символы с начала строки.
+ *
+ * Эта функция удаляет пробельные символы (пробел, табуляция, символы новой строки и другие) с
+ * начала строки. Для этого используется функция `ae_str_raw_trim_left_with`, которая получает
+ * строку и набор символов, включая пробельные символы, такие как пробел, символ новой строки
+ * и другие.
+ *
+ * @param[in] str Указатель на строку,
+ *                из которой будут удалены пробельные символы.
+ *
+ * @return Указатель на строку после удаления пробельных символов и сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_trim_left(ae_char_t *str);
 
 AE_COMPILER(EXTERN_C_END)
 

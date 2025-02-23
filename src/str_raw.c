@@ -18,6 +18,17 @@ ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t len, ae_char_t value
 }
 
 const ae_char_t *
+ae_str_raw_find_value(const ae_char_t *str, ae_char_t value)
+{
+    ae_runtime_try
+    {
+        ae_usize_t len = ae_str_raw_len(str);
+        ae_runtime_try_interrupt(ae_str_raw_find_value_with(str, len, value));
+    }
+    ae_runtime_raise(nullptr);
+}
+
+const ae_char_t *
 ae_str_raw_find_null_terminator_with(const ae_char_t *str, ae_usize_t len)
 {
     return ae_str_raw_find_value_with(str, len, AE_ASCII_MAP_NULL_TERMINATOR);
@@ -184,4 +195,34 @@ ae_str_raw_shift_right(ae_char_t *str, ae_usize_t shift)
         ae_runtime_try_interrupt(ae_str_raw_shift_right_with(str, len, shift));
     }
     ae_runtime_raise(nullptr);
+}
+
+ae_char_t *
+ae_str_raw_trim_left_for(ae_char_t *str, ae_usize_t len, const char characters[])
+{
+    ae_usize_t shift = 0;
+
+    while (shift < len && ae_str_raw_find_value(characters, str[shift]) != NULL)
+    {
+        shift++;
+    }
+
+    return ae_str_raw_shift_left_with(str, len, shift);
+}
+
+ae_char_t *
+ae_str_raw_trim_left_with(ae_char_t *str, const char characters[])
+{
+    ae_runtime_try
+    {
+        ae_usize_t len = ae_str_raw_len(str);
+        ae_runtime_try_interrupt(ae_str_raw_trim_left_for(str, len, characters));
+    }
+    ae_runtime_raise(nullptr);
+}
+
+ae_char_t *
+ae_str_raw_trim_left(ae_char_t *str)
+{
+    return ae_str_raw_trim_left_with(str, " \n\r\t\v\x00");
 }
