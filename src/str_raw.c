@@ -75,6 +75,24 @@ ae_str_raw_copy(ae_char_t *str, const ae_char_t *src)
 }
 
 ae_char_t *
+ae_str_raw_fill_with(ae_char_t *str, ae_usize_t len, ae_char_t value)
+{
+    const ae_u8_t *_str_end = ae_ptr_add_offset(str, len);
+    return ae_memory_raw_fill(str, _str_end, value);
+}
+
+ae_char_t *
+ae_str_raw_fill(ae_char_t *str, ae_char_t value)
+{
+    ae_runtime_try
+    {
+        ae_usize_t len = ae_str_raw_len(str);
+        ae_runtime_try_interrupt(ae_str_raw_fill_with(str, len, value));
+    }
+    ae_runtime_raise(nullptr);
+}
+
+ae_char_t *
 ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len)
 {
     ae_char_t *_str = ae_ptr_add_offset(str, str_len);
@@ -110,12 +128,12 @@ str_raw_shift_left_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift)
     {
         if (shift >= str_len)
         {
-            str[0] = AE_STR_RAW_NULL_TERMINATOR; // Устанавливаем строку в пустую
+            str[0] = AE_STR_RAW_NULL_TERMINATOR;
         }
         else
         {
-            ae_str_raw_copy_with(str, str + shift, str_len - shift); // Сдвигаем строку
-            str[str_len - shift] = AE_STR_RAW_NULL_TERMINATOR; // Добавляем терминатор в конец
+            ae_str_raw_copy_with(str, str + shift, str_len - shift);
+            str[str_len - shift] = AE_STR_RAW_NULL_TERMINATOR;
         }
     }
     return str;
@@ -135,12 +153,24 @@ str_raw_shift_left(ae_char_t *str, ae_usize_t shift)
 ae_char_t *
 str_raw_shift_right_with(ae_char_t *str, ae_usize_t str_len, ae_usize_t shift)
 {
-    if (shift >= str_len)
+    if (shift)
     {
-        str[0] = AE_STR_RAW_NULL_TERMINATOR;
-        return str;
+        if (shift >= str_len)
+        {
+            str[0] = AE_STR_RAW_NULL_TERMINATOR; // Устанавливаем строку в пустую
+        }
+        else
+        {
+            // Сдвигаем строку вправо
+            ae_str_raw_copy_with(
+                str + shift, str, str_len - shift); // Копируем символы на новое место
+            for (ae_usize_t i = 0; i < shift; i++)
+            {
+                str[i] = AE_STR_RAW_NULL_TERMINATOR; // Заполняем начало строки нулями
+            }
+        }
     }
-    return ae_str_raw_copy_from(str + str_len - shift, str_len, str, shift);
+    return str;
 }
 
 ae_char_t *
