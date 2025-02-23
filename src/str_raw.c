@@ -151,10 +151,7 @@ str_raw_shift_left(ae_char_t *str, ae_usize_t shift)
 }
 
 ae_char_t *
-str_raw_shift_right_and_fill_value(ae_char_t *str,
-                                   ae_usize_t len,
-                                   ae_usize_t shift,
-                                   ae_char_t  value)
+str_raw_shift_right_for(ae_char_t *str, ae_usize_t len, ae_usize_t shift, ae_char_t value)
 {
     if (shift)
     {
@@ -175,7 +172,7 @@ str_raw_shift_right_and_fill_value(ae_char_t *str,
 ae_char_t *
 str_raw_shift_right_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift)
 {
-    return str_raw_shift_right_and_fill_value(str, len, shift, AE_STR_RAW_SPACE_SYMBOL);
+    return str_raw_shift_right_for(str, len, shift, AE_STR_RAW_SPACE_SYMBOL);
 }
 
 ae_char_t *
