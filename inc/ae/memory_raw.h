@@ -344,10 +344,10 @@ ae_memory_raw_compare_u64(const ae_u64_t *lhs,
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u8_t *
-ae_memory_raw_compare_rev_u8(const ae_u8_t *lhs,
-                             const ae_u8_t *lhs_end,
-                             const ae_u8_t *rhs,
-                             const ae_u8_t *rhs_end);
+ae_memory_raw_compare_backward_u8(const ae_u8_t *lhs,
+                                  const ae_u8_t *lhs_end,
+                                  const ae_u8_t *rhs,
+                                  const ae_u8_t *rhs_end);
 
 /**
  * @brief Сравнивает два диапазона памяти поблочно в обратном порядке.
@@ -377,10 +377,10 @@ ae_memory_raw_compare_rev_u8(const ae_u8_t *lhs,
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u16_t *
-ae_memory_raw_compare_rev_u16(const ae_u16_t *lhs,
-                              const ae_u16_t *lhs_end,
-                              const ae_u16_t *rhs,
-                              const ae_u16_t *rhs_end);
+ae_memory_raw_compare_backward_u16(const ae_u16_t *lhs,
+                                   const ae_u16_t *lhs_end,
+                                   const ae_u16_t *rhs,
+                                   const ae_u16_t *rhs_end);
 
 /**
  * @brief Сравнивает два диапазона памяти поблочно в обратном порядке.
@@ -409,10 +409,10 @@ ae_memory_raw_compare_rev_u16(const ae_u16_t *lhs,
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u32_t *
-ae_memory_raw_compare_rev_u32(const ae_u32_t *lhs,
-                              const ae_u32_t *lhs_end,
-                              const ae_u32_t *rhs,
-                              const ae_u32_t *rhs_end);
+ae_memory_raw_compare_backward_u32(const ae_u32_t *lhs,
+                                   const ae_u32_t *lhs_end,
+                                   const ae_u32_t *rhs,
+                                   const ae_u32_t *rhs_end);
 
 /**
  * @brief Сравнивает два диапазона памяти поблочно в обратном порядке.
@@ -441,10 +441,10 @@ ae_memory_raw_compare_rev_u32(const ae_u32_t *lhs,
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u64_t *
-ae_memory_raw_compare_rev_u64(const ae_u64_t *lhs,
-                              const ae_u64_t *lhs_end,
-                              const ae_u64_t *rhs,
-                              const ae_u64_t *rhs_end);
+ae_memory_raw_compare_backward_u64(const ae_u64_t *lhs,
+                                   const ae_u64_t *lhs_end,
+                                   const ae_u64_t *rhs,
+                                   const ae_u64_t *rhs_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой.
@@ -469,10 +469,10 @@ ae_memory_raw_compare_rev_u64(const ae_u64_t *lhs,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u8_t *
-ae_memory_raw_copy_forward_u8(ae_u8_t       *dst,
-                              const ae_u8_t *dst_end,
-                              const ae_u8_t *src,
-                              const ae_u8_t *src_end);
+ae_memory_raw_copy_u8(ae_u8_t       *dst,
+                      const ae_u8_t *dst_end,
+                      const ae_u8_t *src,
+                      const ae_u8_t *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой.
@@ -498,10 +498,10 @@ ae_memory_raw_copy_forward_u8(ae_u8_t       *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u16_t *
-ae_memory_raw_copy_forward_u16(ae_u16_t       *dst,
-                               const ae_u16_t *dst_end,
-                               const ae_u16_t *src,
-                               const ae_u16_t *src_end);
+ae_memory_raw_copy_u16(ae_u16_t       *dst,
+                       const ae_u16_t *dst_end,
+                       const ae_u16_t *src,
+                       const ae_u16_t *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой.
@@ -527,10 +527,10 @@ ae_memory_raw_copy_forward_u16(ae_u16_t       *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u32_t *
-ae_memory_raw_copy_forward_u32(ae_u32_t       *dst,
-                               const ae_u32_t *dst_end,
-                               const ae_u32_t *src,
-                               const ae_u32_t *src_end);
+ae_memory_raw_copy_u32(ae_u32_t       *dst,
+                       const ae_u32_t *dst_end,
+                       const ae_u32_t *src,
+                       const ae_u32_t *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой.
@@ -556,10 +556,10 @@ ae_memory_raw_copy_forward_u32(ae_u32_t       *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u64_t *
-ae_memory_raw_copy_forward_u64(ae_u64_t       *dst,
-                               const ae_u64_t *dst_end,
-                               const ae_u64_t *src,
-                               const ae_u64_t *src_end);
+ae_memory_raw_copy_u64(ae_u64_t       *dst,
+                       const ae_u64_t *dst_end,
+                       const ae_u64_t *src,
+                       const ae_u64_t *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой с учётом выравнивания.
@@ -584,7 +584,7 @@ ae_memory_raw_copy_forward_u64(ae_u64_t       *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_raw_copy_forward(void *dst, const void *dst_end, const void *src, const void *src_end);
+ae_memory_raw_copy(void *dst, const void *dst_end, const void *src, const void *src_end);
 
 /**
  * @brief Копирует данные из одного диапазона памяти в другой в обратном порядке.
@@ -745,7 +745,7 @@ ae_memory_raw_copy_backward(const void *dst, void *dst_end, const void *src, con
  *   то данные копируются в обратном порядке
  *   с использованием функции `ae_memory_raw_copy_backward_u8`.
  * - В случае отсутствия перекрытия диапазонов,
- *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_forward_u8`.
+ *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_u8`.
  *
  * Это позволяет эффективно перемещать данные,
  * учитывая возможное перекрытие исходных и целевых диапазонов.
@@ -786,7 +786,7 @@ ae_memory_raw_move_u8(ae_u8_t *dst, ae_u8_t *dst_end, const ae_u8_t *src, const 
  *   то данные копируются в обратном порядке
  *   с использованием функции `ae_memory_raw_copy_backward_u16`.
  * - В случае отсутствия перекрытия диапазонов,
- *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_forward_u16`.
+ *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_u16`.
  *
  * Это позволяет эффективно перемещать данные,
  * учитывая возможное перекрытие исходных и целевых диапазонов.
@@ -829,7 +829,7 @@ ae_memory_raw_move_u16(ae_u16_t       *dst,
  * - Если диапазоны памяти перекрываются, то данные копируются
  *   в обратном порядке с использованием функции `ae_memory_raw_copy_backward_u32`.
  * - В случае отсутствия перекрытия диапазонов,
- *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_forward_u32`.
+ *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_u32`.
  *
  * Это позволяет эффективно перемещать данные,
  * учитывая возможное перекрытие исходных и целевых диапазонов.
@@ -873,7 +873,7 @@ ae_memory_raw_move_u32(ae_u32_t       *dst,
  *   то данные копируются в обратном порядке
  *   с использованием функции `ae_memory_raw_copy_backward_u64`.
  * - В случае отсутствия перекрытия диапазонов,
- *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_forward_u64`.
+ *   данные копируются в прямом порядке с использованием функции `ae_memory_raw_copy_u64`.
  *
  * Это позволяет эффективно перемещать данные,
  * учитывая возможное перекрытие исходных и целевых диапазонов.
@@ -1059,16 +1059,16 @@ ae_memory_raw_find_u64(const ae_u64_t *lhs,
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если @c dst или @c src является NULL.
  *
- * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_rev_u8`,
+ * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_backward_u8`,
  *       чтобы сравнить подстроку с участком памяти. Также функция включает
  *       проверку на нулевые указатели с помощью макроса `AE_RUNTIME_ASSERT`.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u8_t *
-ae_memory_raw_find_rev_u8(const ae_u8_t *lhs,
-                          const ae_u8_t *lhs_end,
-                          const ae_u8_t *rhs,
-                          const ae_u8_t *rhs_end);
+ae_memory_raw_find_backward_u8(const ae_u8_t *lhs,
+                               const ae_u8_t *lhs_end,
+                               const ae_u8_t *rhs,
+                               const ae_u8_t *rhs_end);
 
 /**
  * @brief Функция поиска в памяти в обратном направлении.
@@ -1092,16 +1092,16 @@ ae_memory_raw_find_rev_u8(const ae_u8_t *lhs,
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если @c dst или @c src является NULL.
  *
- * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_rev_u8`,
+ * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_backward_u8`,
  *       чтобы сравнить подстроку с участком памяти. Также функция включает
  *       проверку на нулевые указатели с помощью макроса `AE_RUNTIME_ASSERT`.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u16_t *
-ae_memory_raw_find_rev_u16(const ae_u16_t *lhs,
-                           const ae_u16_t *lhs_end,
-                           const ae_u16_t *rhs,
-                           const ae_u16_t *rhs_end);
+ae_memory_raw_find_backward_u16(const ae_u16_t *lhs,
+                                const ae_u16_t *lhs_end,
+                                const ae_u16_t *rhs,
+                                const ae_u16_t *rhs_end);
 
 /**
  * @brief Функция поиска в памяти в обратном направлении.
@@ -1125,16 +1125,16 @@ ae_memory_raw_find_rev_u16(const ae_u16_t *lhs,
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если @c dst или @c src является NULL.
  *
- * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_rev_u8`,
+ * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_backward_u8`,
  *       чтобы сравнить подстроку с участком памяти. Также функция включает
  *       проверку на нулевые указатели с помощью макроса `AE_RUNTIME_ASSERT`.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u32_t *
-ae_memory_raw_find_rev_u32(const ae_u32_t *lhs,
-                           const ae_u32_t *lhs_end,
-                           const ae_u32_t *rhs,
-                           const ae_u32_t *rhs_end);
+ae_memory_raw_find_backward_u32(const ae_u32_t *lhs,
+                                const ae_u32_t *lhs_end,
+                                const ae_u32_t *rhs,
+                                const ae_u32_t *rhs_end);
 
 /**
  * @brief Функция поиска в памяти в обратном направлении.
@@ -1158,16 +1158,16 @@ ae_memory_raw_find_rev_u32(const ae_u32_t *lhs,
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если @c dst или @c src является NULL.
  *
- * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_rev_u8`,
+ * @note Функция использует вспомогательную функцию `ae_memory_raw_compare_backward_u8`,
  *       чтобы сравнить подстроку с участком памяти. Также функция включает
  *       проверку на нулевые указатели с помощью макроса `AE_RUNTIME_ASSERT`.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_u64_t *
-ae_memory_raw_find_rev_u64(const ae_u64_t *lhs,
-                           const ae_u64_t *lhs_end,
-                           const ae_u64_t *rhs,
-                           const ae_u64_t *rhs_end);
+ae_memory_raw_find_backward_u64(const ae_u64_t *lhs,
+                                const ae_u64_t *lhs_end,
+                                const ae_u64_t *rhs,
+                                const ae_u64_t *rhs_end);
 
 /**
  * @brief Находит первое вхождение заданного значения в диапазоне памяти.

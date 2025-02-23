@@ -95,7 +95,7 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
         {
             void       *_new_end = ae_ptr_add_offset(new_ptr, new_size);
             const void *_old_end = ae_ptr_add_offset(old_ptr, old_size);
-            ae_memory_raw_copy_forward(new_ptr, _new_end, old_ptr, _old_end);
+            ae_memory_raw_copy(new_ptr, _new_end, old_ptr, _old_end);
         }
 
         // Освобождаем старую область памяти
@@ -185,7 +185,7 @@ ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
         {
             void       *_new_end = ae_ptr_add_offset(new_ptr, new_size);
             const void *_old_end = ae_ptr_add_offset(old_ptr, old_size);
-            ae_memory_raw_copy_forward(new_ptr, _new_end, old_ptr, _old_end);
+            ae_memory_raw_copy(new_ptr, _new_end, old_ptr, _old_end);
         }
 
         // Освобождаем старую область памяти.
