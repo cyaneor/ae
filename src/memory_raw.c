@@ -361,10 +361,10 @@ ae_memory_raw_copy_backward_u8(const ae_u8_t *dst,
 }
 
 ae_u16_t *
-ae_memory_raw_copy_rev_u16(const ae_u16_t *dst,
-                           ae_u16_t       *dst_end,
-                           const ae_u16_t *src,
-                           const ae_u16_t *src_end)
+ae_memory_raw_copy_backward_u16(const ae_u16_t *dst,
+                                ae_u16_t       *dst_end,
+                                const ae_u16_t *src,
+                                const ae_u16_t *src_end)
 {
     AE_RUNTIME_ASSERT(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
 
@@ -427,7 +427,7 @@ ae_memory_raw_copy_backward(const void *dst, void *dst_end, const void *src, con
     }
     elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U16_T_SIZE))
     {
-        return ae_memory_raw_copy_rev_u16(dst, dst_end, src, src_end);
+        return ae_memory_raw_copy_backward_u16(dst, dst_end, src, src_end);
     }
     return ae_memory_raw_copy_backward_u8(dst, dst_end, src, src_end);
 }
@@ -451,7 +451,7 @@ ae_memory_raw_move_u16(ae_u16_t       *dst,
 {
     if (ae_ptr_range_is_overlapped(dst, dst_end, src, src_end))
     {
-        ae_u16_t *_ptr = ae_memory_raw_copy_rev_u16(dst, dst_end, src, src_end);
+        ae_u16_t *_ptr = ae_memory_raw_copy_backward_u16(dst, dst_end, src, src_end);
         return _ptr ? dst_end - (_ptr - dst) : nullptr;
     }
     return ae_memory_raw_copy_forward_u16(dst, dst_end, src, src_end);
