@@ -499,10 +499,8 @@ ae_str_raw_trim_left_with(ae_char_t *str, const char characters[]);
 /**
  * @brief Удаляет пробельные символы с начала строки.
  *
- * Эта функция удаляет пробельные символы (пробел, табуляция, символы новой строки и другие) с
- * начала строки. Для этого используется функция `ae_str_raw_trim_left_with`, которая получает
- * строку и набор символов, включая пробельные символы, такие как пробел, символ новой строки
- * и другие.
+ * Эта функция удаляет пробельные символы (пробел, табуляция,
+ * символы новой строки и другие) с начала строки.
  *
  * @param[in] str Указатель на строку,
  *                из которой будут удалены пробельные символы.
@@ -517,6 +515,66 @@ ae_str_raw_trim_left_with(ae_char_t *str, const char characters[]);
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
 ae_str_raw_trim_left(ae_char_t *str);
+
+/**
+ * @brief Удаляет указанные символы с конца строки.
+ *
+ * Эта функция удаляет все символы, указанные в массиве `characters`, с конца строки `str`
+ * до тех пор, пока не встретится символ, который не находится в массиве `characters`.
+ *
+ * @param str Указатель на строку, из которой будут удалены символы.
+ * @param len Длина строки `str`.
+ * @param characters Массив символов, которые нужно удалить с конца строки.
+ *
+ * @return Указатель на строку с удалёнными символами в конце.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_trim_right_for(ae_char_t *str, ae_usize_t len, const char characters[]);
+
+/**
+ * @brief Удаляет указанные символы с конца строки.
+ *
+ * Эта функция вызывает функцию `ae_str_raw_trim_right_for` для удаления символов,
+ * указанных в массиве `characters`, с конца строки `str`.
+ *
+ * @param str Указатель на строку, из которой будут удалены символы.
+ * @param characters Массив символов, которые нужно удалить с конца строки.
+ *
+ * @return Указатель на строку после удаления символов.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_trim_right_with(ae_char_t *str, const char characters[]);
+
+/**
+ * @brief Удаляет пробельные символы и символы новой строки с конца строки.
+ *
+ * Эта функция вызывает функцию `ae_str_raw_trim_right_with` для удаления пробельных символов,
+ * а также символов новой строки (включая пробелы, табуляцию, перенос строки и нулевой символ)
+ * с конца строки.
+ *
+ * @param str Указатель на строку, из которой будут удалены символы.
+ * @return Указатель на строку после удаления символов.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_trim_right(ae_char_t *str);
 
 AE_COMPILER(EXTERN_C_END)
 
