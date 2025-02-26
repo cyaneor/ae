@@ -29,6 +29,26 @@ ae_str_raw_find_value(const ae_char_t *str, ae_char_t value)
 }
 
 const ae_char_t *
+ae_str_raw_find_value_rev_with(const ae_char_t *str, ae_usize_t len, ae_char_t value)
+{
+    ae_u8_t *_str = ae_ptr_cast(ae_u8_t, str);
+    ae_u8_t  _val = ae_static_cast(ae_u8_t, value);
+    ae_u8_t *_end = ae_ptr_add_offset(_str, len);
+    return ae_ptr_cast(ae_char_t, ae_memory_raw_find_value_rev_u8(_str, _end, _val));
+}
+
+const ae_char_t *
+ae_str_raw_find_value_rev(const ae_char_t *str, ae_char_t value)
+{
+    ae_runtime_try
+    {
+        ae_usize_t len = ae_str_raw_len(str);
+        ae_runtime_try_interrupt(ae_str_raw_find_value_rev_with(str, len, value));
+    }
+    ae_runtime_raise(nullptr);
+}
+
+const ae_char_t *
 ae_str_raw_find_null_terminator_with(const ae_char_t *str, ae_usize_t len)
 {
     return ae_str_raw_find_value_with(str, len, AE_ASCII_MAP_NULL_TERMINATOR);

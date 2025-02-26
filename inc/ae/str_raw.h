@@ -33,9 +33,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  *         или NULL, если символ не найден.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c str или @c src является NULL.
- * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
- *        Если не был найден символ терминатора NULL.
+ *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
@@ -59,10 +57,55 @@ ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t len, ae_char_t value
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
 ae_str_raw_find_value(const ae_char_t *str, ae_char_t value);
+
+/**
+ * @brief Находит последнее вхождение символа в строке в обратном порядке.
+ *
+ * Данная функция выполняет поиск символа в строке с заданной длиной в обратном порядке.
+ * Поиск завершается при нахождении первого вхождения символа, начиная с конца строки.
+ * Функция использует указатели для работы с байтами строки и символом.
+ *
+ * @param str Указатель на строку, в которой производится поиск.
+ * @param len Длина строки, в которой необходимо искать символ.
+ * @param value Символ, который нужно найти в строке.
+ *
+ * @return Указатель на символ в строке, если символ найден.
+ *         В противном случае возвращает NULL.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+const ae_char_t *
+ae_str_raw_find_value_rev_with(const ae_char_t *str, ae_usize_t len, ae_char_t value);
+
+/**
+ * @brief Находит последнее вхождение символа
+ *        в строке с использованием указанной функции.
+ *
+ * Эта функция находит последнее вхождение символа в строке, используя длину строки,
+ * полученную через функцию `ae_str_raw_len`, и передает ее в функцию поиска
+ * в обратном порядке `ae_str_raw_find_value_rev_with`.
+ *
+ * @param str Указатель на строку, в которой производится поиск символа.
+ * @param value Символ, который нужно найти в строке.
+ *
+ * @return Указатель на символ, если он найден.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+const ae_char_t *
+ae_str_raw_find_value_rev(const ae_char_t *str, ae_char_t value);
 
 /**
  * @brief Ищет символ терминатора NULL в строке.
