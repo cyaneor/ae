@@ -733,3 +733,11 @@ ae_memory_raw_shift_left(void *dst, void *dst_end, ae_usize_t shift)
     void *_ptr = ae_ptr_add_offset(dst, shift);
     return ae_memory_raw_move(dst, _ptr, _ptr, dst_end);
 }
+
+void *
+ae_memory_raw_shift_right(void *dst, void *dst_end, ae_usize_t shift)
+{
+    void *_ptr = ae_ptr_add_offset(dst, shift);
+    void *_end = ae_ptr_sub_offset(dst_end, shift);
+    return ae_memory_raw_move(_ptr, dst_end, dst, _end);
+}

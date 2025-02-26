@@ -1429,6 +1429,26 @@ AE_ATTRIBUTE(SYMBOL)
 void *
 ae_memory_raw_shift_left(void *dst, void *dst_end, ae_usize_t shift);
 
+/**
+ * @brief Сдвигает память вправо на заданное количество байт.
+ *
+ * Функция выполняет сдвиг блока памяти, начиная с указателя `dst`,
+ * вправо на заданное количество байт (определяется параметром `shift`),
+ * и возвращает новый указатель на начало сдвинутого блока памяти.
+ *
+ * @param dst Указатель на начало блока памяти, который будет сдвигаться.
+ * @param dst_end Указатель на конец блока памяти.
+ * @param shift Количество байт, на которое нужно сдвинуть память.
+ *
+ * @return Указатель на новый блок памяти после сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_raw_shift_right(void *dst, void *dst_end, ae_usize_t shift);
+
 AE_COMPILER(EXTERN_C_END)
 
 #endif // AE_MEMORY_RAW_H
