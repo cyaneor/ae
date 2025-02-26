@@ -1410,6 +1410,25 @@ AE_ATTRIBUTE(SYMBOL)
 void
 ae_memory_raw_swap_u64(ae_u64_t *lhs, ae_u64_t *rhs);
 
+/**
+ * @brief Сдвигает указатель влево на заданное количество байт и выполняет перемещение памяти.
+ *
+ * Функция смещает указатель `dst` на значение `shift` в байтах влево и затем перемещает
+ * данные в памяти от `dst` до нового смещенного указателя, используя функцию `ae_memory_raw_move`.
+ *
+ * @param[in] dst Указатель на начало области памяти, с которой нужно работать.
+ * @param[in] dst_end Указатель на конец области памяти.
+ * @param[in] shift Количество байт, на которое нужно сдвинуть указатель влево.
+ *
+ * @return Возвращает указатель на новое местоположение в памяти после сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c begin или @c end является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_raw_shift_left(void *dst, void *dst_end, ae_usize_t shift);
+
 AE_COMPILER(EXTERN_C_END)
 
 #endif // AE_MEMORY_RAW_H
