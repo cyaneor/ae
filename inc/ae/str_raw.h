@@ -146,6 +146,14 @@ AE_ATTRIBUTE(SYMBOL)
 const ae_char_t *
 ae_str_raw_find_null_terminator(const ae_char_t *str);
 
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_str_raw_resize_with(ae_char_t *str, ae_usize_t len);
+
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_str_raw_resize(ae_char_t *str);
+
 /**
  * @brief Вычисляет длину строки с учетом символа терминатора NULL.
  *
@@ -424,6 +432,26 @@ ae_str_raw_shift_left_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift);
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
 ae_str_raw_shift_left(ae_char_t *str, ae_usize_t shift);
+
+/**
+ * @brief Удаляет завершающий нулевой символ из строки.
+ *
+ * Эта функция находит завершающий нулевой символ в строке
+ * и сдвигает все символы влево на одну позицию.
+ *
+ * @param[in] str Указатель на строку,
+ *                из которой нужно удалить завершающий нулевой символ.
+ *
+ * @return Указатель на измененную строку.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str или @c src является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_remove_null_terminator(ae_char_t *str);
 
 /**
  * @brief Сдвигает строку вправо на заданное количество позиций

@@ -182,6 +182,17 @@ ae_str_raw_shift_left(ae_char_t *str, ae_usize_t shift)
 }
 
 ae_char_t *
+ae_str_raw_remove_null_terminator(ae_char_t *str)
+{
+    ae_runtime_try
+    {
+        ae_char_t *_str = (ae_char_t *)ae_str_raw_find_null_terminator(str);
+        ae_runtime_try_interrupt(ae_str_raw_shift_left(_str, 1));
+    }
+    ae_runtime_raise(nullptr);
+}
+
+ae_char_t *
 ae_str_raw_shift_right_fill_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift, ae_char_t value)
 {
     if (shift)
