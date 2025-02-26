@@ -731,7 +731,7 @@ void *
 ae_memory_raw_shift_left(void *dst, void *dst_end, ae_usize_t shift)
 {
     void *_ptr = ae_ptr_add_offset(dst, shift);
-    return ae_memory_raw_move(dst, _ptr, _ptr, dst_end);
+    return ae_memory_raw_move(dst, dst_end, _ptr, dst_end);
 }
 
 void *
