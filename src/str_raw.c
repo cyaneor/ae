@@ -138,7 +138,7 @@ ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t len)
         ae_usize_t _str_len = ae_str_raw_len(str);
         ae_runtime_try_interrupt(ae_str_raw_cat_from(str, _str_len, src, len));
     }
-    ae_runtime_try_interrupt(nullptr);
+    ae_runtime_raise(nullptr);
 }
 
 ae_char_t *
@@ -149,5 +149,5 @@ ae_str_raw_cat(ae_char_t *str, const ae_char_t *src)
         ae_usize_t _src_len = ae_str_raw_len(src);
         ae_runtime_try_interrupt(ae_str_raw_cat_with(str, src, _src_len));
     }
-    ae_runtime_try_interrupt(nullptr);
+    ae_runtime_raise(nullptr);
 }
