@@ -425,6 +425,71 @@ AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
 ae_str_raw_shift_left(ae_char_t *str, ae_usize_t shift);
 
+/**
+ * @brief Удаляет заданные символы с начала строки.
+ *
+ * Эта функция удаляет все символы из строки, которые присутствуют в массиве @c characters,
+ * начиная с первого символа. Функция выполняет поиск каждого символа из строки в массиве символов
+ * @c characters и сдвигает строку влево на количество удаленных символов. Возвращается указатель
+ * на модифицированную строку после сдвига.
+ *
+ * @param[in] str Указатель на строку, из которой будут удалены символы.
+ * @param[in] len Длина строки, в пределах которой будет произведен сдвиг.
+ * @param[in] characters Массив символов, которые должны быть удалены с начала строки.
+ *
+ * @return Указатель на строку после удаления символов и сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_trim_left_with(ae_char_t *str, ae_usize_t len, const char characters[]);
+
+/**
+ * @brief Удаляет заданные символы с начала строки, вычисляя её длину.
+ *
+ * Эта функция сначала вычисляет длину строки с помощью функции `ae_str_raw_len`,
+ * а затем вызывает функцию `ae_str_raw_trim_left_for` для удаления символов из начала строки.
+ * Массив символов для удаления передается в качестве параметра @c characters.
+ * Возвращается указатель на строку после удаления символов.
+ *
+ * @param[in] str Указатель на строку, из которой будут удалены символы.
+ * @param[in] characters Массив символов, которые должны быть удалены с начала строки.
+ *
+ * @return Указатель на строку после удаления символов и сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_trim_left_for(ae_char_t *str, const char characters[]);
+
+/**
+ * @brief Удаляет пробельные символы с начала строки.
+ *
+ * Эта функция удаляет пробельные символы (пробел, табуляция,
+ * символы новой строки и другие) с начала строки.
+ *
+ * @param[in] str Указатель на строку,
+ *                из которой будут удалены пробельные символы.
+ *
+ * @return Указатель на строку после удаления пробельных символов и сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
+ *        Если не был найден символ терминатора NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_trim_left(ae_char_t *str);
+
 AE_COMPILER(EXTERN_C_END)
 
 #endif // AE_STR_RAW_H
