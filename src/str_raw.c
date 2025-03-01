@@ -182,7 +182,7 @@ ae_str_raw_shift_left(ae_char_t *str, ae_usize_t shift)
 }
 
 ae_char_t *
-ae_str_raw_trim_left_with(ae_char_t *str, ae_usize_t len, const char characters[])
+ae_str_raw_trim_left_with(ae_char_t *str, ae_usize_t len, const ae_char_t characters[])
 {
     ae_usize_t shift = 0;
     while (shift < len && ae_str_raw_find_value(characters, str[shift]) != nullptr)
@@ -193,7 +193,7 @@ ae_str_raw_trim_left_with(ae_char_t *str, ae_usize_t len, const char characters[
 }
 
 ae_char_t *
-ae_str_raw_trim_left_for(ae_char_t *str, const char characters[])
+ae_str_raw_trim_left_for(ae_char_t *str, const ae_char_t characters[])
 {
     ae_runtime_try
     {
@@ -206,5 +206,11 @@ ae_str_raw_trim_left_for(ae_char_t *str, const char characters[])
 ae_char_t *
 ae_str_raw_trim_left(ae_char_t *str)
 {
-    return ae_str_raw_trim_left_for(str, " \n\r\t\v\x00");
+    static const ae_char_t characters[] = {AE_ASCII_MAP_SPACE,
+                                           AE_ASCII_MAP_NEWLINE,
+                                           AE_ASCII_MAP_CARRIAGE_RETURN,
+                                           AE_ASCII_MAP_TAB,
+                                           AE_ASCII_MAP_VERTICAL_TAB,
+                                           AE_ASCII_MAP_NULL_TERMINATOR};
+    return ae_str_raw_trim_left_for(str, characters);
 }

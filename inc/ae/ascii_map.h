@@ -27,15 +27,15 @@
  * @see https://en.wikipedia.org/wiki/ASCII
  */
 static const ae_char_t AE_ASCII_MAP[] = {
-    [0] = '\0',   /**< @brief Символ нулевого терминатора (NULL) */
-    [1] = '\x01', /**< @brief Управляющий символ 1 (CONTROL_1) */
-    [2] = '\x02', /**< @brief Управляющий символ 2 (CONTROL_2) */
-    [3] = '\x03', /**< @brief Управляющий символ 3 (CONTROL_3) */
-    [4] = '\x04', /**< @brief Управляющий символ 4 (CONTROL_4) */
-    [5] = '\x05', /**< @brief Управляющий символ 5 (CONTROL_5) */
-    [6] = '\x06', /**< @brief Управляющий символ 6 (CONTROL_6) */
-    [7] = '\x07', /**< @brief Символ звукового сигнала (BELL) */
-    [8] = '\x08', /**< @brief Символ возврата на один символ назад (BACKSPACE) */
+    [0]  = '\0',   /**< @brief Символ нулевого терминатора (NULL) */
+    [1]  = '\x01', /**< @brief Управляющий символ 1 (CONTROL_1) */
+    [2]  = '\x02', /**< @brief Управляющий символ 2 (CONTROL_2) */
+    [3]  = '\x03', /**< @brief Управляющий символ 3 (CONTROL_3) */
+    [4]  = '\x04', /**< @brief Управляющий символ 4 (CONTROL_4) */
+    [5]  = '\x05', /**< @brief Управляющий символ 5 (CONTROL_5) */
+    [6]  = '\x06', /**< @brief Управляющий символ 6 (CONTROL_6) */
+    [7]  = '\x07', /**< @brief Символ звукового сигнала (BELL) */
+    [8]  = '\x08', /**< @brief Символ возврата на один символ назад (BACKSPACE) */
     [9]  = '\t', /**< @brief Символ табуляции (TAB) */
     [10] = '\n', /**< @brief Символ новой строки (NEWLINE) */
     [11] = '\x0B', /**< @brief Символ вертикальной табуляции (VERTICAL_TAB) */
@@ -212,16 +212,16 @@ static const ae_char_t AE_ASCII_MAP[] = {
 #define AE_ASCII_MAP_BACKSPACE AE_ASCII_MAP[8]
 
 /**
- * @def AE_ASCII_MAP_TAB_SYMBOL
+ * @def AE_ASCII_MAP_TAB
  * @brief Символ табуляции (ASCII 0x09).
  */
-#define AE_ASCII_MAP_TAB_SYMBOL AE_ASCII_MAP[9]
+#define AE_ASCII_MAP_TAB AE_ASCII_MAP[9]
 
 /**
- * @def AE_ASCII_MAP_NEWLINE_SYMBOL
+ * @def AE_ASCII_MAP_NEWLINE
  * @brief Символ новой строки (ASCII 0x0A).
  */
-#define AE_ASCII_MAP_NEWLINE_SYMBOL AE_ASCII_MAP[10]
+#define AE_ASCII_MAP_NEWLINE AE_ASCII_MAP[10]
 
 /**
  * @def AE_ASCII_MAP_VERTICAL_TAB
@@ -236,10 +236,10 @@ static const ae_char_t AE_ASCII_MAP[] = {
 #define AE_ASCII_MAP_FORM_FEED AE_ASCII_MAP[12]
 
 /**
- * @def AE_ASCII_MAP_CARRIAGE_RETURN_SYMBOL
+ * @def AE_ASCII_MAP_CARRIAGE_RETURN
  * @brief Символ возврата каретки (ASCII 0x0D).
  */
-#define AE_ASCII_MAP_CARRIAGE_RETURN_SYMBOL AE_ASCII_MAP[13]
+#define AE_ASCII_MAP_CARRIAGE_RETURN AE_ASCII_MAP[13]
 
 /**
  * @def AE_ASCII_MAP_SHIFT_OUT
@@ -350,52 +350,52 @@ static const ae_char_t AE_ASCII_MAP[] = {
 #define AE_ASCII_MAP_UNIT_SEPARATOR AE_ASCII_MAP[31]
 
 /**
- * @def AE_ASCII_MAP_SPACE_SYMBOL
+ * @def AE_ASCII_MAP_SPACE
  * @brief Символ пробела (ASCII 0x20).
  */
-#define AE_ASCII_MAP_SPACE_SYMBOL AE_ASCII_MAP[32]
+#define AE_ASCII_MAP_SPACE AE_ASCII_MAP[32]
 
 /**
- * @def AE_ASCII_MAP_EXCLAMATION_MARK_SYMBOL
+ * @def AE_ASCII_MAP_EXCLAMATION_MARK
  * @brief Символ восклицательного знака (ASCII 0x21).
  */
-#define AE_ASCII_MAP_EXCLAMATION_MARK_SYMBOL AE_ASCII_MAP[33]
+#define AE_ASCII_MAP_EXCLAMATION_MARK AE_ASCII_MAP[33]
 
 /**
- * @def AE_ASCII_MAP_QUOTE_SYMBOL
+ * @def AE_ASCII_MAP_QUOTE
  * @brief Символ кавычки (ASCII 0x22).
  */
-#define AE_ASCII_MAP_QUOTE_SYMBOL AE_ASCII_MAP[34]
+#define AE_ASCII_MAP_QUOTE AE_ASCII_MAP[34]
 
 /**
- * @def AE_ASCII_MAP_HASH_SYMBOL
+ * @def AE_ASCII_MAP_HASH
  * @brief Символ решетки (ASCII 0x23).
  */
-#define AE_ASCII_MAP_HASH_SYMBOL AE_ASCII_MAP[35]
+#define AE_ASCII_MAP_HASH AE_ASCII_MAP[35]
 
 /**
- * @def AE_ASCII_MAP_DOLLAR_SYMBOL
+ * @def AE_ASCII_MAP_DOLLAR
  * @brief Символ доллара (ASCII 0x24).
  */
-#define AE_ASCII_MAP_DOLLAR_SYMBOL AE_ASCII_MAP[36]
+#define AE_ASCII_MAP_DOLLAR AE_ASCII_MAP[36]
 
 /**
- * @def AE_ASCII_MAP_PERCENT_SYMBOL
+ * @def AE_ASCII_MAP_PERCENT
  * @brief Символ процента (ASCII 0x25).
  */
-#define AE_ASCII_MAP_PERCENT_SYMBOL AE_ASCII_MAP[37]
+#define AE_ASCII_MAP_PERCENT AE_ASCII_MAP[37]
 
 /**
- * @def AE_ASCII_MAP_AMPERSAND_SYMBOL
+ * @def AE_ASCII_MAP_AMPERSAND
  * @brief Символ амперсанда (ASCII 0x26).
  */
-#define AE_ASCII_MAP_AMPERSAND_SYMBOL AE_ASCII_MAP[38]
+#define AE_ASCII_MAP_AMPERSAND AE_ASCII_MAP[38]
 
 /**
- * @def AE_ASCII_MAP_SINGLE_QUOTE_SYMBOL
+ * @def AE_ASCII_MAP_SINGLE_QUOTE
  * @brief Символ одинарной кавычки (ASCII 0x27).
  */
-#define AE_ASCII_MAP_SINGLE_QUOTE_SYMBOL AE_ASCII_MAP[39]
+#define AE_ASCII_MAP_SINGLE_QUOTE AE_ASCII_MAP[39]
 
 /**
  * @def AE_ASCII_MAP_LEFT_PARENTHESIS
@@ -410,40 +410,40 @@ static const ae_char_t AE_ASCII_MAP[] = {
 #define AE_ASCII_MAP_RIGHT_PARENTHESIS AE_ASCII_MAP[41]
 
 /**
- * @def AE_ASCII_MAP_ASTERISK_SYMBOL
+ * @def AE_ASCII_MAP_ASTERISK
  * @brief Символ звездочки (ASCII 0x2A).
  */
-#define AE_ASCII_MAP_ASTERISK_SYMBOL AE_ASCII_MAP[42]
+#define AE_ASCII_MAP_ASTERISK AE_ASCII_MAP[42]
 
 /**
- * @def AE_ASCII_MAP_PLUS_SYMBOL
+ * @def AE_ASCII_MAP_PLUS
  * @brief Символ плюса (ASCII 0x2B).
  */
-#define AE_ASCII_MAP_PLUS_SYMBOL AE_ASCII_MAP[43]
+#define AE_ASCII_MAP_PLUS AE_ASCII_MAP[43]
 
 /**
- * @def AE_ASCII_MAP_COMMA_SYMBOL
+ * @def AE_ASCII_MAP_COMMA
  * @brief Символ запятой (ASCII 0x2C).
  */
-#define AE_ASCII_MAP_COMMA_SYMBOL AE_ASCII_MAP[44]
+#define AE_ASCII_MAP_COMMA AE_ASCII_MAP[44]
 
 /**
- * @def AE_ASCII_MAP_HYPHEN_SYMBOL
+ * @def AE_ASCII_MAP_HYPHEN
  * @brief Символ дефиса (ASCII 0x2D).
  */
-#define AE_ASCII_MAP_HYPHEN_SYMBOL AE_ASCII_MAP[45]
+#define AE_ASCII_MAP_HYPHEN AE_ASCII_MAP[45]
 
 /**
- * @def AE_ASCII_MAP_PERIOD_SYMBOL
+ * @def AE_ASCII_MAP_PERIOD
  * @brief Символ точки (ASCII 0x2E).
  */
-#define AE_ASCII_MAP_PERIOD_SYMBOL AE_ASCII_MAP[46]
+#define AE_ASCII_MAP_PERIOD AE_ASCII_MAP[46]
 
 /**
- * @def AE_ASCII_MAP_SLASH_SYMBOL
+ * @def AE_ASCII_MAP_SLASH
  * @brief Символ косой черты (ASCII 0x2F).
  */
-#define AE_ASCII_MAP_SLASH_SYMBOL AE_ASCII_MAP[47]
+#define AE_ASCII_MAP_SLASH AE_ASCII_MAP[47]
 
 /**
  * @def AE_ASCII_MAP_DIGIT_0
@@ -506,46 +506,46 @@ static const ae_char_t AE_ASCII_MAP[] = {
 #define AE_ASCII_MAP_DIGIT_9 AE_ASCII_MAP[57]
 
 /**
- * @def AE_ASCII_MAP_COLON_SYMBOL
+ * @def AE_ASCII_MAP_COLON
  * @brief Символ двоеточия (ASCII 0x3A).
  */
-#define AE_ASCII_MAP_COLON_SYMBOL AE_ASCII_MAP[58]
+#define AE_ASCII_MAP_COLON AE_ASCII_MAP[58]
 
 /**
- * @def AE_ASCII_MAP_SEMICOLON_SYMBOL
+ * @def AE_ASCII_MAP_SEMICOLON
  * @brief Символ точки с запятой (ASCII 0x3B).
  */
-#define AE_ASCII_MAP_SEMICOLON_SYMBOL AE_ASCII_MAP[59]
+#define AE_ASCII_MAP_SEMICOLON AE_ASCII_MAP[59]
 
 /**
- * @def AE_ASCII_MAP_LESS_THAN_SYMBOL
+ * @def AE_ASCII_MAP_LESS_THAN
  * @brief Символ меньше (ASCII 0x3C).
  */
-#define AE_ASCII_MAP_LESS_THAN_SYMBOL AE_ASCII_MAP[60]
+#define AE_ASCII_MAP_LESS_THAN AE_ASCII_MAP[60]
 
 /**
- * @def AE_ASCII_MAP_EQUAL_SYMBOL
+ * @def AE_ASCII_MAP_EQUAL
  * @brief Символ равенства (ASCII 0x3D).
  */
-#define AE_ASCII_MAP_EQUAL_SYMBOL AE_ASCII_MAP[61]
+#define AE_ASCII_MAP_EQUAL AE_ASCII_MAP[61]
 
 /**
- * @def AE_ASCII_MAP_GREATER_THAN_SYMBOL
+ * @def AE_ASCII_MAP_GREATER_THAN
  * @brief Символ больше (ASCII 0x3E).
  */
-#define AE_ASCII_MAP_GREATER_THAN_SYMBOL AE_ASCII_MAP[62]
+#define AE_ASCII_MAP_GREATER_THAN AE_ASCII_MAP[62]
 
 /**
- * @def AE_ASCII_MAP_QUESTION_MARK_SYMBOL
+ * @def AE_ASCII_MAP_QUESTION_MARK
  * @brief Символ вопросительного знака (ASCII 0x3F).
  */
-#define AE_ASCII_MAP_QUESTION_MARK_SYMBOL AE_ASCII_MAP[63]
+#define AE_ASCII_MAP_QUESTION_MARK AE_ASCII_MAP[63]
 
 /**
- * @def AE_ASCII_MAP_AT_SYMBOL
+ * @def AE_ASCII_MAP_AT
  * @brief Символ собачки (ASCII 0x40).
  */
-#define AE_ASCII_MAP_AT_SYMBOL AE_ASCII_MAP[64]
+#define AE_ASCII_MAP_AT AE_ASCII_MAP[64]
 
 /**
  * @def AE_ASCII_MAP_UPPERCASE_A
@@ -722,22 +722,22 @@ static const ae_char_t AE_ASCII_MAP[] = {
 #define AE_ASCII_MAP_RIGHT_BRACKET AE_ASCII_MAP[93]
 
 /**
- * @def AE_ASCII_MAP_CARET_SYMBOL
+ * @def AE_ASCII_MAP_CARET
  * @brief Символ каретки (ASCII 0x5E).
  */
-#define AE_ASCII_MAP_CARET_SYMBOL AE_ASCII_MAP[94]
+#define AE_ASCII_MAP_CARET AE_ASCII_MAP[94]
 
 /**
- * @def AE_ASCII_MAP_UNDERLINE_SYMBOL
+ * @def AE_ASCII_MAP_UNDERLINE
  * @brief Символ подчеркивания (ASCII 0x5F).
  */
-#define AE_ASCII_MAP_UNDERLINE_SYMBOL AE_ASCII_MAP[95]
+#define AE_ASCII_MAP_UNDERLINE AE_ASCII_MAP[95]
 
 /**
- * @def AE_ASCII_MAP_GRAVE_SYMBOL
+ * @def AE_ASCII_MAP_GRAVE
  * @brief Символ грависа (ASCII 0x60).
  */
-#define AE_ASCII_MAP_GRAVE_SYMBOL AE_ASCII_MAP[96]
+#define AE_ASCII_MAP_GRAVE AE_ASCII_MAP[96]
 
 /**
  * @def AE_ASCII_MAP_LOWERCASE_A

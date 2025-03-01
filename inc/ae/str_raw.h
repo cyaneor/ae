@@ -446,7 +446,7 @@ ae_str_raw_shift_left(ae_char_t *str, ae_usize_t shift);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_trim_left_with(ae_char_t *str, ae_usize_t len, const char characters[]);
+ae_str_raw_trim_left_with(ae_char_t *str, ae_usize_t len, const ae_char_t characters[]);
 
 /**
  * @brief Удаляет заданные символы с начала строки, вычисляя её длину.
@@ -468,7 +468,7 @@ ae_str_raw_trim_left_with(ae_char_t *str, ae_usize_t len, const char characters[
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_trim_left_for(ae_char_t *str, const char characters[]);
+ae_str_raw_trim_left_for(ae_char_t *str, const ae_char_t characters[]);
 
 /**
  * @brief Удаляет пробельные символы с начала строки.
