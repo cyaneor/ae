@@ -8,6 +8,13 @@
 #include <ae/memory_raw.h>
 #include <ae/ptr_util.h>
 
+static const ae_char_t m_trim_ascii_chars[] = {AE_ASCII_MAP_SPACE,
+                                               AE_ASCII_MAP_NEWLINE,
+                                               AE_ASCII_MAP_CARRIAGE_RETURN,
+                                               AE_ASCII_MAP_TAB,
+                                               AE_ASCII_MAP_VERTICAL_TAB,
+                                               AE_ASCII_MAP_NULL_TERMINATOR};
+
 const ae_char_t *
 ae_str_raw_find_value_with(const ae_char_t *str, ae_usize_t len, ae_char_t value)
 {
@@ -210,11 +217,5 @@ ae_str_raw_trim_left_for(ae_char_t *str, const ae_char_t characters[])
 ae_char_t *
 ae_str_raw_trim_left(ae_char_t *str)
 {
-    static const ae_char_t characters[] = {AE_ASCII_MAP_SPACE,
-                                           AE_ASCII_MAP_NEWLINE,
-                                           AE_ASCII_MAP_CARRIAGE_RETURN,
-                                           AE_ASCII_MAP_TAB,
-                                           AE_ASCII_MAP_VERTICAL_TAB,
-                                           AE_ASCII_MAP_NULL_TERMINATOR};
-    return ae_str_raw_trim_left_for(str, characters);
+    return ae_str_raw_trim_left_for(str, m_trim_ascii_chars);
 }
