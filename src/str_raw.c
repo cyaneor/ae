@@ -164,8 +164,12 @@ ae_str_raw_shift_left_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift)
     {
         ae_u8_t *_str     = ae_ptr_cast(ae_u8_t, str);
         ae_u8_t *_str_end = ae_ptr_add_offset(_str, len);
-        ae_memory_raw_shift_left(_str, _str_end, shift);
-        str[len - shift] = AE_ASCII_MAP_NULL_TERMINATOR;
+
+        // Смещаем символы влево и добавляем NULL-терминатор
+        {
+            ae_char_t *_end = ae_memory_raw_shift_left(_str, _str_end, shift);
+            *_end           = AE_ASCII_MAP_NULL_TERMINATOR;
+        }
     }
     return str;
 }
