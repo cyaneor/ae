@@ -384,6 +384,47 @@ AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
 ae_str_raw_cat(ae_char_t *str, const ae_char_t *src);
 
+/**
+ * @brief Сдвигает строку влево на заданное количество байт.
+ *
+ * Функция сдвигает строку, представляемую указателем `str`, на заданное количество байт
+ * влево, используя указанную длину строки `len` и количество сдвига `shift`. Для этого
+ * используется вспомогательная функция `ae_memory_raw_shift_left`, которая перемещает
+ * данные в памяти.
+ *
+ * @param[in] str Указатель на строку, с которой нужно работать.
+ * @param[in] len Длина строки в байтах.
+ * @param[in] shift Количество байт, на которое нужно сдвинуть строку влево.
+ *
+ * @return Возвращает указатель на новое начало строки после сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_shift_left_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift);
+
+/**
+ * @brief Сдвигает строку влево на заданное количество байт.
+ *
+ * Функция вычисляет длину строки с помощью функции `ae_str_raw_len` и затем вызывает
+ * функцию `ae_str_raw_shift_left_with`, чтобы сдвигать строку на заданное количество байт.
+ * В случае возникновения ошибки функция генерирует исключение с помощью механизма
+ * обработки ошибок.
+ *
+ * @param[in] str Указатель на строку, которую необходимо сдвигать.
+ * @param[in] shift Количество байт, на которое нужно сдвигать строку влево.
+ *
+ * @return Возвращает указатель на строку после сдвига.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c str является NULL или произошла ошибка при сдвиге.
+ */
+AE_ATTRIBUTE(SYMBOL)
+ae_char_t *
+ae_str_raw_shift_left(ae_char_t *str, ae_usize_t shift);
+
 AE_COMPILER(EXTERN_C_END)
 
 #endif // AE_STR_RAW_H

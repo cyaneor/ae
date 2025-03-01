@@ -151,3 +151,22 @@ ae_str_raw_cat(ae_char_t *str, const ae_char_t *src)
     }
     ae_runtime_raise(nullptr);
 }
+
+ae_char_t *
+ae_str_raw_shift_left_with(ae_char_t *str, ae_usize_t len, ae_usize_t shift)
+{
+    ae_u8_t *_str     = ae_ptr_cast(ae_u8_t, str);
+    ae_u8_t *_str_end = ae_ptr_add_offset(_str, len);
+    return ae_memory_raw_shift_left(_str, _str_end, shift);
+}
+
+ae_char_t *
+ae_str_raw_shift_left(ae_char_t *str, ae_usize_t shift)
+{
+    ae_runtime_try
+    {
+        ae_usize_t len = ae_str_raw_len(str);
+        ae_runtime_try_interrupt(ae_str_raw_shift_left_with(str, len, shift));
+    }
+    ae_runtime_raise(nullptr);
+}
