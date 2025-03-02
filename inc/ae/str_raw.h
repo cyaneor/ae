@@ -333,13 +333,16 @@ ae_str_raw_fill(ae_char_t *str, ae_char_t value);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len);
+ae_str_raw_concat_from(ae_char_t       *str,
+                       ae_usize_t       str_len,
+                       const ae_char_t *src,
+                       ae_usize_t       src_len);
 
 /**
  * @brief Конкатенирует строку, добавляя данные из исходной строки в конец целевой строки.
  *
  * Функция вычисляет длину целевой строки и добавляет данные из исходной строки в её конец.
- * Для этого она вызывает вспомогательную функцию `ae_str_raw_cat_from`, которая производит
+ * Для этого она вызывает вспомогательную функцию `ae_str_raw_concat_from`, которая производит
  * само добавление данных.
  *
  * @param[in] str Указатель на целевую строку,
@@ -357,12 +360,12 @@ ae_str_raw_cat_from(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t len);
+ae_str_raw_concat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t len);
 
 /**
  * @brief Конкатенирует строки, добавляя данные из исходной строки в конец целевой строки.
  *
- * Функция вычисляет длину исходной строки и вызывает функцию `ae_str_raw_cat_with`,
+ * Функция вычисляет длину исходной строки и вызывает функцию `ae_str_raw_concat_with`,
  * которая добавляет данные из исходной строки в конец целевой строки.
  *
  * @param[in] str Указатель на целевую строку,
@@ -377,12 +380,12 @@ ae_str_raw_cat_with(ae_char_t *str, const ae_char_t *src, ae_usize_t len);
  * @throw AE_RUNTIME_ERROR_NO_NULL_TERMINATOR
  *        Если не был найден символ терминатора NULL.
  *
- * @note Для добавления данных используется функция `ae_str_raw_cat_with`,
+ * @note Для добавления данных используется функция `ae_str_raw_concat_with`,
  *       которая принимает целевую строку и исходную строку с ее длиной.
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_cat(ae_char_t *str, const ae_char_t *src);
+ae_str_raw_concat(ae_char_t *str, const ae_char_t *src);
 
 /**
  * @brief Сдвигает строку влево на заданное количество байт.
