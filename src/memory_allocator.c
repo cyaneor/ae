@@ -5,10 +5,10 @@
 #include <ae/runtime_expect.h>
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
-#include <ae/memory_raw.h>
 #include <ae/bit_util.h>
 #include <ae/ptr_util.h>
 #include <ae/nullptr.h>
+#include <ae/memory.h>
 
 ae_memory_allocator_alloc_fn *
 ae_memory_allocator_get_alloc_fn(const ae_memory_allocator_t *self)

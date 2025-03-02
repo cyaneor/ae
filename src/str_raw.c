@@ -7,6 +7,7 @@
 #include <ae/runtime_try.h>
 #include <ae/memory_raw.h>
 #include <ae/ptr_util.h>
+#include <ae/memory.h>
 
 static const ae_char_t m_trim_ascii_chars[] = {AE_ASCII_MAP_SPACE,
                                                AE_ASCII_MAP_NEWLINE,
