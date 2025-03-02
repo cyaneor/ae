@@ -6,9 +6,9 @@
 #include <ae/runtime_assert.h>
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
-#include <ae/memory_raw.h>
 #include <ae/ptr_util.h>
 #include <ae/nullptr.h>
+#include <ae/memory.h>
 
 void *
 ae_memory_range_get_begin(const void *self)
