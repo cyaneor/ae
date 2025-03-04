@@ -62,6 +62,31 @@
 AE_COMPILER(EXTERN_C_BEGIN)
 
 /**
+ * @brief Заполняет область памяти, повторяя исходную область в целевую.
+ *
+ * Эта функция перемещает данные из исходной области памяти в целевую область памяти
+ * повторно до тех пор, пока целевая область не будет полностью заполнена. Перед выполнением
+ * проверяется, что указатели на целевую и исходную области памяти не равны нулю.
+ *
+ * @param dst Указатель на начало целевой области памяти.
+ * @param dst_end Указатель на конец целевой области памяти.
+ * @param src Указатель на начало исходной области памяти.
+ * @param src_end Указатель на конец исходной области памяти.
+ *
+ * @return Указатель на конец целевой области памяти после выполнения операции заполнения.
+ *
+ * @note Функция завершит выполнение, как только целевая область памяти будет полностью заполнена.
+ *       Предполагается, что целевая область имеет достаточно места для многократного повторения
+ *       данных из исходной области.
+ *
+ * @throws AE_RUNTIME_ERROR_NULL_POINTER
+ *         Если хотя бы один из указателей `dst` или `src` равен нулю.
+ */
+AE_ATTRIBUTE(SYMBOL)
+void *
+ae_memory_raw_fill_repeat(void *dst, const void *dst_end, const void *src, const void *src_end);
+
+/**
  * @brief Заполняет диапазон памяти значением типа `ae_u8_t`.
  *
  * Эта функция заполняет указанный диапазон памяти значением, переданным в качестве параметра.
@@ -776,7 +801,10 @@ ae_memory_raw_copy_rev(const void *dst, void *dst_end, const void *src, const vo
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_u8_t *
-ae_memory_raw_move_u8(ae_u8_t *dst, ae_u8_t *dst_end, const ae_u8_t *src, const ae_u8_t *src_end);
+ae_memory_raw_move_u8(ae_u8_t       *dst,
+                      const ae_u8_t *dst_end,
+                      const ae_u8_t *src,
+                      const ae_u8_t *src_end);
 
 /**
  * @brief Перемещает данные из одного диапазона памяти в другой.
@@ -818,7 +846,7 @@ ae_memory_raw_move_u8(ae_u8_t *dst, ae_u8_t *dst_end, const ae_u8_t *src, const 
 AE_ATTRIBUTE(SYMBOL)
 ae_u16_t *
 ae_memory_raw_move_u16(ae_u16_t       *dst,
-                       ae_u16_t       *dst_end,
+                       const ae_u16_t *dst_end,
                        const ae_u16_t *src,
                        const ae_u16_t *src_end);
 
@@ -861,7 +889,7 @@ ae_memory_raw_move_u16(ae_u16_t       *dst,
 AE_ATTRIBUTE(SYMBOL)
 ae_u32_t *
 ae_memory_raw_move_u32(ae_u32_t       *dst,
-                       ae_u32_t       *dst_end,
+                       const ae_u32_t *dst_end,
                        const ae_u32_t *src,
                        const ae_u32_t *src_end);
 
@@ -905,7 +933,7 @@ ae_memory_raw_move_u32(ae_u32_t       *dst,
 AE_ATTRIBUTE(SYMBOL)
 ae_u64_t *
 ae_memory_raw_move_u64(ae_u64_t       *dst,
-                       ae_u64_t       *dst_end,
+                       const ae_u64_t *dst_end,
                        const ae_u64_t *src,
                        const ae_u64_t *src_end);
 
@@ -933,7 +961,7 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_raw_move(void *dst, void *dst_end, const void *src, const void *src_end);
+ae_memory_raw_move(void *dst, const void *dst_end, const void *src, const void *src_end);
 
 /**
  * @brief Находит первое вхождение последовательности
