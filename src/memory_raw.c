@@ -504,25 +504,6 @@ ae_memory_raw_move(void *dst, void *dst_end, const void *src, const void *src_en
     return ae_memory_raw_move_u8(dst, dst_end, src, src_end);
 }
 
-void *
-ae_memory_raw_fill_repeat(void       *dst,
-                          void       *dst_end,
-                          const void *src,
-                          const void *src_end,
-                          ae_usize_t  size)
-{
-    ae_runtime_try
-    {
-        void *_dst = dst;
-        while (size--)
-        {
-            _dst = ae_memory_raw_move(_dst, dst_end, src, src_end);
-        }
-        ae_runtime_try_interrupt(_dst);
-    }
-    ae_runtime_raise(nullptr);
-}
-
 const ae_u8_t *
 ae_memory_raw_find_u8(const ae_u8_t *lhs,
                       const ae_u8_t *lhs_end,
