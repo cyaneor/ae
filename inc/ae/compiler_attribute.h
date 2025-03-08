@@ -28,6 +28,7 @@
 #include "compiler_attribute_builtin.h"
 #include "compiler_attribute_symbol.h"
 #include "compiler_attribute_unused.h"
+#include "compiler_attribute_target.h"
 #include "compiler_attribute_thread_local.h"
 
 #endif // AE_COMPILER_ATTRIBUTE_H

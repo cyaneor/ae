@@ -1,3 +1,5 @@
+# [2]
+
 # -------------------------------------------------------------------------------------- #
 # Конфигурация опций для сборки и управления параметрами библиотеки                      #
 #                                                                                        #
@@ -11,11 +13,11 @@
 
 # Опция:
 #
-#     AE_OPTION_SHARED_BUILD
+#     AE_LIBRARY_OPTION_SHARED_BUILD
 #
 # Описание:
 #
-#     Эта опция CMake, AE_OPTION_BUILD_SHARED,
+#     Эта опция CMake, AE_LIBRARY_OPTION_SHARED_BUILD,
 #     управляет конфигурацией сборки для создания общей (разделяемой) библиотеки.
 #
 #     Когда эта опция включена (ON),
@@ -44,16 +46,16 @@
 #     Общие библиотеки предлагают большую гибкость во время выполнения,
 #     но могут вносить дополнительные сложности.
 #
-option(AE_OPTION_SHARED_BUILD
+option(AE_LIBRARY_OPTION_SHARED_BUILD
         "Создать общую динамическую библиотеку." ON)
 
 # Опция:
 #
-#     AE_OPTION_STATIC_BUILD
+#     AE_LIBRARY_OPTION_STATIC_BUILD
 #
 # Описание:
 #
-#     Эта опция CMake, AE_OPTION_STATIC_BUILD,
+#     Эта опция CMake, AE_LIBRARY_OPTION_STATIC_BUILD,
 #     управляет конфигурацией сборки для создания статической библиотеки.
 #
 #     Когда эта опция включена (ON),
@@ -84,16 +86,16 @@ option(AE_OPTION_SHARED_BUILD
 #     времени на загрузку во время выполнения, но они также
 #     увеличивают размер итогового бинарного файла.
 #
-option(AE_OPTION_STATIC_BUILD
+option(AE_LIBRARY_OPTION_STATIC_BUILD
         "Создать статическую библиотеку." OFF)
 
 # Опция:
 #
-#     AE_OPTION_SEGMENTED_ARCH
+#     AE_LIBRARY_OPTION_SEGMENTED_ARCH
 #
 # Описание:
 #
-#     Опция CMake AE_OPTION_SEGMENTED_ARCH указывает, использует ли целевая
+#     Опция CMake AE_LIBRARY_OPTION_SEGMENTED_ARCH указывает, использует ли целевая
 #     архитектура сегментированную модель памяти. При включении этой опции (ON)
 #     требуется вручную определить соответствующие макросы с необходимыми значениями в проекте.
 #
@@ -111,16 +113,16 @@ option(AE_OPTION_STATIC_BUILD
 #     Это гарантирует, что библиотека ae корректно учитывает архитектурные особенности,
 #     что критично для правильной работы операций, связанных с памятью.
 #
-option(AE_OPTION_SEGMENTED_ARCH
+option(AE_LIBRARY_OPTION_SEGMENTED_ARCH
         "Указывает, что целевая архитектура использует модель сегментированной памяти." OFF)
 
 # Опция:
 #
-#     AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
+#     AE_LIBRARY_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
 #
 # Описание:
 #
-#     Опция CMake AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB определяет,
+#     Опция CMake AE_LIBRARY_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB определяет,
 #     должна ли стандартная библиотека использоваться для инициализации аллокатора
 #     в режиме выполнения в рамках проекта ae.
 #
@@ -140,16 +142,16 @@ option(AE_OPTION_SEGMENTED_ARCH
 #     Отключение этой опции может потребоваться для специфических нестандартных сред выполнения
 #     или пользовательских реализаций аллокаторов.
 #
-option(AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
+option(AE_LIBRARY_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
         "Использовать функции из stdlib для инициализации распределителя времени выполнения." ON)
 
 # Опция:
 #
-#     AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
+#     AE_LIBRARY_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
 #
 # Описание:
 #
-#     Опция CMake AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE определяет,
+#     Опция CMake AE_LIBRARY_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE определяет,
 #     должна ли недавно выделенная память в проекте ae инициализироваться нулями.
 #
 #     Установка этой опции в положение ON (по умолчанию) гарантирует,
@@ -175,16 +177,16 @@ option(AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
 #     Отключите эту опцию, если производительность памяти критична и
 #     инициализация управляется другими способами.
 #
-option(AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
+option(AE_LIBRARY_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
         "Новый выделенный участок памяти заполняется нулями." ON)
 
 # Опция:
 #
-#     AE_OPTION_THREAD_LOCAL_VARIABLES
+#     AE_LIBRARY_OPTION_THREAD_LOCAL_VARIABLES
 #
 # Описание:
 #
-#     Опция CMake AE_OPTION_THREAD_LOCAL_VARIABLES определяет,
+#     Опция CMake AE_LIBRARY_OPTION_THREAD_LOCAL_VARIABLES определяет,
 #     должны ли статические переменные в проекте ae объявляться
 #     со спецификатором `thread_local` для хранения на уровне потока.
 #
@@ -213,5 +215,5 @@ option(AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
 #     в некоторых случаях. Выбирайте эту опцию в зависимости от модели потоков
 #     и требований вашего приложения.
 #
-option(AE_OPTION_THREAD_LOCAL_VARIABLES
+option(AE_LIBRARY_OPTION_THREAD_LOCAL_VARIABLES
         "Все статические переменные используют модификатор thread_local." ON)

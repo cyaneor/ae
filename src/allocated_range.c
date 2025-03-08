@@ -12,7 +12,7 @@ ae_allocated_range_clear(void *self)
     {
         ae_runtime_allocator_free(ae_memory_range_get_begin(self));
         ae_memory_range_clear(self);
-        ae_runtime_try_interrupt();
+        ae_runtime_try_return();
     }
     ae_runtime_raise();
 }
@@ -24,7 +24,7 @@ ae_allocated_range_exchange(void *self, void *other)
     {
         ae_allocated_range_clear(self);
         ae_memory_range_swap(self, other);
-        ae_runtime_try_interrupt();
+        ae_runtime_try_return();
     }
     ae_runtime_raise();
 }
@@ -39,7 +39,7 @@ ae_allocated_range_resize(void *self, ae_usize_t size)
 
         void *allocated = ae_runtime_allocator_realloc(begin, cur_size, size);
         ae_memory_range_set_with_fallback(self, allocated, size);
-        ae_runtime_try_interrupt();
+        ae_runtime_try_return();
     }
     ae_runtime_raise();
 }

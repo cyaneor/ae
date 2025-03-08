@@ -2,11 +2,11 @@
 /* Дополнительные модули */
 #include <ae/memory_range_initializer.h>
 #include <ae/runtime_error_code.h>
+#include <ae/ptr_range_traits.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
 #include <ae/memory_raw.h>
-#include <ae/ptr_util.h>
 #include <ae/nullptr.h>
 
 void *
@@ -43,7 +43,7 @@ ae_memory_range_is_valid(const void *self)
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
 
-    return ae_ptr_is_valid_range(begin, end);
+    return ae_ptr_range_is_valid(begin, end);
 }
 
 bool
@@ -54,7 +54,7 @@ ae_memory_range_has_ptr(const void *self, const void *ptr)
     const void *begin = ae_memory_range_get_begin(self);
     const void *end   = ae_memory_range_get_end(self);
 
-    return ae_ptr_has_range(begin, end, ptr);
+    return ae_ptr_range_has(begin, end, ptr);
 }
 
 ae_ptrdiff_t
@@ -119,7 +119,7 @@ ae_memory_range_assign(void *self, const void *other)
         void *end   = ae_memory_range_get_end(other);
 
         ae_memory_range_set(self, begin, end);
-        ae_runtime_try_interrupt();
+        ae_runtime_try_return();
     }
     ae_runtime_raise();
 }
@@ -149,7 +149,7 @@ void
 ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size)
 {
     ae_runtime_assert(begin, AE_RUNTIME_ERROR_INVALID_ARGUMENT);
-    ae_memory_range_set_with_validate(self, begin, ae_ptr_add_offset(begin, size));
+    ae_memory_range_set_with_validate(self, begin, ae_ptr_add_offset(void, begin, size));
 }
 
 void
@@ -168,7 +168,7 @@ ae_memory_range_swap(void *self, void *other)
         ae_memory_range_assign(self, other);
         ae_memory_range_assign(other, &_t);
 
-        ae_runtime_try_interrupt();
+        ae_runtime_try_return();
     }
     ae_runtime_raise();
 }
@@ -180,7 +180,7 @@ ae_memory_range_exchange(void *self, void *other)
     {
         ae_memory_range_clear(self);
         ae_memory_range_swap(self, other);
-        ae_runtime_try_interrupt();
+        ae_runtime_try_return();
     }
     ae_runtime_raise();
 }
@@ -206,7 +206,7 @@ ae_memory_range_at_from_begin(const void *self, ae_uoffset_t offset)
         ae_memory_range_has_offset(self, offset), AE_RUNTIME_ERROR_OUT_OF_RANGE, nullptr);
 
     void *begin = ae_memory_range_get_begin(self);
-    return ae_ptr_add_offset(begin, offset);
+    return ae_ptr_add_offset(void, begin, offset);
 }
 
 void *
@@ -297,7 +297,7 @@ ae_memory_range_slice(void *self, ae_uoffset_t index, ae_usize_t size)
     {
         void *begin = ae_memory_range_at(self, index, false);
         void *end   = ae_memory_range_at(self, index + size, false);
-        ae_runtime_try_interrupt(ae_memory_range_make_subrange(self, begin, end));
+        ae_runtime_try_return(ae_memory_range_make_subrange(self, begin, end));
     }
     ae_runtime_raise(ae_memory_range_make_empty());
 }
@@ -310,7 +310,7 @@ ae_memory_range_insert_value(void *self, ae_uoffset_t offset, ae_u8_t value)
         ae_u8_t *ptr = ae_memory_range_at(self, offset, false);
         *ptr         = value;
 
-        ae_runtime_try_interrupt(ptr);
+        ae_runtime_try_return(ptr);
     }
     ae_runtime_raise(nullptr);
 }
@@ -326,7 +326,7 @@ ae_memory_range_insert_values(void        *self,
     {
         void *_begin = ae_memory_range_at(self, offset, false);
         void *_end   = ae_memory_range_at(self, offset + size, false);
-        ae_runtime_try_interrupt(ae_memory_raw_move(_begin, _end, begin, end));
+        ae_runtime_try_return(ae_memory_raw_move(_begin, _end, begin, end));
     }
     ae_runtime_raise(nullptr);
 }

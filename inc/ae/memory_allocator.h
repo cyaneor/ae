@@ -70,7 +70,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_memory_allocator_alloc_fn *
-ae_memory_allocator_get_alloc_fn(const ae_memory_allocator_t *self);
+ae_memory_allocator_get_alloc_fn(const void *self);
 
 /**
  * @brief Получает указатель на функцию освобождения памяти из аллокатора.
@@ -91,7 +91,7 @@ ae_memory_allocator_get_alloc_fn(const ae_memory_allocator_t *self);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_memory_allocator_dealloc_fn *
-ae_memory_allocator_get_dealloc_fn(const ae_memory_allocator_t *self);
+ae_memory_allocator_get_dealloc_fn(const void *self);
 
 /**
  * @brief Выделяет память заданного размера с использованием аллокатора.
@@ -120,14 +120,14 @@ ae_memory_allocator_get_dealloc_fn(const ae_memory_allocator_t *self);
  * @throw AE_RUNTIME_ERROR_ALLOCATOR_FUNCTION_NOT_INITIALIZED
  *        Если функция выделения памяти не инициализирована.
  *
- * @note Если включена опция `AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE`,
+ * @note Если включена опция `AE_LIRBARY_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE`,
  *       выделенная память будет заполнена нулями.
  *
  * @see ae_memory_allocator_get_alloc_fn
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size);
+ae_memory_allocator_alloc(const void *self, ae_usize_t size);
 
 /**
  * @brief Освобождает ранее выделенный блок памяти.
@@ -157,7 +157,7 @@ ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size);
  */
 AE_ATTRIBUTE(SYMBOL)
 void
-ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr);
+ae_memory_allocator_free(const void *self, void *ptr);
 
 /**
  * @brief Изменяет размер ранее выделенного блока памяти.
@@ -199,10 +199,10 @@ ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr);
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
-                            void                        *old_ptr,
-                            ae_usize_t                   old_size,
-                            ae_usize_t                   new_size);
+ae_memory_allocator_realloc(const void *self,
+                            void       *old_ptr,
+                            ae_usize_t  old_size,
+                            ae_usize_t  new_size);
 
 /**
  * @brief Выделяет память с заданным выравниванием.
@@ -239,9 +239,7 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_allocator_align_alloc(const ae_memory_allocator_t *self,
-                                ae_usize_t                   size,
-                                ae_usize_t                   alignment_size);
+ae_memory_allocator_align_alloc(const void *self, ae_usize_t size, ae_usize_t alignment_size);
 
 /**
  * @brief Освобождает ранее выделенный выровненный блок памяти.
@@ -271,7 +269,7 @@ ae_memory_allocator_align_alloc(const ae_memory_allocator_t *self,
  */
 AE_ATTRIBUTE(SYMBOL)
 void
-ae_memory_allocator_align_free(const ae_memory_allocator_t *self, void *ptr);
+ae_memory_allocator_align_free(const void *self, void *ptr);
 
 /**
  * @brief Изменяет размер ранее выделенного выровненного блока памяти.
@@ -317,11 +315,11 @@ ae_memory_allocator_align_free(const ae_memory_allocator_t *self, void *ptr);
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
-                                  void                        *old_ptr,
-                                  ae_usize_t                   old_size,
-                                  ae_usize_t                   new_size,
-                                  ae_usize_t                   alignment_size);
+ae_memory_allocator_align_realloc(const void *self,
+                                  void       *old_ptr,
+                                  ae_usize_t  old_size,
+                                  ae_usize_t  new_size,
+                                  ae_usize_t  alignment_size);
 
 AE_COMPILER(EXTERN_C_END)
 

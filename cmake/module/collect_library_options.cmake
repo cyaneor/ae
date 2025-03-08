@@ -12,9 +12,9 @@ get_property(CMAKE_OPTIONS DIRECTORY PROPERTY VARIABLES)
 # Проходим по всем найденным опциям
 message(STATUS "Listing all enabled configuration options:")
 foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
-    # Проверяем, соответствует ли имя опции шаблону "^AE_OPTION_.*" и не равно ли оно "OFF".
+    # Проверяем, соответствует ли имя опции шаблону "^AE_LIBRARY_OPTION_.*" и не равно ли оно "OFF".
     # Если оба условия выполняются, добавляем опцию в список определений компиляции.
-    if (CMAKE_OPTION MATCHES "^AE_OPTION_.*" AND NOT ${CMAKE_OPTION} STREQUAL "OFF")
+    if (CMAKE_OPTION MATCHES "^AE_LIBRARY_OPTION_.*" AND NOT ${CMAKE_OPTION} STREQUAL "OFF")
         # Печатаем ключ и значение опции с дополнительным форматированием
         message(STATUS ":: ${CMAKE_OPTION}")
         # Добавляем опцию в список AE_PRIVATE_COMPILE_DEFINITIONS

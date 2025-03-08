@@ -6,7 +6,7 @@
 #include <ae/runtime_throw.h>
 #include <ae/memory_range.h>
 #include <ae/runtime_try.h>
-#include <ae/ptr_util.h>
+#include <ae/ptr_traits.h>
 #include <ae/nullptr.h>
 
 ae_usize_t
@@ -78,7 +78,7 @@ ae_memory_block_at_from_begin(const void *self, ae_usize_t index)
     ae_runtime_try
     {
         const ae_uoffset_t offset = ae_memory_block_element_offset(self, index);
-        ae_runtime_try_interrupt(ae_memory_range_at(self, offset, false));
+        ae_runtime_try_return(ae_memory_range_at(self, offset, false));
     }
     ae_runtime_raise(nullptr);
 }
@@ -153,7 +153,7 @@ ae_memory_block_slice(void *self, ae_usize_t index, ae_usize_t length)
     {
         void *begin = ae_memory_block_at(self, index, false);
         void *end   = ae_memory_block_at(self, index + length, false);
-        ae_runtime_try_interrupt(
+        ae_runtime_try_return(
             (ae_memory_block_t)ae_memory_block_initializer(begin, end, element_size));
     }
     ae_runtime_raise(ae_memory_block_make_empty(element_size));

@@ -15,6 +15,8 @@
 #ifndef AE_FOREACH_H
 #define AE_FOREACH_H
 
+#include "nullptr.h"
+
 #ifndef ae_foreach
 /**
  * @def ae_foreach

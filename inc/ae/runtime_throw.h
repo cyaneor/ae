@@ -27,45 +27,32 @@
 #ifndef AE_RUNTIME_THROW_H
 #define AE_RUNTIME_THROW_H
 
-#include "runtime_throw_error.h"
 #include "runtime_frame_state.h"
+#include "runtime_return_with_error.h"
 
 /**
  * @def ae_runtime_throw
- * @brief Прерывает выполнение с установкой ошибки
- *        и загрузкой состояния фрейма.
+ * @brief Устанавливает ошибку с заданным кодом ошибки
+ *        и завершает выполнение функции.
  *
- * Этот макрос используется для проверки,
- * находится ли выполнение в начале состояния фрейма
- * с помощью функции `ae_runtime_frame_state_is_begin`.
+ * Этот макрос используется для обработки ошибок.
+ * - Если выполнение находится в начале состояния фрейма
+ *   (т.е. состояние фрейма было ранее сохранено с помощью макроса `ae_runtime_frame_state_save`),
+ *   он загружает состояние фрейма с помощью `ae_runtime_frame_state_load`.
+ * - В противном случае устанавливает ошибку в глобальной переменной ошибки
+ *   и завершает выполнение функции с помощью макроса `ae_runtime_return`.
  *
- * Если это так, то он вызывает макрос `ae_runtime_throw_error_code`
- * для установки ошибки с указанным кодом и дополнительными параметрами.
+ * @param error_code Код ошибки, который будет установлен в глобальной переменной ошибки.
+ * @param ... Параметры, которые передаются в макрос `ae_runtime_return` для завершения выполнения.
  *
- * Затем он загружает предыдущее состояние фрейма выполнения,
- * вызывая макрос `ae_runtime_frame_state_load` с переданным значением ошибки.
- *
- * Макрос полезен для обработки ошибок на различных этапах выполнения программы,
- * особенно при необходимости возврата из текущего состояния выполнения,
- * если ошибка обнаружена в начале фрейма.
- *
- * @param error_code Код ошибки типа `ae_error_code_t`,
- *                   который будет передан в макрос `ae_runtime_throw_error_code`.
- * @param ... Дополнительные параметры, которые будут переданы в макрос
- *            `ae_runtime_throw_error_code` для установки ошибки.
- *
- * @see ae_runtime_frame_state_is_begin
- * @see ae_runtime_throw_error_code
- * @see ae_runtime_frame_state_load
+ * @note Если состояние фрейма не было сохранено (например, через макрос `runtime_try`),
+ *       то макрос установит ошибку и завершит выполнение функции немедленно.
  */
 #define ae_runtime_throw(error_code, ...)                                                          \
     do                                                                                             \
     {                                                                                              \
-        if (!ae_runtime_frame_state_is_begin())                                                    \
-        {                                                                                          \
-            ae_runtime_frame_state_load(error_code);                                               \
-        }                                                                                          \
-        ae_runtime_throw_error_code(error_code, __VA_ARGS__);                                      \
+        ae_runtime_frame_state_load(error_code);                                                   \
+        ae_runtime_return_with_error_code(error_code, __VA_ARGS__);                                \
     } while (0)
 
 /**

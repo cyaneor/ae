@@ -10,13 +10,13 @@
  * как локальный для потока экземпляр структуры `ae_memory_allocator`.
  *
  * Инициализация распределителя зависит от того,
- * определена ли `AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB`:
+ * определена ли `AE_LIBRARY_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB`:
  *
- * - Если `AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB` определена,
+ * - Если `AE_LIBRARY_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB` определена,
  *   распределитель инициализируется с использованием функции `malloc`
  *   стандартной библиотеки для выделения памяти и `free` для освобождения памяти.
  *
- * - Если `AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB` не определена,
+ * - Если `AE_LIBRARY_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB` не определена,
  *   функции выделения и освобождения памяти инициализируются значением `nullptr`.
  *
  * Это обеспечивает гибкость в конфигурации распределителя времени выполнения,
@@ -26,7 +26,7 @@
  *        что каждый поток будет иметь свой собственный экземпляр
  *        `m_runtime_allocator`.
  */
-#ifdef AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
+#ifdef AE_LIBRARY_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
 #    include <stdlib.h>
 
 AE_ATTRIBUTE(THREAD_LOCAL)
@@ -34,7 +34,7 @@ ae_memory_allocator_t m_runtime_allocator = ae_memory_allocator_initializer(mall
 #else
 AE_ATTRIBUTE(THREAD_LOCAL)
 ae_memory_allocator_t m_runtime_allocator = ae_memory_allocator_empty_initializer();
-#endif // AE_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
+#endif // AE_LIBRARY_OPTION_RUNTIME_ALLOCATOR_INIT_STDLIB
 
 ae_memory_allocator_t *
 ae_runtime_allocator()

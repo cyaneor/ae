@@ -1,7 +1,6 @@
 #include <ae/runtime_frame_state.h>
 /* Дополнительные модули */
 #include <ae/static_assert.h>
-#include <ae/attribute.h>
 #include <ae/nullptr.h>
 
 ae_static_assert(AE_RUNTIME_FRAME_STATE_MAX,

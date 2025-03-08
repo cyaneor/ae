@@ -98,7 +98,7 @@
 #define ae_runtime_assert_if_not(expr, ...) ae_runtime_assert_if(!(expr), __VA_ARGS__)
 
 /**
- * @def AE_RUNTIME_ASSERT
+ * @def ae_runtime_assert
  * @brief Утверждает условие и генерирует ошибку, если условие ложно.
  *
  * Этот макрос является более общим и удобным вариантом использования

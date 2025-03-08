@@ -16,7 +16,7 @@
  * - `ae_runtime_catch` - блок обработки ошибок после блока `ae_runtime_try`.
  * - `ae_runtime_catch_if` - условная обработка ошибок.
  * - `ae_runtime_try_finalize` - корректное завершение блока `try`.
- * - `ae_runtime_try_interrupt` - досрочное завершение блока `try` с возвратом значения.
+ * - `ae_runtime_try_return` - досрочное завершение блока `try` с возвратом значения.
  *
  * Макросы используют функции сохранения и восстановления состояния фрейма,
  * такие как:
@@ -44,14 +44,14 @@
 #define AE_RUNTIME_TRY_H
 
 #include "error_code.h"
-#include "runtime_interrupt.h"
+#include "runtime_return.h"
 #include "runtime_frame_state.h"
 
 /**
  * @brief Макрос для попытки выполнения с сохранением состояния фрейма.
  *
  * Этот макрос сохраняет текущее состояние фрейма выполнения
- * в переменную `stack_frame_state` с помощью функции `ae_runtime_frame_state_save`.
+ * в переменную `frame_state` с помощью функции `ae_runtime_frame_state_save`.
  *
  * - Если сохранение состояния фрейма прошло успешно (ошибка не произошла),
  *   выполнение продолжается.
@@ -61,8 +61,8 @@
  * Макрос определяет две переменные:
  * - `error_code` — переменная для хранения кода ошибки,
  *                  который инициализируется значением `AE_ERROR_CODE_NONE`.
- * - `stack_frame_state` — переменная для хранения текущего состояния фрейма,
- *                         инициализируется пустым значением.
+ * - `frame_state` — переменная для хранения текущего состояния фрейма,
+ *                   инициализируется пустым значением.
  *
  * Если сохранение состояния фрейма не удается (код ошибки не равен `AE_ERROR_CODE_NONE`),
  * выполнение может быть восстановлено с помощью механизма `longjmp` в других частях программы.
@@ -81,66 +81,9 @@
  *       при возникновении ошибок.
  */
 #define ae_runtime_try                                                                             \
-    ae_error_code_t  error_code        = AE_ERROR_CODE_NONE;                                       \
-    ae_jump_buffer_t stack_frame_state = {};                                                       \
-    if ((error_code = ae_runtime_frame_state_save(&stack_frame_state)) == 0)
-
-/**
- * @brief Альтернативный блок обработки ошибок для макроса `ae_runtime_try`.
- *
- * Этот макрос используется в сочетании с макросом `ae_runtime_try`
- * для обработки ошибок или восстановления выполнения программы
- * в случае возникновения ошибки.
- *
- * Когда выполнение возвращается в блок `else` после неудачного выполнения внутри
- * макроса `ae_runtime_try`, будет выполнен блок кода, связанный с `ae_runtime_catch`.
- *
- * Макрос `ae_runtime_catch` используется для обработки любых ошибок,
- * которые могут возникнуть при выполнении кода, обернутого в `ae_runtime_try`.
- *
- * Он является частью механизма восстановления состояния выполнения,
- * связанного с использованием `setjmp` и `longjmp`.
- *
- * Пример использования:
- * @code
- * ae_runtime_try {
- *     // Код, который нужно выполнить в рамках текущего состояния.
- * } ae_runtime_catch {
- *     // Обработка ошибок или восстановление выполнения.
- * }
- * @endcode
- *
- * @note Макрос `ae_runtime_catch` следует использовать сразу после `ae_runtime_try` для
- *       обработки ошибок, которые были обнаружены в ходе выполнения блока кода.
- */
-#define ae_runtime_catch else
-
-/**
- * @def ae_runtime_catch_if
- * @brief Условная обработка ошибок после блока `ae_runtime_try`.
- *
- * Макрос `ae_runtime_catch_if` используется в сочетании с макросом `ae_runtime_try`
- * для определения блока кода, который будет выполняться в случае возникновения
- * ошибки в предыдущем блоке, при этом добавляя условие для обработки ошибок.
- * Этот макрос позволяет более гибко управлять обработкой ошибок, проверяя
- * определенные условия перед выполнением блока обработки.
- *
- * Пример использования:
- * @code
- * ae_runtime_try {
- *     // Код, который может вызвать ошибку
- *     ...
- * } ae_runtime_catch_if (error_code != AE_ERROR_CODE_NONE) {
- *     // Обработка ошибки, если код ошибки не равен AE_ERROR_CODE_NONE
- *     ...
- * }
- * @endcode
- *
- * @note Убедитесь, что условие в `ae_runtime_catch_if` корректно отражает
- *       логику обработки ошибок, и что код внутри блока обрабатывает
- *       возможные ошибки должным образом.
- */
-#define ae_runtime_catch_if ae_runtime_catch if
+    ae_error_code_t  error_code  = AE_ERROR_CODE_NONE;                                             \
+    ae_jump_buffer_t frame_state = {};                                                             \
+    if ((error_code = ae_runtime_frame_state_save(&frame_state)) == 0)
 
 /**
  * @brief Завершает блок `try` путем восстановления указателя состояния фрейма.
@@ -171,10 +114,10 @@
 #define ae_runtime_try_finalize ae_runtime_frame_state_prev
 
 /**
- * @def ae_runtime_try_interrupt
+ * @def ae_runtime_try_return
  * @brief Прерывает выполнение блока `try` с возвратом значения.
  *
- * Макрос `ae_runtime_try_interrupt` завершает текущий блок `try`, вызывая
+ * Макрос `ae_runtime_try_return` завершает текущий блок `try`, вызывая
  * `ae_runtime_try_finalize` для корректного восстановления состояния фрейма,
  * а затем выполняет `return` с переданными аргументами `__VA_ARGS__`.
  *
@@ -191,7 +134,7 @@
  * ae_runtime_try {
  *     if (some_condition) {
  *         // Завершает try с возвратом `nullptr`
- *         ae_runtime_try_interrupt(nullptr);
+ *         ae_runtime_try_return(nullptr);
  *     }
  *     // Остальной код, который не выполнится при срабатывании прерывания
  * } ae_runtime_catch {
@@ -203,8 +146,8 @@
  *       гарантировать корректное завершение работы и восстановление состояния фрейма.
  *       Без вызова `ae_runtime_try_finalize` возможны расхождения в управлении состояниями.
  */
-#define ae_runtime_try_interrupt(...)                                                              \
+#define ae_runtime_try_return(...)                                                                 \
     ae_runtime_try_finalize();                                                                     \
-    ae_runtime_interrupt(__VA_ARGS__)
+    ae_runtime_return(__VA_ARGS__)
 
 #endif // AE_RUNTIME_TRY_H

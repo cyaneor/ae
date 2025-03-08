@@ -1,19 +1,45 @@
 /**
- * @file static_array_size.h
+ * @file array_size.h
  * @brief Заголовочный файл для макроса вычисления количества элементов в массиве.
  *
- * Этот файл содержит определение макроса `ae_static_array_size`,
+ * Этот файл содержит определение макроса `ae_array_size`,
  * который позволяет вычислить количество элементов в статическом массиве.
  *
  * Макрос основан на использовании оператора `sizeof`
  * для получения размера массива и его первого элемента.
  */
 
-#ifndef AE_STATIC_ARRAY_SIZE_H
-#define AE_STATIC_ARRAY_SIZE_H
+#ifndef AE_ARRAY_SIZE_H
+#define AE_ARRAY_SIZE_H
 
+#ifdef __cplusplus
+#    include "size.h"
 /**
- * @def ae_static_array_size
+ * @brief Функция для получения размера массива.
+ *
+ * Эта функция возвращает количество элементов в статическом массиве.
+ * Она использует размер массива, переданный как параметр,
+ * и возвращает его как константное выражение.
+ *
+ * @tparam T Тип элементов массива.
+ * @tparam N Размер массива.
+ * @param arr Массив, размер которого нужно получить.
+ * @return Размер массива.
+ *
+ * @code
+ * int arr[5];
+ * constexpr auto size = ae_array_size(arr); // size == 5
+ * @endcode
+ */
+template <typename T, ae_usize_t N>
+inline constexpr auto
+ae_array_size(const T (&)[N])
+{
+    return N;
+}
+#else
+/**
+ * @def ae_array_size
  * @brief Вычисляет количество элементов в массиве.
  *
  * Этот макрос позволяет получить количество элементов в статическом массиве
@@ -26,6 +52,7 @@
  *       Не применяйте его к указателям, так как это приведет
  *       к некорректному вычислению размера.
  */
-#define ae_static_array_size(x) (sizeof(x) / sizeof(x[0]))
+#    define ae_array_size(x) (sizeof(x) / sizeof(x[0]))
+#endif // __cplusplus
 
-#endif // AE_STATIC_ARRAY_SIZE_H
+#endif // AE_ARRAY_SIZE_H

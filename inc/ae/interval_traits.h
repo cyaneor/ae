@@ -1,5 +1,5 @@
 /**
- * @file interval_util.h
+ * @file interval_traits.h
  * @brief Набор макросов для работы с интервалами.
  *
  * Этот файл содержит макросы для проверки валидности интервалов с различными типами границ
@@ -10,8 +10,8 @@
  * и содержится ли значение в интервале с учетом типа границ.
  */
 
-#ifndef AE_INTERVAL_UTIL_H
-#define AE_INTERVAL_UTIL_H
+#ifndef AE_INTERVAL_TRAITS_H
+#define AE_INTERVAL_TRAITS_H
 
 /**
  * @def ae_interval_is_valid_closed
@@ -141,4 +141,4 @@
  */
 #define ae_interval_has_opened(lower, upper, value) ((value) > (lower) && (value) < (upper))
 
-#endif // AE_INTERVAL_UTIL_H
+#endif // AE_INTERVAL_TRAITS_H

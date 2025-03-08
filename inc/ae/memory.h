@@ -2,6 +2,7 @@
 #define AE_MEMORY_H
 
 #include "size.h"
+#include "char.h"
 #include "attribute.h"
 
 AE_COMPILER(EXTERN_C_BEGIN)
@@ -27,31 +28,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_copy_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
-
-/**
- * @brief Копирует данные из одного диапазона памяти в другой с одинаковой длиной.
- *
- * Эта функция копирует данные из исходного диапазона памяти в целевой диапазон памяти,
- * предполагая, что длина исходного и целевого диапазонов одинаковая. Для выполнения
- * копирования она использует функцию @ref ae_memory_copy_with, передавая одинаковые
- * значения длины для обоих диапазонов.
- *
- * @param dst Указатель на начало целевого диапазона памяти,
- *            в который будут скопированы данные.
- * @param src Указатель на начало исходного диапазона памяти,
- *            из которого будут скопированы данные.
- * @param len Длина диапазона памяти, которая будет скопирована.
- *
- * @return Указатель на следующий элемент после последнего скопированного
- *         в целевом диапазоне (указатель на конец целевого диапазона).
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src являются NULL.
- */
-AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_copy(void *dst, const void *src, ae_usize_t len);
+ae_memory_copy(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
 
 /**
  * @brief Заполняет диапазон памяти заданным значением.
@@ -63,15 +40,12 @@ ae_memory_copy(void *dst, const void *src, ae_usize_t len);
  * @param len Длина диапазона памяти в байтах, который необходимо заполнить.
  * @param value Значение, которым будет заполнен диапазон памяти.
  *
- * @return Указатель на следующий элемент после последнего заполненного в диапазоне,
- *         т.е. указатель на конец диапазона.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если @c dst является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_set(void *dst, ae_usize_t len, ae_u8_t value);
+void
+ae_memory_set_value(void *dst, ae_usize_t len, ae_char_t value);
 
 /**
  * @brief Заполняет диапазон памяти нулями.
@@ -82,14 +56,11 @@ ae_memory_set(void *dst, ae_usize_t len, ae_u8_t value);
  * @param dst Указатель на начало диапазона памяти, который будет заполнен.
  * @param len Длина диапазона памяти в байтах, который необходимо заполнить.
  *
- * @return Указатель на следующий элемент после последнего заполненного в диапазоне,
- *         т.е. указатель на конец диапазона.
- *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
  *        Если @c dst является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-void *
+void
 ae_memory_set_zero(void *dst, ae_usize_t len);
 
 /**
@@ -113,29 +84,7 @@ ae_memory_set_zero(void *dst, ae_usize_t len);
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_copy_rev_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
-
-/**
- * @brief Копирует данные из исходного диапазона
- *        в целевой диапазон в обратном порядке.
- *
- * Эта функция выполняет копирование данных из исходного диапазона памяти
- * в целевой диапазон в обратном порядке.
- *
- * @param dst Указатель на начало целевого диапазона памяти,
- *            куда будут скопированы данные.
- * @param src Указатель на начало исходного диапазона памяти,
- *            откуда будут скопированы данные.
- * @param len Длина диапазона памяти, который нужно скопировать, в байтах.
- *
- * @return Указатель на начало целевого диапазона памяти после копирования данных.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
- */
-AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_copy_rev(void *dst, const void *src, ae_usize_t len);
+ae_memory_copy_from_end(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
 
 /**
  * @brief Перемещает данные из исходного диапазона в целевой диапазон.
@@ -157,55 +106,96 @@ ae_memory_copy_rev(void *dst, const void *src, ae_usize_t len);
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_move_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
+ae_memory_move(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
 
 /**
- * @brief Перемещает данные из одного диапазона памяти в другой с одинаковой длиной.
+ * @brief Сравнивает два блока памяти заданной длины.
  *
- * Эта функция перемещает данные из исходного диапазона памяти в целевой диапазон памяти,
- * предполагая, что длина исходного и целевого диапазонов одинаковая.
+ * Эта функция выполняет сравнение двух блоков памяти,
+ * указанных параметрами `lhs` и `rhs`, с заданными длинами `lhs_len` и `rhs_len`.
  *
- * Для выполнения перемещения она использует функцию @ref ae_memory_move_with,
- * передавая одинаковые значения длины для обоих диапазонов.
+ * @param lhs Указатель на начало первого блока памяти.
+ * @param lhs_len Длина первого блока памяти в байтах.
+ * @param rhs Указатель на начало второго блока памяти.
+ * @param rhs_len Длина второго блока памяти в байтах.
  *
- * @param dst Указатель на начало целевого диапазона памяти,
- *            в который будут перемещены данные.
- * @param src Указатель на начало исходного диапазона памяти,
- *            из которого будут перемещены данные.
- * @param len Длина диапазона памяти, которая будет перемещена.
- *
- * @return Указатель на следующий элемент после последнего перемещённого
- *         в целевом диапазоне (указатель на конец целевого диапазона).
+ * @return Указатель на первое различие между блоками памяти или nullptr,
+ *         если блоки равны.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src являются NULL.
+ *        Если @c lhs или @c rhs является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_move(void *dst, const void *src, ae_usize_t len);
+const void *
+ae_memory_compare(const void *lhs, ae_usize_t lhs_len, const void *rhs, ae_usize_t rhs_len);
 
 /**
- * @brief Добавляет данные из исходного диапазона в конец целевого диапазона.
+ * @brief Сравнивает два блока памяти, начиная с конца.
  *
- * Эта функция вычисляет конец целевого диапазона памяти, затем вызывает
- * @ref ae_memory_move_ex для перемещения данных из исходного диапазона в целевой.
- * В результате целевой диапазон памяти будет расширен данными из исходного диапазона.
+ * Эта функция выполняет сравнение двух блоков памяти,
+ * указанных параметрами `lhs` и `rhs`,
+ * начиная с конца указанных блоков и двигаясь к началу.
  *
- * @param dst Указатель на начало целевого диапазона памяти,
- *            в который будут добавлены данные.
- * @param dst_len Длина целевого диапазона памяти в байтах.
- * @param src Указатель на начало исходного диапазона памяти,
- *            из которого будут добавлены данные.
- * @param src_len Длина исходного диапазона памяти в байтах.
+ * @param lhs Указатель на начало первого блока памяти.
+ * @param lhs_len Длина первого блока памяти в байтах.
+ * @param rhs Указатель на начало второго блока памяти.
+ * @param rhs_len Длина второго блока памяти в байтах.
  *
- * @return Указатель на начало целевого диапазона памяти после добавления данных.
+ * @return Указатель на первое различие между блоками памяти или nullptr,
+ *         если блоки равны.
  *
  * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
+ *        Если @c lhs или @c rhs является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_append_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
+const void *
+ae_memory_compare_from_end(const void *lhs,
+                           ae_usize_t  lhs_len,
+                           const void *rhs,
+                           ae_usize_t  rhs_len);
+
+/**
+ * @brief Находит блок памяти в другом блоке памяти.
+ *
+ * Эта функция ищет указанный блок памяти, заданный параметрами `rhs` и `rhs_len`,
+ * в другом блоке памяти, заданном параметрами `lhs` и `lhs_len`.
+ *
+ * @param lhs Указатель на начало блока памяти, в котором производится поиск.
+ * @param lhs_len Длина блока памяти, в котором производится поиск, в байтах.
+ * @param rhs Указатель на начало блока памяти, который необходимо найти.
+ * @param rhs_len Длина блока памяти, который необходимо найти, в байтах.
+ *
+ * @return Указатель на первое вхождение блока памяти `rhs` в блоке
+ *         памяти `lhs` или nullptr, если блок не найден.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c lhs или @c rhs является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+const void *
+ae_memory_find(const void *lhs, ae_usize_t lhs_len, const void *rhs, ae_usize_t rhs_len);
+
+/**
+ * @brief Находит блок памяти в другом блоке памяти, начиная с конца.
+ *
+ * Эта функция ищет указанный блок памяти, заданный параметрами `rhs`
+ * и `rhs_len`, в другом блоке памяти, заданном параметрами `lhs`
+ * и `lhs_len`, начиная с конца первого блока и двигаясь к началу.
+ *
+ * @param lhs Указатель на начало блока памяти, в котором производится поиск.
+ * @param lhs_len Длина блока памяти, в котором производится поиск, в байтах.
+ * @param rhs Указатель на начало блока памяти, который необходимо найти.
+ * @param rhs_len Длина блока памяти, который необходимо найти, в байтах.
+ *
+ * @return Указатель на последнее вхождение блока памяти `rhs` в блоке
+ *         памяти `lhs` или nullptr, если блок не найден.
+ *
+ * @throw AE_RUNTIME_ERROR_NULL_POINTER
+ *        Если @c lhs или @c rhs является NULL.
+ */
+AE_ATTRIBUTE(SYMBOL)
+const void *
+ae_memory_find_from_end(const void *lhs, ae_usize_t lhs_len, const void *rhs, ae_usize_t rhs_len);
 
 /**
  * @brief Заполняет область памяти, повторяя данные из исходной области.
@@ -213,7 +203,7 @@ ae_memory_append_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t s
  * Эта функция заполняет целевую область памяти, повторяя данные
  * из исходной области до тех пор, пока целевая область не будет полностью заполнена.
  *
- * Для выполнения операции она использует функцию @ref ae_memory_raw_fill_repeat,
+ * Для выполнения операции она использует функцию @ref ae_memory_raw_set_ex,
  * передавая указатели на начало и конец как для целевой,
  * так и для исходной области памяти.
  *
@@ -231,56 +221,13 @@ ae_memory_append_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t s
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_fill_repeat(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
-
-/**
- * @brief Выполняет сдвиг данных в памяти на указанное количество байт.
- *
- * Эта функция сдвигает указатель на данные в памяти на заданное количество байт
- * и затем перемещает данные из одного диапазона памяти в другой.
- *
- * @param dst Указатель на начало целевого диапазона памяти,
- *            в который будут перемещены данные.
- * @param dst_end Указатель на конец целевого диапазона памяти.
- * @param shift Количество байт, на которое нужно сдвинуть указатель.
- *
- * @return Возвращает указатель
- *         на новый целевой диапазон памяти после перемещения данных.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c dst_end является NULL.
- */
-AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_shift_left_ex(void *dst, const void *dst_end, ae_usize_t shift);
-
-/**
- * @brief Выполняет сдвиг данных в памяти
- *        на указанное количество байт в обратную сторону.
- *
- * Эта функция сдвигает указатель на данные в памяти на заданное количество байт
- * в противоположную сторону, а затем перемещает данные из одного диапазона памяти в другой.
- *
- * @param dst Указатель на начало целевого диапазона памяти,
- *            в который будут перемещены данные.
- * @param dst_end Указатель на конец целевого диапазона памяти.
- * @param shift Количество байт, на которое нужно сдвинуть указатель.
- *
- * @return Возвращает указатель
- *         на новый целевой диапазон памяти после перемещения данных.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c dst_end является NULL.
- */
-AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_shift_right_ex(void *dst, const void *dst_end, ae_usize_t shift);
+ae_memory_set(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
 
 /**
  * @brief Выполняет сдвиг данных в памяти на указанное количество байт влево.
  *
  * Эта функция сдвигает данные в указанном диапазоне памяти на заданное количество байт
- * влево. Она использует функцию @ref ae_memory_raw_shift_left_with для выполнения сдвига,
+ * влево. Она использует функцию @ref ae_memory_shift_left_ex для выполнения сдвига,
  * принимая во внимание длину и выравнивание данных.
  *
  * @param dst Указатель на начало диапазона памяти, который нужно сдвигать.
@@ -319,29 +266,6 @@ void *
 ae_memory_shift_right(void *dst, ae_usize_t len, ae_usize_t shift);
 
 /**
- * @brief Выполняет сдвиг данных в памяти и заполняет их указанным значением.
- *
- * Эта функция сначала сдвигает указатель на данные в памяти на заданное количество байт,
- * а затем заполняет диапазон памяти указанным значением.
- * В случае возникновения ошибок, функция генерирует исключение.
- *
- * @param dst Указатель на начало целевого диапазона памяти,
- *            который будет сдвинут и заполнен значением.
- * @param dst_end Указатель на конец целевого диапазона памяти.
- * @param shift Количество байт, на которое необходимо сдвинуть данные в памяти.
- * @param value Значение, которым будет заполнен диапазон памяти после сдвига.
- *
- * @return Возвращает указатель
- *         на новый целевой диапазон памяти после сдвига и заполнения.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c dst_end является NULL.
- */
-AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_shift_right_and_fill_ex(void *dst, const void *dst_end, ae_usize_t shift, ae_u8_t value);
-
-/**
  * @brief Выполняет сдвиг данных в памяти и заполняет их заданным значением.
  *
  * Эта функция вызывает @c ae_memory_shift_right_and_fill_ex, предоставляя
@@ -363,7 +287,7 @@ ae_memory_shift_right_and_fill_ex(void *dst, const void *dst_end, ae_usize_t shi
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_shift_right_and_fill(void *dst, ae_usize_t len, ae_usize_t shift, ae_u8_t value);
+ae_memory_shift_right_and_fill(void *dst, ae_usize_t len, ae_usize_t shift, ae_char_t value);
 
 AE_COMPILER(EXTERN_C_END)
 

@@ -14,9 +14,9 @@
 
 #include "intptr.h"
 
-#ifdef AE_OPTION_SEGMENTED_ARCH
+#ifdef AE_LIBRARY_OPTION_SEGMENTED_ARCH
 /**
- * @def AE_OPTION_SEGMENTED_ARCH
+ * @def AE_LIBRARY_OPTION_SEGMENTED_ARCH
  * @brief Включает поддержку сегментированной архитектуры.
  *
  * Если определено, настройки зависят
@@ -114,7 +114,7 @@ typedef s16_t ae_ssize_t;
 #        error "AE_SIZE_T_SIZE is not defined"
 #    endif
 
-#else // AE_OPTION_SEGMENTED_ARCH
+#else // AE_LIBRARY_OPTION_SEGMENTED_ARCH
 
 /**
  * @def AE_SIZE_T_SIZE
@@ -146,6 +146,6 @@ typedef ae_uintptr_t ae_usize_t;
  */
 typedef ae_sintptr_t ae_ssize_t;
 
-#endif // AE_OPTION_SEGMENTED_ARCH
+#endif // AE_LIBRARY_OPTION_SEGMENTED_ARCH
 
 #endif // AE_SIZE_H

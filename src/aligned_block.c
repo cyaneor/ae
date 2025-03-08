@@ -6,7 +6,7 @@
 #include <ae/aligned_range.h>
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
-#include <ae/ptr_util.h>
+#include <ae/ptr_traits.h>
 
 ae_usize_t
 ae_aligned_block_get_alignment_size(const void *self)
@@ -24,7 +24,7 @@ ae_aligned_block_exchange(void *self, void *other)
     {
         ae_aligned_range_clear(self);
         ae_memory_range_swap(self, other);
-        ae_runtime_try_interrupt();
+        ae_runtime_try_return();
     }
     ae_runtime_raise();
 }

@@ -3,7 +3,7 @@
 #include <ae/allocated_block.h>
 #include <ae/aligned_block.h>
 #include <ae/aligned_range.h>
-#include <ae/bit_util.h>
+#include <ae/bit_traits.h>
 
 void
 ae_unified_block_clear(void *self)

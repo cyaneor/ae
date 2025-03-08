@@ -26,8 +26,9 @@
 #ifndef AE_RUNTIME_FRAME_STATE_H
 #define AE_RUNTIME_FRAME_STATE_H
 
-#include "jump_buffer.h"
 #include "bool.h"
+#include "attribute.h"
+#include "jump_buffer.h"
 
 /**
  * @brief Сохраняет состояние фрейма выполнения.
@@ -46,6 +47,7 @@
 #define ae_runtime_frame_state_save(frame_state) setjmp(*ae_runtime_frame_state_push(frame_state))
 
 /**
+ * @def ae_runtime_frame_state_load_unsafe
  * @brief Загружает предыдущее состояние фрейма выполнения и продолжает выполнение.
  *
  * Макрос `ae_runtime_frame_state_load` восстанавливает предыдущее состояние фрейма выполнения
@@ -65,8 +67,32 @@
  *       и позволяет продолжить выполнение программы с того места,
  *       где был сделан снимок состояния.
  */
-#define ae_runtime_frame_state_load(return_value)                                                  \
+#define ae_runtime_frame_state_load_unsafe(return_value)                                           \
     longjmp(*ae_runtime_frame_state_prev(), return_value)
+
+/**
+ * @def ae_runtime_frame_state_load
+ * @brief Загружает предыдущее состояние фрейма выполнения, если не в начале фрейма.
+ *
+ * Макрос `ae_runtime_frame_state_load` проверяет, не находится ли выполнение
+ * в начале состояния фрейма. Если выполнение не в начале, макрос вызывает
+ * функцию `ae_runtime_frame_state_load_unsafe` для восстановления состояния
+ * фрейма с помощью `longjmp` и продолжения выполнения программы.
+ *
+ * Этот макрос используется для восстановления контекста выполнения в случае,
+ * если выполнение находится не в начале состояния фрейма, и позволяет
+ * продолжить выполнение с точки, где было сохранено состояние.
+ *
+ * @param ... Параметры, которые передаются
+ *            в макрос `ae_runtime_frame_state_load_unsafe`.
+ *
+ * @note Этот макрос может быть полезен для продолжения выполнения,
+ *       если выполнение уже прошло точку начала фрейма, например,
+ *       после нескольких вызовов или внутри вложенных фреймов выполнения.
+ */
+#define ae_runtime_frame_state_load(...)                                                           \
+    if (!ae_runtime_frame_state_is_begin())                                                        \
+    ae_runtime_frame_state_load_unsafe(__VA_ARGS__)
 
 /**
  * @brief Проверяет, находится ли выполнение в начале состояния фрейма.
@@ -81,6 +107,7 @@
  * @return `true`, если выполнение находится в начале состояния фрейма,
  *         и `false`, если в другом состоянии.
  */
+AE_ATTRIBUTE(HIDDEN)
 bool
 ae_runtime_frame_state_is_begin();
 
@@ -98,6 +125,7 @@ ae_runtime_frame_state_is_begin();
  * @return `true`, если выполнение находится в конце состояния фрейма,
  *         и `false`, если в другом состоянии.
  */
+AE_ATTRIBUTE(HIDDEN)
 bool
 ae_runtime_frame_state_is_end();
 
@@ -119,6 +147,7 @@ ae_runtime_frame_state_is_end();
  *       (когда `ae_runtime_frame_state_is_end()` возвращает `true`),
  *       то указатель не изменяется и возвращается текущее состояние.
  */
+AE_ATTRIBUTE(HIDDEN)
 ae_jump_buffer_t *
 ae_runtime_frame_state_next();
 
@@ -139,6 +168,7 @@ ae_runtime_frame_state_next();
  *       (когда `ae_runtime_frame_state_is_begin()` возвращает `true`),
  *       то указатель не изменяется и возвращается текущее состояние.
  */
+AE_ATTRIBUTE(HIDDEN)
 ae_jump_buffer_t *
 ae_runtime_frame_state_prev();
 
@@ -156,6 +186,7 @@ ae_runtime_frame_state_prev();
  *
  * @return Указатель на переданное состояние фрейма `frame_state`.
  */
+AE_ATTRIBUTE(HIDDEN)
 ae_jump_buffer_t *
 ae_runtime_frame_state_push(ae_jump_buffer_t *frame_state);
 

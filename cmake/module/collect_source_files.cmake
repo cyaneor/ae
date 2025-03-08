@@ -8,10 +8,4 @@
 # исходные файлы и добавляет их в переменную `AE_TARGET_SOURCE_FILES`.                    #
 # ---------------------------------------------------------------------------------------- #
 
-if (CMAKE_CXX_COMPILER)
-    file(GLOB_RECURSE AE_TARGET_SOURCE_FILES "${AE_TARGET_SOURCE_DIR}/*.cpp")
-endif ()
-
-if (CMAKE_C_COMPILER)
-    file(GLOB_RECURSE AE_TARGET_SOURCE_FILES "${AE_TARGET_SOURCE_DIR}/*.c")
-endif ()
+file(GLOB_RECURSE AE_TARGET_SOURCE_FILES "${AE_TARGET_SOURCE_DIR}/*.c")

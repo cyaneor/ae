@@ -3,12 +3,12 @@
 #include <ae/runtime_error_code.h>
 #include <ae/allocated_block.h>
 #include <ae/runtime_assert.h>
-#include <ae/runtime_expect.h>
+#include <ae/runtime_return_if.h>
 #include <ae/unified_block.h>
 #include <ae/runtime_throw.h>
 #include <ae/memory_range.h>
 #include <ae/runtime_try.h>
-#include <ae/ptr_util.h>
+#include <ae/ptr_traits.h>
 #include <ae/nullptr.h>
 
 void *
@@ -59,10 +59,10 @@ void *
 ae_dynamic_block_get_end(const ae_dynamic_block_t *self)
 {
     const void *begin = ae_dynamic_block_get_begin(self);
-    ae_runtime_expect(begin, nullptr);
+    ae_runtime_return_if_not(begin, nullptr);
 
     const ae_usize_t total_size = ae_dynamic_block_total_size(self);
-    return ae_ptr_add_offset(begin, total_size);
+    return ae_ptr_add_offset(void, begin, total_size);
 }
 
 ae_usize_t
@@ -114,7 +114,7 @@ ae_dynamic_block_reserve(ae_dynamic_block_t *self, ae_usize_t number_of_elements
                                     new_capacity > reserve_size ? new_capacity : reserve_size);
         }
 
-        ae_runtime_try_interrupt(true);
+        ae_runtime_try_return(true);
     }
     ae_runtime_raise(false);
 }
@@ -130,7 +130,7 @@ ae_dynamic_block_resize(ae_dynamic_block_t *self, ae_usize_t number_of_elements)
             ae_unified_block_resize(self, number_of_elements);
         }
         self->number_of_elements = number_of_elements;
-        ae_runtime_try_interrupt(true);
+        ae_runtime_try_return(true);
     }
     ae_runtime_raise(false);
 }
