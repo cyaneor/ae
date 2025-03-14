@@ -31,8 +31,8 @@
 #include "nullptr.h"
 #include "ptrdiff.h"
 #include "static_cast.h"
-#include "numeric_util.h"
-#include "interval_util.h"
+#include "numeric_traits.h"
+#include "interval_traits.h"
 
 /**
  * @def ae_ptr_from_addr

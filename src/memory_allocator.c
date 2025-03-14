@@ -5,7 +5,7 @@
 #include <ae/runtime_expect.h>
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
-#include <ae/bit_util.h>
+#include <ae/bit_traits.h>
 #include <ae/ptr_traits.h>
 #include <ae/nullptr.h>
 #include "ae/memory.h"

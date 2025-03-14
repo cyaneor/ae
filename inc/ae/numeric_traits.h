@@ -8,8 +8,8 @@
  * и обеспечивают оптимизацию производительности для аппаратных операций.
  */
 
-#ifndef AE_NUMERIC_UTIL_H
-#define AE_NUMERIC_UTIL_H
+#ifndef AE_NUMERIC_TRAITS_H
+#define AE_NUMERIC_TRAITS_H
 
 /**
  * @def ae_numeric_has_zero_remainder
@@ -180,4 +180,4 @@
  */
 #define ae_numeric_repeat16(value) ae_numeric_repeat16_of(ae_u16_t, value)
 
-#endif // AE_NUMERIC_UTIL_H
+#endif // AE_NUMERIC_TRAITS_H

@@ -1,5 +1,5 @@
 /**
- * @file bit_util.h
+ * @file bit_traits.h
  * @brief Утилиты для работы с битами.
  *
  * Этот файл содержит макросы для выполнения различных операций с битами,
@@ -22,8 +22,8 @@
  *       и могут быть использованы в любом месте, где он подключен.
  */
 
-#ifndef AE_BIT_UTIL_H
-#define AE_BIT_UTIL_H
+#ifndef AE_BIT_TRAITS_H
+#define AE_BIT_TRAITS_H
 
 /**
  * @def ae_bit_is_single
@@ -280,4 +280,4 @@
  */
 #define ae_bit_change_by_index(x, i, n) ((x) = ((x) & ~(1ULL << (i))) | ((n) << (i)))
 
-#endif // AE_BIT_UTIL_H
+#endif // AE_BIT_TRAITS_H
