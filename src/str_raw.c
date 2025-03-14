@@ -38,7 +38,7 @@ const ae_char_t *
 ae_str_raw_find_value_ex(const ae_char_t *str, ae_usize_t len, ae_char_t value)
 {
     const ae_u8_t *_str     = ae_ptr_cast(ae_u8_t, str);
-    const ae_u8_t *_str_end = ae_ptr_add_offset(_str, len);
+    const ae_u8_t *_str_end = ae_ptr_add_offset(ae_u8_t, _str, len);
     return ae_ptr_cast(const ae_char_t, ae_memory_raw_find_value_u8(_str, _str_end, value));
 }
 

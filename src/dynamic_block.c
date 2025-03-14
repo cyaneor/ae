@@ -62,7 +62,7 @@ ae_dynamic_block_get_end(const ae_dynamic_block_t *self)
     ae_runtime_expect(begin, nullptr);
 
     const ae_usize_t total_size = ae_dynamic_block_total_size(self);
-    return ae_ptr_add_offset(begin, total_size);
+    return ae_ptr_add_offset(void, begin, total_size);
 }
 
 ae_usize_t

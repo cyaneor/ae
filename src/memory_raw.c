@@ -11,28 +11,28 @@
 ae_u8_t *
 ae_memory_raw_fill_u8(ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
 {
-    const void *_src_end = ae_ptr_add_offset(&value, AE_U8_T_SIZE);
+    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U8_T_SIZE);
     return ae_memory_raw_fill_repeat(begin, end, &value, _src_end);
 }
 
 ae_u16_t *
 ae_memory_raw_fill_u16(ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
 {
-    const void *_src_end = ae_ptr_add_offset(&value, AE_U16_T_SIZE);
+    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U16_T_SIZE);
     return ae_memory_raw_fill_repeat(begin, end, &value, _src_end);
 }
 
 ae_u32_t *
 ae_memory_raw_fill_u32(ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
 {
-    const void *_src_end = ae_ptr_add_offset(&value, AE_U32_T_SIZE);
+    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U32_T_SIZE);
     return ae_memory_raw_fill_repeat(begin, end, &value, _src_end);
 }
 
 ae_u64_t *
 ae_memory_raw_fill_u64(ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value)
 {
-    const void *_src_end = ae_ptr_add_offset(&value, AE_U64_T_SIZE);
+    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U64_T_SIZE);
     return ae_memory_raw_fill_repeat(begin, end, &value, _src_end);
 }
 
@@ -648,56 +648,56 @@ ae_memory_raw_find_rev_u64(const ae_u64_t *lhs,
 const ae_u8_t *
 ae_memory_raw_find_value_u8(const ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
 {
-    const void *_rhs_end = ae_ptr_add_offset(&value, sizeof(ae_u8_t));
+    const void *_rhs_end = ae_ptr_add_offset(void, &value, sizeof(ae_u8_t));
     return ae_memory_raw_find_u8(begin, end, &value, _rhs_end);
 }
 
 const ae_u16_t *
 ae_memory_raw_find_value_u16(const ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
 {
-    const void *_rhs_end = ae_ptr_add_offset(&value, sizeof(ae_u16_t));
+    const void *_rhs_end = ae_ptr_add_offset(void, &value, sizeof(ae_u16_t));
     return ae_memory_raw_find_u16(begin, end, &value, _rhs_end);
 }
 
 const ae_u32_t *
 ae_memory_raw_find_value_u32(const ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
 {
-    const void *_rhs_end = ae_ptr_add_offset(&value, sizeof(ae_u32_t));
+    const void *_rhs_end = ae_ptr_add_offset(void, &value, sizeof(ae_u32_t));
     return ae_memory_raw_find_u32(begin, end, &value, _rhs_end);
 }
 
 const ae_u64_t *
 ae_memory_raw_find_value_u64(const ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value)
 {
-    const void *_rhs_end = ae_ptr_add_offset(&value, sizeof(ae_u64_t));
+    const void *_rhs_end = ae_ptr_add_offset(void, &value, sizeof(ae_u64_t));
     return ae_memory_raw_find_u64(begin, end, &value, _rhs_end);
 }
 
 const ae_u8_t *
 ae_memory_raw_find_value_rev_u8(const ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
 {
-    const void *_rhs_end = ae_ptr_add_offset(&value, sizeof(ae_u8_t));
+    const void *_rhs_end = ae_ptr_add_offset(void, &value, sizeof(ae_u8_t));
     return ae_memory_raw_find_rev_u8(begin, end, &value, _rhs_end);
 }
 
 const ae_u16_t *
 ae_memory_raw_find_value_rev_u16(const ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
 {
-    const void *_rhs_end = ae_ptr_add_offset(&value, sizeof(ae_u16_t));
+    const void *_rhs_end = ae_ptr_add_offset(void, &value, sizeof(ae_u16_t));
     return ae_memory_raw_find_rev_u16(begin, end, &value, _rhs_end);
 }
 
 const ae_u32_t *
 ae_memory_raw_find_value_rev_u32(const ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
 {
-    const void *_rhs_end = ae_ptr_add_offset(&value, sizeof(ae_u32_t));
+    const void *_rhs_end = ae_ptr_add_offset(void, &value, sizeof(ae_u32_t));
     return ae_memory_raw_find_rev_u32(begin, end, &value, _rhs_end);
 }
 
 const ae_u64_t *
 ae_memory_raw_find_value_rev_u64(const ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value)
 {
-    const void *_rhs_end = ae_ptr_add_offset(&value, sizeof(ae_u64_t));
+    const void *_rhs_end = ae_ptr_add_offset(void, &value, sizeof(ae_u64_t));
     return ae_memory_raw_find_rev_u64(begin, end, &value, _rhs_end);
 }
 

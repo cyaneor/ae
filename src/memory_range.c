@@ -149,7 +149,7 @@ void
 ae_memory_range_set_with_size(void *self, void *begin, ae_usize_t size)
 {
     ae_runtime_assert(begin, AE_RUNTIME_ERROR_INVALID_ARGUMENT);
-    ae_memory_range_set_with_validate(self, begin, ae_ptr_add_offset(begin, size));
+    ae_memory_range_set_with_validate(self, begin, ae_ptr_add_offset(void, begin, size));
 }
 
 void
@@ -206,7 +206,7 @@ ae_memory_range_at_from_begin(const void *self, ae_uoffset_t offset)
         ae_memory_range_has_offset(self, offset), AE_RUNTIME_ERROR_OUT_OF_RANGE, nullptr);
 
     void *begin = ae_memory_range_get_begin(self);
-    return ae_ptr_add_offset(begin, offset);
+    return ae_ptr_add_offset(void, begin, offset);
 }
 
 void *
