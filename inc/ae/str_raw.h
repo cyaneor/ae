@@ -6,6 +6,24 @@
 #include "attribute.h"
 
 /**
+ * @def ae_str_raw_t
+ * @brief Тип для представления строки, состоящей из символов.
+ *
+ * Этот макрос определяет тип @ref ae_str_raw_t как указатель на тип @ref ae_char_t,
+ * который представляет собой символ (8-битное знаковое или беззнаковое целое число
+ * в зависимости от флага компиляции @c AE_CHAR_UNSIGNED).
+ *
+ * Используется для представления строк
+ * в виде указателя на последовательность символов.
+ *
+ * Пример использования:
+ * @code
+ * ae_str_raw_t myString = "Hello, world!";
+ * @endcode
+ */
+#define ae_str_raw_t ae_char_t *
+
+/**
  * @def ae_str_raw_char_to
  * @brief Преобразует символ в указанный тип.
  *
@@ -58,8 +76,8 @@ AE_COMPILER(EXTERN_C_BEGIN)
  *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_char_t *
-ae_str_raw_find_value_ex(const ae_char_t *str, ae_usize_t str_len, ae_char_t value);
+const ae_str_raw_t
+ae_str_raw_find_value_ex(const ae_str_raw_t str, ae_usize_t str_len, ae_char_t value);
 
 /**
  * @brief Находит первое вхождение указанного символа в строке, не указывая её длину.
@@ -80,8 +98,8 @@ ae_str_raw_find_value_ex(const ae_char_t *str, ae_usize_t str_len, ae_char_t val
  *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_char_t *
-ae_str_raw_find_value(const ae_char_t *str, ae_char_t value);
+const ae_str_raw_t
+ae_str_raw_find_value(const ae_str_raw_t str, ae_char_t value);
 
 /**
  * @brief Находит первый нулевой терминатор в строке.
@@ -100,8 +118,8 @@ ae_str_raw_find_value(const ae_char_t *str, ae_char_t value);
  *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_char_t *
-ae_str_raw_find_null_terminator(const ae_char_t *str);
+const ae_str_raw_t
+ae_str_raw_find_null_terminator(const ae_str_raw_t str);
 
 /**
  * @brief Вычисляет длину строки до первого нулевого терминатора.
@@ -125,7 +143,7 @@ ae_str_raw_find_null_terminator(const ae_char_t *str);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_usize_t
-ae_str_raw_len(const ae_char_t *str);
+ae_str_raw_len(const ae_str_raw_t str);
 
 /**
  * @brief Копирует данные из исходной строки
@@ -152,7 +170,7 @@ ae_str_raw_len(const ae_char_t *str);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_copy_ex(ae_char_t *str, const ae_char_t *src, ae_usize_t len);
+ae_str_raw_copy_ex(ae_char_t *str, const ae_str_raw_t src, ae_usize_t len);
 
 /**
  * @brief Копирует данные из исходной строки в целевую строку.
@@ -175,7 +193,7 @@ ae_str_raw_copy_ex(ae_char_t *str, const ae_char_t *src, ae_usize_t len);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_copy(ae_char_t *str, const ae_char_t *src);
+ae_str_raw_copy(ae_char_t *str, const ae_str_raw_t src);
 
 /**
  * @brief Перемещает данные из исходной строки
@@ -200,7 +218,7 @@ ae_str_raw_copy(ae_char_t *str, const ae_char_t *src);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_move_ex(ae_char_t *str, const ae_char_t *src, ae_usize_t len);
+ae_str_raw_move_ex(ae_char_t *str, const ae_str_raw_t src, ae_usize_t len);
 
 /**
  * @brief Перемещает данные из исходной строки в целевую строку.
@@ -221,7 +239,7 @@ ae_str_raw_move_ex(ae_char_t *str, const ae_char_t *src, ae_usize_t len);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_move(ae_char_t *str, const ae_char_t *src);
+ae_str_raw_move(ae_char_t *str, const ae_str_raw_t src);
 
 /**
  * @brief Добавляет строку из исходного диапазона в конец целевой строки.
@@ -241,7 +259,7 @@ ae_str_raw_move(ae_char_t *str, const ae_char_t *src);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_concat_ex(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len);
+ae_str_raw_concat_ex(ae_char_t *str, const ae_str_raw_t src, ae_usize_t src_len);
 
 /**
  * @brief Конкатенирует две строки (исходную и целевую),
@@ -265,7 +283,7 @@ ae_str_raw_concat_ex(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_char_t *
-ae_str_raw_concat(ae_char_t *str, const ae_char_t *src);
+ae_str_raw_concat(ae_char_t *str, const ae_str_raw_t src);
 
 /**
  * @brief Очищает строку, заменяя её первый символ на нулевой терминатор.

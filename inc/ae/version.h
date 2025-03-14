@@ -20,8 +20,7 @@
 #ifndef AE_VERSION_H
 #define AE_VERSION_H
 
-#include "numeric.h"
-#include "attribute.h"
+#include "str_raw.h"
 
 // ------------------------------------------ Методы ------------------------------------------ //
 
@@ -48,7 +47,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  * @see AE_VERSION_PATCH
  */
 AE_ATTRIBUTE(SYMBOL)
-const char *
+const ae_str_raw_t
 ae_version(void);
 
 /**

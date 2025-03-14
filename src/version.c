@@ -2,7 +2,7 @@
 /* Дополнительные модули */
 #include <ae/stringify.h>
 
-const char *
+const ae_str_raw_t
 ae_version(void)
 {
     return ae_stringify_args(AE_VERSION_MAJOR.AE_VERSION_MINOR.AE_VERSION_PATCH);

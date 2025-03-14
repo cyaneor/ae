@@ -34,16 +34,16 @@ static const ae_char_t m_trim_ascii_chars[] = {AE_ASCII_MAP_SPACE,
                                                AE_ASCII_MAP_VERTICAL_TAB,
                                                AE_ASCII_MAP_NULL_TERMINATOR};
 
-const ae_char_t *
-ae_str_raw_find_value_ex(const ae_char_t *str, ae_usize_t len, ae_char_t value)
+const ae_str_raw_t
+ae_str_raw_find_value_ex(const ae_str_raw_t str, ae_usize_t len, ae_char_t value)
 {
     const ae_u8_t *_str     = ae_ptr_cast(ae_u8_t, str);
     const ae_u8_t *_str_end = ae_ptr_add_offset(ae_u8_t, _str, len);
     return ae_ptr_cast(const ae_char_t, ae_memory_raw_find_value_u8(_str, _str_end, value));
 }
 
-const ae_char_t *
-ae_str_raw_find_value(const ae_char_t *str, ae_char_t value)
+const ae_str_raw_t
+ae_str_raw_find_value(const ae_str_raw_t str, ae_char_t value)
 {
     ae_runtime_try
     {
@@ -53,29 +53,29 @@ ae_str_raw_find_value(const ae_char_t *str, ae_char_t value)
     ae_runtime_raise(nullptr);
 }
 
-const ae_char_t *
-ae_str_raw_find_null_terminator(const ae_char_t *str)
+const ae_str_raw_t
+ae_str_raw_find_null_terminator(const ae_str_raw_t str)
 {
     const ae_usize_t _len = AE_UINTPTR_T_MAX - ae_ptr_to_addr(str);
     return ae_str_raw_find_value_ex(str, _len, AE_ASCII_MAP_NULL_TERMINATOR);
 }
 
 ae_usize_t
-ae_str_raw_len(const ae_char_t *str)
+ae_str_raw_len(const ae_str_raw_t str)
 {
-    const ae_char_t *_ptr = ae_str_raw_find_null_terminator(str);
+    const ae_str_raw_t _ptr = ae_str_raw_find_null_terminator(str);
     ae_runtime_assert(_ptr, AE_RUNTIME_ERROR_NO_NULL_TERMINATOR, 0);
     return ae_addr_diff(_ptr, str);
 }
 
 ae_char_t *
-ae_str_raw_copy_ex(ae_char_t *str, const ae_char_t *src, ae_usize_t len)
+ae_str_raw_copy_ex(ae_char_t *str, const ae_str_raw_t src, ae_usize_t len)
 {
     return ae_memory_copy(str, src, len);
 }
 
 ae_char_t *
-ae_str_raw_copy(ae_char_t *str, const ae_char_t *src)
+ae_str_raw_copy(ae_char_t *str, const ae_str_raw_t src)
 {
     ae_runtime_try
     {
@@ -86,13 +86,13 @@ ae_str_raw_copy(ae_char_t *str, const ae_char_t *src)
 }
 
 ae_char_t *
-ae_str_raw_move_ex(ae_char_t *str, const ae_char_t *src, ae_usize_t len)
+ae_str_raw_move_ex(ae_char_t *str, const ae_str_raw_t src, ae_usize_t len)
 {
     return ae_memory_move(str, src, len);
 }
 
 ae_char_t *
-ae_str_raw_move(ae_char_t *str, const ae_char_t *src)
+ae_str_raw_move(ae_char_t *str, const ae_str_raw_t src)
 {
     ae_runtime_try
     {
@@ -103,7 +103,7 @@ ae_str_raw_move(ae_char_t *str, const ae_char_t *src)
 }
 
 ae_char_t *
-ae_str_raw_concat_ex(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len)
+ae_str_raw_concat_ex(ae_char_t *str, const ae_str_raw_t src, ae_usize_t src_len)
 {
     ae_runtime_try
     {
@@ -114,7 +114,7 @@ ae_str_raw_concat_ex(ae_char_t *str, const ae_char_t *src, ae_usize_t src_len)
 }
 
 ae_char_t *
-ae_str_raw_concat(ae_char_t *str, const ae_char_t *src)
+ae_str_raw_concat(ae_char_t *str, const ae_str_raw_t src)
 {
     ae_runtime_try
     {
