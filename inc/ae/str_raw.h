@@ -53,6 +53,8 @@
  */
 #define ae_str_raw_char_to_int(c) ae_str_raw_char_to(ae_sint_t, c)
 
+// ------------------------------------------ Методы ------------------------------------------ //
+
 AE_COMPILER(EXTERN_C_BEGIN)
 
 /**
