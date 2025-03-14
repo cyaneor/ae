@@ -6,7 +6,7 @@
 #include <ae/aligned_range.h>
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
-#include <ae/ptr_util.h>
+#include <ae/ptr_traits.h>
 
 ae_usize_t
 ae_aligned_block_get_alignment_size(const void *self)

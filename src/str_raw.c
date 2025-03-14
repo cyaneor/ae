@@ -6,7 +6,7 @@
 #include <ae/runtime_try.h>
 #include <ae/memory_raw.h>
 #include <ae/ascii_map.h>
-#include <ae/ptr_util.h>
+#include <ae/ptr_traits.h>
 #include <ae/memory.h>
 
 /**

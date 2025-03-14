@@ -1,5 +1,5 @@
 /**
- * @file ptr_util.h
+ * @file ptr_traits.h
  * @brief Заголовочный файл для работы с указателями и их преобразованиями.
  *
  * Этот файл содержит макросы для безопасной и удобной работы с указателями,
@@ -24,8 +24,8 @@
  *          указателями могут привести к неопределенному поведению.
  */
 
-#ifndef AE_PTR_UTIL_H
-#define AE_PTR_UTIL_H
+#ifndef AE_PTR_TRAITS_H
+#define AE_PTR_TRAITS_H
 
 #include "intptr.h"
 #include "nullptr.h"
@@ -404,4 +404,4 @@
 #define ae_ptr_align_down(ptr, begin, type_size)                                                   \
     (ae_ptr_sub_offset(ptr, (ae_ptr_diff(ptr, begin) % type_size)))
 
-#endif // AE_PTR_UTIL_H
+#endif // AE_PTR_TRAITS_H

@@ -6,7 +6,7 @@
 #include <ae/runtime_throw.h>
 #include <ae/memory_block.h>
 #include <ae/runtime_try.h>
-#include <ae/ptr_util.h>
+#include <ae/ptr_traits.h>
 
 void
 ae_allocated_block_exchange(void *self, void *other)

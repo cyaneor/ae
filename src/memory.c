@@ -3,7 +3,7 @@
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
 #include <ae/memory_raw.h>
-#include <ae/ptr_util.h>
+#include <ae/ptr_traits.h>
 
 void *
 ae_memory_copy_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len)

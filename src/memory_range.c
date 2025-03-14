@@ -6,7 +6,7 @@
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
 #include <ae/memory_raw.h>
-#include <ae/ptr_util.h>
+#include <ae/ptr_traits.h>
 #include <ae/nullptr.h>
 
 void *
