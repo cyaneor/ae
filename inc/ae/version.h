@@ -49,7 +49,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  */
 AE_ATTRIBUTE(SYMBOL)
 const char *
-ae_version();
+ae_version(void);
 
 /**
  * @brief Возвращает мажорную версию библиотеки.
@@ -67,7 +67,7 @@ ae_version();
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_uint_t
-ae_version_major();
+ae_version_major(void);
 
 /**
  * @brief Возвращает минорную версию библиотеки.
@@ -86,7 +86,7 @@ ae_version_major();
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_uint_t
-ae_version_minor();
+ae_version_minor(void);
 
 /**
  * @brief Возвращает патч-версию библиотеки.
@@ -95,7 +95,7 @@ ae_version_minor();
  * которая определена макросом AE_VERSION_PATCH.
  *
  * @return ae_uint_t Патч-версия библиотеки.
- *
+ *void
  * @note Патч-версия обычно увеличивается при внесении исправлений
  *       ошибок и незначительных изменений, которые не влияют на
  *       совместимость с предыдущими версиями.
@@ -107,7 +107,7 @@ ae_version_minor();
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_uint_t
-ae_version_patch();
+ae_version_patch(void);
 
 AE_COMPILER(EXTERN_C_END)
 
