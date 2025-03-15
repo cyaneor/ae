@@ -27,7 +27,9 @@
 #ifndef AE_RUNTIME_THROW_H
 #define AE_RUNTIME_THROW_H
 
-#include "runtime_throw_error.h"
+#include "nullptr.h"
+#include "runtime_error.h"
+#include "runtime_return.h"
 #include "runtime_frame_state.h"
 
 /**
@@ -61,11 +63,12 @@
 #define ae_runtime_throw(error_code, ...)                                                          \
     do                                                                                             \
     {                                                                                              \
-        if (!ae_runtime_frame_state_is_begin())                                                    \
+        if (ae_runtime_frame_state_is_begin())                                                     \
         {                                                                                          \
-            ae_runtime_frame_state_load(error_code);                                               \
+            ae_error_set(ae_runtime_error(), error_code, nullptr);                                 \
+            ae_runtime_return(__VA_ARGS__);                                                        \
         }                                                                                          \
-        ae_runtime_throw_error_code(error_code, __VA_ARGS__);                                      \
+        ae_runtime_frame_state_load(error_code);                                                   \
     } while (0)
 
 /**
