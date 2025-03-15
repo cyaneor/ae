@@ -2,7 +2,7 @@
 /* Дополнительные модули */
 #include <ae/runtime_error_code.h>
 #include <ae/runtime_assert.h>
-#include <ae/runtime_expect.h>
+#include <ae/runtime_return_if.h>
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
 #include <ae/bit_traits.h>
@@ -56,7 +56,7 @@ void
 ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr)
 {
     // Если указатель пустой, выходим без генерации ошибки
-    ae_runtime_expect(ptr);
+    ae_runtime_return_if_not(ptr);
 
     ae_memory_allocator_dealloc_fn *dealloc_fn = ae_memory_allocator_get_dealloc_fn(self);
     ae_runtime_assert(dealloc_fn, AE_RUNTIME_ERROR_DEALLOCATOR_FUNCTION_NOT_INITIALIZED);
@@ -71,10 +71,10 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
                             ae_usize_t                   new_size)
 {
     // Проверяем, если old_ptr равен нулю, выделяем новую память
-    ae_runtime_expect(old_ptr, ae_memory_allocator_alloc(self, new_size));
+    ae_runtime_return_if_not(old_ptr, ae_memory_allocator_alloc(self, new_size));
 
     // Если размеры совпадают, возвращаем существующий указатель
-    ae_runtime_expect_if(old_size == new_size, old_ptr);
+    ae_runtime_return_if(old_size == new_size, old_ptr);
 
     // Если новый размер равен 0, освобождаем память и возвращаем nullptr
     if (new_size == 0)
@@ -137,7 +137,7 @@ void
 ae_memory_allocator_align_free(const ae_memory_allocator_t *self, void *ptr)
 {
     // Проверка, что указатель не равен nullptr.
-    ae_runtime_expect(ptr);
+    ae_runtime_return_if_not(ptr);
 
     // Извлечение указателя на невыравненную память.
     void *unaligned_ptr = ((void **)ptr)[-1];
@@ -157,10 +157,11 @@ ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
     ae_runtime_assert(ae_bit_is_single(alignment_size), AE_RUNTIME_ERROR_NOT_POWER_OF_TWO, nullptr);
 
     // Если old_ptr равен нулю, выделяем новую память с выравниванием.
-    ae_runtime_expect(old_ptr, ae_memory_allocator_align_alloc(self, new_size, alignment_size));
+    ae_runtime_return_if_not(old_ptr,
+                             ae_memory_allocator_align_alloc(self, new_size, alignment_size));
 
     // Если размеры совпадают, возвращаем существующий указатель.
-    ae_runtime_expect_if(old_size == new_size, old_ptr);
+    ae_runtime_return_if(old_size == new_size, old_ptr);
 
     // Если новый размер равен 0, освобождаем память и возвращаем nullptr.
     if (new_size == 0)

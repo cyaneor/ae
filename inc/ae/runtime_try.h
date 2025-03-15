@@ -44,7 +44,7 @@
 #define AE_RUNTIME_TRY_H
 
 #include "error_code.h"
-#include "runtime_interrupt.h"
+#include "runtime_return.h"
 #include "runtime_frame_state.h"
 
 /**
@@ -205,6 +205,6 @@
  */
 #define ae_runtime_try_interrupt(...)                                                              \
     ae_runtime_try_finalize();                                                                     \
-    ae_runtime_interrupt(__VA_ARGS__)
+    ae_runtime_return(__VA_ARGS__)
 
 #endif // AE_RUNTIME_TRY_H
