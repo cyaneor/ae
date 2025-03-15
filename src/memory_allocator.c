@@ -11,21 +11,21 @@
 #include "ae/memory.h"
 
 ae_memory_allocator_alloc_fn *
-ae_memory_allocator_get_alloc_fn(const ae_memory_allocator_t *self)
+ae_memory_allocator_get_alloc_fn(const void *self)
 {
     ae_runtime_assert(self, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    return self->alloc_fn;
+    return ae_ptr_cast(const ae_memory_allocator_t, self)->alloc_fn;
 }
 
 ae_memory_allocator_dealloc_fn *
-ae_memory_allocator_get_dealloc_fn(const ae_memory_allocator_t *self)
+ae_memory_allocator_get_dealloc_fn(const void *self)
 {
     ae_runtime_assert(self, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
-    return self->dealloc_fn;
+    return ae_ptr_cast(const ae_memory_allocator_t, self)->dealloc_fn;
 }
 
 void *
-ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size)
+ae_memory_allocator_alloc(const void *self, ae_usize_t size)
 {
     // Проверяем запрашиваемый размер. Если равен 0 выбрасываем исключение.
     ae_runtime_assert(size, AE_RUNTIME_ERROR_ZERO_MEMORY_SIZE, nullptr);
@@ -53,7 +53,7 @@ ae_memory_allocator_alloc(const ae_memory_allocator_t *self, ae_usize_t size)
 }
 
 void
-ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr)
+ae_memory_allocator_free(const void *self, void *ptr)
 {
     // Если указатель пустой, выходим без генерации ошибки
     ae_runtime_return_if_not(ptr);
@@ -65,10 +65,10 @@ ae_memory_allocator_free(const ae_memory_allocator_t *self, void *ptr)
 }
 
 void *
-ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
-                            void                        *old_ptr,
-                            ae_usize_t                   old_size,
-                            ae_usize_t                   new_size)
+ae_memory_allocator_realloc(const void *self,
+                            void       *old_ptr,
+                            ae_usize_t  old_size,
+                            ae_usize_t  new_size)
 {
     // Проверяем, если old_ptr равен нулю, выделяем новую память
     ae_runtime_return_if_not(old_ptr, ae_memory_allocator_alloc(self, new_size));
@@ -102,9 +102,7 @@ ae_memory_allocator_realloc(const ae_memory_allocator_t *self,
 }
 
 void *
-ae_memory_allocator_align_alloc(const ae_memory_allocator_t *self,
-                                ae_usize_t                   size,
-                                ae_usize_t                   alignment_size)
+ae_memory_allocator_align_alloc(const void *self, ae_usize_t size, ae_usize_t alignment_size)
 {
     // Проверка, является ли alignment_size степенью двойки.
     ae_runtime_assert(ae_bit_is_single(alignment_size), AE_RUNTIME_ERROR_NOT_POWER_OF_TWO, nullptr);
@@ -134,7 +132,7 @@ ae_memory_allocator_align_alloc(const ae_memory_allocator_t *self,
 }
 
 void
-ae_memory_allocator_align_free(const ae_memory_allocator_t *self, void *ptr)
+ae_memory_allocator_align_free(const void *self, void *ptr)
 {
     // Проверка, что указатель не равен nullptr.
     ae_runtime_return_if_not(ptr);
@@ -147,11 +145,11 @@ ae_memory_allocator_align_free(const ae_memory_allocator_t *self, void *ptr)
 }
 
 void *
-ae_memory_allocator_align_realloc(const ae_memory_allocator_t *self,
-                                  void                        *old_ptr,
-                                  ae_usize_t                   old_size,
-                                  ae_usize_t                   new_size,
-                                  ae_usize_t                   alignment_size)
+ae_memory_allocator_align_realloc(const void *self,
+                                  void       *old_ptr,
+                                  ae_usize_t  old_size,
+                                  ae_usize_t  new_size,
+                                  ae_usize_t  alignment_size)
 {
     // Проверка, является ли alignment_size степенью двойки.
     ae_runtime_assert(ae_bit_is_single(alignment_size), AE_RUNTIME_ERROR_NOT_POWER_OF_TWO, nullptr);
