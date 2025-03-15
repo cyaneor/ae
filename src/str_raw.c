@@ -48,7 +48,7 @@ ae_str_raw_find_value(const ae_str_raw_t str, ae_char_t value)
     ae_runtime_try
     {
         const ae_usize_t len = ae_str_raw_len(str);
-        ae_runtime_try_interrupt(ae_str_raw_find_value_ex(str, len, value));
+        ae_runtime_try_return(ae_str_raw_find_value_ex(str, len, value));
     }
     ae_runtime_raise(nullptr);
 }
@@ -80,7 +80,7 @@ ae_str_raw_copy(ae_char_t *str, const ae_str_raw_t src)
     ae_runtime_try
     {
         const ae_usize_t len = ae_str_raw_len(src);
-        ae_runtime_try_interrupt(ae_str_raw_copy_ex(str, src, len));
+        ae_runtime_try_return(ae_str_raw_copy_ex(str, src, len));
     }
     ae_runtime_raise(nullptr);
 }
@@ -97,7 +97,7 @@ ae_str_raw_move(ae_char_t *str, const ae_str_raw_t src)
     ae_runtime_try
     {
         const ae_usize_t len = ae_str_raw_len(str);
-        ae_runtime_try_interrupt(ae_str_raw_move_ex(str, src, len));
+        ae_runtime_try_return(ae_str_raw_move_ex(str, src, len));
     }
     ae_runtime_raise(nullptr);
 }
@@ -108,7 +108,7 @@ ae_str_raw_concat_ex(ae_char_t *str, const ae_str_raw_t src, ae_usize_t src_len)
     ae_runtime_try
     {
         const ae_usize_t dst_len = ae_str_raw_len(str);
-        ae_runtime_try_interrupt(ae_memory_append_ex(str, dst_len, src, src_len));
+        ae_runtime_try_return(ae_memory_append_ex(str, dst_len, src, src_len));
     }
     ae_runtime_raise(nullptr);
 }
@@ -119,7 +119,7 @@ ae_str_raw_concat(ae_char_t *str, const ae_str_raw_t src)
     ae_runtime_try
     {
         const ae_usize_t len = ae_str_raw_len(src);
-        ae_runtime_try_interrupt(ae_str_raw_concat_ex(str, src, len));
+        ae_runtime_try_return(ae_str_raw_concat_ex(str, src, len));
     }
     ae_runtime_raise(nullptr);
 }
@@ -153,7 +153,7 @@ ae_str_raw_shift_left(ae_char_t *str, ae_usize_t shift)
     ae_runtime_try
     {
         const ae_usize_t len = ae_str_raw_len(str);
-        ae_runtime_try_interrupt(ae_str_raw_shift_left_ex(str, len, shift));
+        ae_runtime_try_return(ae_str_raw_shift_left_ex(str, len, shift));
     }
     ae_runtime_raise(nullptr);
 }
@@ -182,7 +182,7 @@ ae_str_raw_shift_right_with(ae_char_t *str, ae_usize_t shift, ae_char_t value)
     ae_runtime_try
     {
         const ae_usize_t len = ae_str_raw_len(str);
-        ae_runtime_try_interrupt(ae_str_raw_shift_right_ex(str, len, shift, value));
+        ae_runtime_try_return(ae_str_raw_shift_right_ex(str, len, shift, value));
     }
     ae_runtime_raise(nullptr);
 }
@@ -219,7 +219,7 @@ ae_str_raw_trim_left_ex(ae_char_t *str, const ae_char_t characters[])
     ae_runtime_try
     {
         const ae_usize_t len = ae_str_raw_len(str);
-        ae_runtime_try_interrupt(ae_str_raw_trim_left_with(str, len, characters));
+        ae_runtime_try_return(ae_str_raw_trim_left_with(str, len, characters));
     }
     ae_runtime_raise(nullptr);
 }
@@ -256,7 +256,7 @@ ae_str_raw_trim_right_ex(ae_char_t *str, const ae_char_t characters[])
     ae_runtime_try
     {
         ae_usize_t len = ae_str_raw_len(str);
-        ae_runtime_try_interrupt(ae_str_raw_trim_right_with(str, len, characters));
+        ae_runtime_try_return(ae_str_raw_trim_right_with(str, len, characters));
     }
     ae_runtime_raise(nullptr);
 }
@@ -273,7 +273,7 @@ ae_str_raw_trim_ex(ae_char_t *str, const ae_char_t characters[])
     ae_runtime_try
     {
         ae_str_raw_trim_left_ex(str, characters);
-        ae_runtime_try_interrupt(ae_str_raw_trim_right_ex(str, characters));
+        ae_runtime_try_return(ae_str_raw_trim_right_ex(str, characters));
     }
     ae_runtime_raise(nullptr);
 }

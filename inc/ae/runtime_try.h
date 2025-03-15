@@ -16,7 +16,7 @@
  * - `ae_runtime_catch` - блок обработки ошибок после блока `ae_runtime_try`.
  * - `ae_runtime_catch_if` - условная обработка ошибок.
  * - `ae_runtime_try_finalize` - корректное завершение блока `try`.
- * - `ae_runtime_try_interrupt` - досрочное завершение блока `try` с возвратом значения.
+ * - `ae_runtime_try_return` - досрочное завершение блока `try` с возвратом значения.
  *
  * Макросы используют функции сохранения и восстановления состояния фрейма,
  * такие как:
@@ -171,10 +171,10 @@
 #define ae_runtime_try_finalize ae_runtime_frame_state_prev
 
 /**
- * @def ae_runtime_try_interrupt
+ * @def ae_runtime_try_return
  * @brief Прерывает выполнение блока `try` с возвратом значения.
  *
- * Макрос `ae_runtime_try_interrupt` завершает текущий блок `try`, вызывая
+ * Макрос `ae_runtime_try_return` завершает текущий блок `try`, вызывая
  * `ae_runtime_try_finalize` для корректного восстановления состояния фрейма,
  * а затем выполняет `return` с переданными аргументами `__VA_ARGS__`.
  *
@@ -191,7 +191,7 @@
  * ae_runtime_try {
  *     if (some_condition) {
  *         // Завершает try с возвратом `nullptr`
- *         ae_runtime_try_interrupt(nullptr);
+ *         ae_runtime_try_return(nullptr);
  *     }
  *     // Остальной код, который не выполнится при срабатывании прерывания
  * } ae_runtime_catch {
@@ -203,7 +203,7 @@
  *       гарантировать корректное завершение работы и восстановление состояния фрейма.
  *       Без вызова `ae_runtime_try_finalize` возможны расхождения в управлении состояниями.
  */
-#define ae_runtime_try_interrupt(...)                                                              \
+#define ae_runtime_try_return(...)                                                                 \
     ae_runtime_try_finalize();                                                                     \
     ae_runtime_return(__VA_ARGS__)
 

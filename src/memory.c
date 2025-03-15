@@ -111,7 +111,7 @@ ae_memory_shift_right_and_fill_ex(void *dst, const void *dst_end, ae_usize_t shi
     {
         void *_ptr = ae_memory_shift_right_ex(dst, dst_end, shift);
         ae_memory_set(dst, shift, value);
-        ae_runtime_try_interrupt(_ptr);
+        ae_runtime_try_return(_ptr);
     }
     ae_runtime_raise(nullptr);
 }

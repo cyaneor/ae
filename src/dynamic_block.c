@@ -114,7 +114,7 @@ ae_dynamic_block_reserve(ae_dynamic_block_t *self, ae_usize_t number_of_elements
                                     new_capacity > reserve_size ? new_capacity : reserve_size);
         }
 
-        ae_runtime_try_interrupt(true);
+        ae_runtime_try_return(true);
     }
     ae_runtime_raise(false);
 }
@@ -130,7 +130,7 @@ ae_dynamic_block_resize(ae_dynamic_block_t *self, ae_usize_t number_of_elements)
             ae_unified_block_resize(self, number_of_elements);
         }
         self->number_of_elements = number_of_elements;
-        ae_runtime_try_interrupt(true);
+        ae_runtime_try_return(true);
     }
     ae_runtime_raise(false);
 }

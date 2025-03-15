@@ -24,7 +24,7 @@ ae_aligned_block_exchange(void *self, void *other)
     {
         ae_aligned_range_clear(self);
         ae_memory_range_swap(self, other);
-        ae_runtime_try_interrupt();
+        ae_runtime_try_return();
     }
     ae_runtime_raise();
 }

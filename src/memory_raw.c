@@ -496,7 +496,7 @@ ae_memory_raw_fill_repeat(void *dst, const void *dst_end, const void *src, const
         {
             dst = ae_memory_raw_move(dst, dst_end, src, src_end);
         } while (dst < dst_end);
-        ae_runtime_try_interrupt(dst);
+        ae_runtime_try_return(dst);
     }
     ae_runtime_raise(nullptr);
 }
