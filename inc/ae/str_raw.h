@@ -4,6 +4,7 @@
 #include "char.h"
 #include "size.h"
 #include "attribute.h"
+#include "array_size.h"
 
 /**
  * @def ae_str_raw_t
@@ -22,6 +23,19 @@
  * @endcode
  */
 #define ae_str_raw_t ae_char_t *
+
+/**
+ * @def ae_str_raw_size
+ * @brief Вычисляет размер строки, определённой макросом,
+ *        без учёта нулевого символа.
+ *
+ * Этот макрос вычисляет размер строки, используя другой макрос `ae_array_size`,
+ * и вычитает 1, чтобы исключить нулевой символ конца строки.
+ *
+ * @param str Строка, для которой вычисляется размер.
+ * @return Размер строки без учёта нулевого символа.
+ */
+#define ae_str_raw_size(str) (ae_array_size(str) - 1)
 
 /**
  * @def ae_str_raw_char_to
