@@ -53,7 +53,9 @@
  * которое используется для обозначения пустого или неинициализированного указателя.
  * Это значение приравнивается к нулевому указателю.
  */
-#define AE_PTR_T_MIN ((ae_ptr_t)0)
+#ifndef AE_PTR_T_MIN
+#    define AE_PTR_T_MIN ((ae_ptr_t)0)
+#endif // AE_PTR_T_MIN
 
 /**
  * @def AE_PTR_T_MAX
@@ -65,7 +67,9 @@
  * Это значение приравнивается к значению `-1`,
  * что эквивалентно максимальному значению для указателя.
  */
-#define AE_PTR_T_MAX ((ae_ptr_t) - 1)
+#ifndef AE_PTR_T_MAX
+#    define AE_PTR_T_MAX ((ae_ptr_t) - 1)
+#endif // AE_PTR_T_MAX
 
 /**
  * @def AE_PTR_T_SIZE
@@ -84,6 +88,8 @@
  * Этот макрос полезен для выполнения операций, зависящих от размера указателей,
  * например, при выделении памяти или при манипуляциях с адресами.
  */
-#define AE_PTR_T_SIZE __SIZEOF_POINTER__
+#ifndef AE_PTR_T_SIZE
+#    define AE_PTR_T_SIZE __SIZEOF_POINTER__
+#endif // AE_PTR_T_SIZE
 
 #endif // AE_PTR_H
