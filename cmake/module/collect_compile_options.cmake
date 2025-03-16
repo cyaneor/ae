@@ -15,99 +15,94 @@ foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
         # Печатаем ключ и значение опции с дополнительным форматированием
         message(STATUS ":: ${CMAKE_OPTION}")
 
-        if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
-            # Для GCC или Clang
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_OPTIMIZATION")
+        # Для GCC, Clang или MSVC
+        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_OPTIMIZATION")
+            if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
                 list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -O3)
-                continue()
+            elseif (MSVC)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /O2)  # MSVC аналог -O3
             endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_SSE3")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -msse3)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_LTO")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -flto)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_UNROLL_LOOPS")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -funroll-loops)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_NO_STACK_PROTECTOR")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -fno-stack-protector)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_PIC")
-                if (${AE_OPTION_STATIC_BUILD})
-                    message(FATAL_ERROR "PIC (Position Independent Code) cannot be used in a static build.")
-                endif ()
-
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -fPIC)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_FNO_RTTI")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -fno-rtti)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_FNO_EXCEPTIONS")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -fno-exceptions)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_THREAD_SAFETY")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -pthread)
-                continue()
-            endif ()
-
-        elseif (MSVC)
-            # Для MSVC
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_OPTIMIZATION")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /O2)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_SSE3")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /arch:SSE3)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_LTO")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /GL)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_NO_STACK_PROTECTOR")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /GS-)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_PIC")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /DYNAMICBASE)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_FNO_RTTI")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /GR-)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_FNO_EXCEPTIONS")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /EHsc-)
-                continue()
-            endif ()
-
-            if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_THREAD_SAFETY")
-                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /MT)
-                continue()
-            endif ()
-
+            continue()
         endif ()
+
+        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_SSE3")
+            if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -msse3)
+            elseif (MSVC)
+                # Для MSVC флаг /arch:SSE2 включает поддержку SSE3,
+                # так как SSE3 является частью SSE2 и не требует отдельного флага.
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /arch:SSE2)  # Вместо /arch:SSE3
+            endif ()
+            continue()
+        endif ()
+
+        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_LTO")
+            if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -flto)
+            elseif (MSVC)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /GL)  # MSVC аналог LTO
+            endif ()
+            continue()
+        endif ()
+
+        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_UNROLL_LOOPS")
+            if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -funroll-loops)
+            elseif (MSVC)
+                # MSVC не поддерживает /unroll.
+                # Однако компилятор сам обычно развертывает циклы, если оптимизация включена.
+            endif ()
+            continue()
+        endif ()
+
+        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_NO_STACK_PROTECTOR")
+            if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -fno-stack-protector)
+            elseif (MSVC)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /GS-)  # MSVC аналог -fno-stack-protector
+            endif ()
+            continue()
+        endif ()
+
+        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_PIC")
+            if (${AE_OPTION_STATIC_BUILD})
+                message(FATAL_ERROR "PIC (Position Independent Code) cannot be used in a static build.")
+            endif ()
+
+            if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -fPIC)
+            elseif (MSVC)
+                # MSVC не поддерживает флаг PIC, код всегда компилируется с позиционно независимым адресом
+            endif ()
+            continue()
+        endif ()
+
+        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_FNO_RTTI")
+            if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -fno-rtti)
+            elseif (MSVC)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /GR-)  # MSVC аналог -fno-rtti
+            endif ()
+            continue()
+        endif ()
+
+        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_FNO_EXCEPTIONS")
+            if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -fno-exceptions)
+            elseif (MSVC)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /EHsc-)  # MSVC аналог -fno-exceptions
+            endif ()
+            continue()
+        endif ()
+
+        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_THREAD_SAFETY")
+            if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
+                list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -pthread)
+            elseif (MSVC)
+                # MSVC использует другие механизмы для потокобезопасности, не требуется параметр
+            endif ()
+            continue()
+        endif ()
+
     endif ()
 endforeach ()

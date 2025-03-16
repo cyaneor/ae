@@ -28,56 +28,58 @@ set(AE_CMAKE_CURRENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 # Путь к кэш-каталогу, который в данный момент обрабатывается.
 set(AE_CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
-# Путь к каталогу модулей для CMake
-set(AE_CMAKE_CURRENT_MODULE_DIR ${AE_CMAKE_CURRENT_SOURCE_DIR}/cmake/module)
+set(AE_CMAKE_CURRENT_DIR ${AE_CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+set(AE_CMAKE_CURRENT_OPTIONS_DIR ${AE_CMAKE_CURRENT_DIR}/options)
+set(AE_CMAKE_CURRENT_MODULES_DIR ${AE_CMAKE_CURRENT_DIR}/module)
 
 # -------------------------------------------------------------------------------------------- #
 # Модули                                                                                       #
 # -------------------------------------------------------------------------------------------- #
 
 # Конфигурация путей исходных и заголовочных файлов.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/environment_paths.cmake)
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/environment_paths.cmake)
 
 # Скрипт сбора исходных файлов.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_source_files.cmake)
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/collect_source_files.cmake)
 
 # Конфигурация и проброс определений для целевой платформы.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/compile_definitions.cmake)
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/compile_definitions.cmake)
 
 # Скрипт преобразует версию проекта в список компонентов.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/parse_version.cmake)
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/parse_version.cmake)
 
 # Генерация лимитов для целочисленных типов.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/generate_numeric_limits.cmake)
+# Этот файл генерирует минимальные и максимальные значения для целочисленных типов данных.
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/generate_numeric_limits.cmake)
 
 # Конфигурация генерации документации.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/generate_doxygen.cmake)
+# Этот файл настраивает процесс генерации документации с помощью Doxygen.
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/generate_doxygen.cmake)
 
-# Конфигурация опций для сборки и управления параметрами библиотеки.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/toggle_library_options.cmake)
+# Подключение файла с общими параметрами для компиляции.
+# Этот файл добавляет необходимые флаги компилятора, используемые в проекте.
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/include_compile_options.cmake)
 
-# Подключает файл collect_library_options.cmake для получения всех активированных опций и добавления
-# их в список определений компиляции, что позволяет учитывать пользовательские настройки компилятора.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_library_options.cmake)
-
-# Подключает файл toggle_compile_options.cmake для настройки параметров компиляции,
-# таких как флаги оптимизации и поддержки инструкций для различных компиляторов.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/toggle_compile_options.cmake)
+# Подключает файл collect_library_options.cmake для получения всех активированных
+# опций библиотеки и добавления их в список определений компиляции,
+# что позволяет учитывать пользовательские настройки компилятора.
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/collect_library_options.cmake)
 
 # Подключает файл collect_compile_options.cmake для сбора всех
 # активированных опций компилятора и добавления их в финальный список компиляции.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_compile_options.cmake)
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/collect_compile_options.cmake)
 
 # Подключает файл sync_static_build_option.cmake, который синхронизирует необходимые параметры
 # и макросы между проектами для корректной статической сборки, обеспечивая совместимость сборки.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/sync_static_build_option.cmake)
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/sync_static_build_option.cmake)
 
 # -------------------------------------------------------------------------------------------- #
 # Цели для сборки                                                                              #
 # -------------------------------------------------------------------------------------------- #
 
 # Включает конфигурацию для создания библиотеки по умолчанию, основываясь на настройках сборки.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/build_library.cmake)
+include(${AE_CMAKE_CURRENT_MODULES_DIR}/build_library.cmake)
 
 # -------------------------------------------------------------------------------------------- #
 # Добавление каталогов и определений                                                           #
@@ -92,7 +94,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${AE_TARGET_INCLUDE_DIR})
 target_compile_definitions(${PROJECT_NAME}
         PRIVATE ${AE_TARGET_PRIVATE_COMPILE_DEFINITIONS}
         PUBLIC ${AE_TARGET_PUBLIC_COMPILE_DEFINITIONS})
-
 
 # Добавление опций компиляции для цели сборки.
 # - Опции PRIVATE применяются только внутри текущего проекта.
