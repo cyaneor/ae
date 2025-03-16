@@ -161,7 +161,8 @@
  * @return Новый указатель, полученный путем прибавления смещения к адресу указателя `ptr`.
  *         Если указатель `ptr` равен NULL, возвращается NULL.
  */
-#define ae_ptr_add_offset(T, ptr, offset) (ptr ? ae_ptr_add_offset_unsafe(T, ptr, offset) : nullptr)
+#define ae_ptr_add_offset(T, ptr, offset)                                                          \
+    (ptr == nullptr ? nullptr : ae_ptr_add_offset_unsafe(T, ptr, offset))
 /**
  * @def ae_ptr_sub_offset_unsafe
  * @brief Вычитает смещение из указателя без проверки на NULL.
@@ -195,7 +196,8 @@
  * @return Новый указатель, полученный путем вычитания смещения из адреса указателя `ptr`.
  *         Если указатель `ptr` равен NULL, возвращается NULL.
  */
-#define ae_ptr_sub_offset(T, ptr, offset) (ptr ? ae_ptr_sub_offset_unsafe(T, ptr, offset) : nullptr)
+#define ae_ptr_sub_offset(T, ptr, offset)                                                          \
+    (ptr == nullptr ? nullptr : ae_ptr_sub_offset_unsafe(T, ptr, offset))
 
 /**
  * @def ae_ptr_is_valid_range

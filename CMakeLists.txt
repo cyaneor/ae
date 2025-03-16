@@ -63,6 +63,8 @@ include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_options.cmake)
 # между проектами при статической сборке, обеспечивая правильную настройку для обоих проектов.
 include(${AE_CMAKE_CURRENT_MODULE_DIR}/sync_static_build_option.cmake)
 
+include(${AE_CMAKE_CURRENT_MODULE_DIR}/compile_options.cmake)
+
 # -------------------------------------------------------------------------------------------- #
 # Цели для сборки                                                                              #
 # -------------------------------------------------------------------------------------------- #
@@ -78,6 +80,16 @@ include(${AE_CMAKE_CURRENT_MODULE_DIR}/build_library.cmake)
 target_include_directories(${PROJECT_NAME} PUBLIC ${AE_TARGET_INCLUDE_DIR})
 
 # Добавление определений компиляции для цели сборки.
+# - Определения PRIVATE применяются только внутри текущего проекта (не наследуются другими проектами).
+# - Определения PUBLIC наследуются в проектах, которые будут ссылаться на этот проект.
 target_compile_definitions(${PROJECT_NAME}
         PRIVATE ${AE_TARGET_PRIVATE_COMPILE_DEFINITIONS}
         PUBLIC ${AE_TARGET_PUBLIC_COMPILE_DEFINITIONS})
+
+
+# Добавление опций компиляции для цели сборки.
+# - Опции PRIVATE применяются только внутри текущего проекта.
+# - Опции PUBLIC наследуются в проектах, которые будут ссылаться на этот проект.
+target_compile_options(${PROJECT_NAME}
+        PRIVATE ${AE_TARGET_PRIVATE_COMPILE_OPTIONS}
+        PUBLIC ${AE_TARGET_PUBLIC_COMPILE_OPTIONS})

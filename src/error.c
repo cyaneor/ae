@@ -19,8 +19,6 @@ ae_error_desc_t
 ae_error_get_desc(const void *self)
 {
     ae_runtime_assert(self, AE_RUNTIME_ERROR_NULL_POINTER, AE_ERROR_CODE_NONE);
-
-    const ae_error_t *err = ae_ptr_cast(const ae_error_t, self);
     return ae_ptr_cast(const ae_error_t, self)->desc;
 }
 
