@@ -1,5 +1,5 @@
 /**
- * @file ae_runtime_return.h
+ * @file runtime_return.h
  * @brief Заголовочный файл для макроса `ae_runtime_return`.
  *
  * Этот файл содержит определение макроса `ae_runtime_return`,
