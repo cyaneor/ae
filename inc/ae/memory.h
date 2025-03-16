@@ -213,7 +213,7 @@ ae_memory_append_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t s
  * Эта функция заполняет целевую область памяти, повторяя данные
  * из исходной области до тех пор, пока целевая область не будет полностью заполнена.
  *
- * Для выполнения операции она использует функцию @ref ae_memory_raw_fill_repeat,
+ * Для выполнения операции она использует функцию @ref ae_memory_raw_set_ex,
  * передавая указатели на начало и конец как для целевой,
  * так и для исходной области памяти.
  *
@@ -231,7 +231,7 @@ ae_memory_append_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t s
  */
 AE_ATTRIBUTE(SYMBOL)
 void *
-ae_memory_fill_repeat(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
+ae_memory_set_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len);
 
 /**
  * @brief Выполняет сдвиг данных в памяти на указанное количество байт.

@@ -68,11 +68,11 @@ ae_memory_append_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t s
 }
 
 void *
-ae_memory_fill_repeat(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len)
+ae_memory_set_ex(void *dst, ae_usize_t dst_len, const void *src, ae_usize_t src_len)
 {
     const void *_dst_end = ae_ptr_add_offset(void, dst, dst_len);
     const void *_src_end = ae_ptr_add_offset(void, src, src_len);
-    return ae_memory_raw_fill_repeat(dst, _dst_end, src, _src_end);
+    return ae_memory_raw_set_ex(dst, _dst_end, src, _src_end);
 }
 
 void *

@@ -8,55 +8,6 @@
 #include <ae/nullptr.h>
 #include <ae/elif.h>
 
-ae_u8_t *
-ae_memory_raw_fill_u8(ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
-{
-    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U8_T_SIZE);
-    return ae_memory_raw_fill_repeat(begin, end, &value, _src_end);
-}
-
-ae_u16_t *
-ae_memory_raw_fill_u16(ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
-{
-    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U16_T_SIZE);
-    return ae_memory_raw_fill_repeat(begin, end, &value, _src_end);
-}
-
-ae_u32_t *
-ae_memory_raw_fill_u32(ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
-{
-    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U32_T_SIZE);
-    return ae_memory_raw_fill_repeat(begin, end, &value, _src_end);
-}
-
-ae_u64_t *
-ae_memory_raw_fill_u64(ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value)
-{
-    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U64_T_SIZE);
-    return ae_memory_raw_fill_repeat(begin, end, &value, _src_end);
-}
-
-void *
-ae_memory_raw_set(void *begin, const void *end, ae_u8_t value)
-{
-    if (ae_ptr_range_is_aligned(begin, end, AE_U64_T_SIZE))
-    {
-        const ae_u64_t _value = ae_numeric_repeat64(value);
-        return ae_memory_raw_fill_u64(begin, end, _value);
-    }
-    elif (ae_ptr_range_is_aligned(begin, end, AE_U32_T_SIZE))
-    {
-        const ae_u32_t _value = ae_numeric_repeat32(value);
-        return ae_memory_raw_fill_u32(begin, end, _value);
-    }
-    elif (ae_ptr_range_is_aligned(begin, end, AE_U16_T_SIZE))
-    {
-        const ae_u16_t _value = ae_numeric_repeat16(value);
-        return ae_memory_raw_fill_u16(begin, end, _value);
-    }
-    return ae_memory_raw_fill_u8(begin, end, value);
-}
-
 const ae_u8_t *
 ae_memory_raw_compare_u8(const ae_u8_t *lhs,
                          const ae_u8_t *lhs_end,
@@ -488,7 +439,7 @@ ae_memory_raw_move(void *dst, const void *dst_end, const void *src, const void *
 }
 
 void *
-ae_memory_raw_fill_repeat(void *dst, const void *dst_end, const void *src, const void *src_end)
+ae_memory_raw_set_ex(void *dst, const void *dst_end, const void *src, const void *src_end)
 {
     ae_runtime_try
     {
@@ -499,6 +450,55 @@ ae_memory_raw_fill_repeat(void *dst, const void *dst_end, const void *src, const
         ae_runtime_try_return(dst);
     }
     ae_runtime_raise(nullptr);
+}
+
+ae_u8_t *
+ae_memory_raw_set_u8(ae_u8_t *begin, const ae_u8_t *end, ae_u8_t value)
+{
+    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U8_T_SIZE);
+    return ae_memory_raw_set_ex(begin, end, &value, _src_end);
+}
+
+ae_u16_t *
+ae_memory_raw_set_u16(ae_u16_t *begin, const ae_u16_t *end, ae_u16_t value)
+{
+    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U16_T_SIZE);
+    return ae_memory_raw_set_ex(begin, end, &value, _src_end);
+}
+
+ae_u32_t *
+ae_memory_raw_set_u32(ae_u32_t *begin, const ae_u32_t *end, ae_u32_t value)
+{
+    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U32_T_SIZE);
+    return ae_memory_raw_set_ex(begin, end, &value, _src_end);
+}
+
+ae_u64_t *
+ae_memory_raw_set_u64(ae_u64_t *begin, const ae_u64_t *end, ae_u64_t value)
+{
+    const void *_src_end = ae_ptr_add_offset(void, &value, AE_U64_T_SIZE);
+    return ae_memory_raw_set_ex(begin, end, &value, _src_end);
+}
+
+void *
+ae_memory_raw_set(void *begin, const void *end, ae_u8_t value)
+{
+    if (ae_ptr_range_is_aligned(begin, end, AE_U64_T_SIZE))
+    {
+        const ae_u64_t _value = ae_numeric_repeat64(value);
+        return ae_memory_raw_set_u64(begin, end, _value);
+    }
+    elif (ae_ptr_range_is_aligned(begin, end, AE_U32_T_SIZE))
+    {
+        const ae_u32_t _value = ae_numeric_repeat32(value);
+        return ae_memory_raw_set_u32(begin, end, _value);
+    }
+    elif (ae_ptr_range_is_aligned(begin, end, AE_U16_T_SIZE))
+    {
+        const ae_u16_t _value = ae_numeric_repeat16(value);
+        return ae_memory_raw_set_u16(begin, end, _value);
+    }
+    return ae_memory_raw_set_u8(begin, end, value);
 }
 
 const ae_u8_t *
