@@ -6,6 +6,9 @@
 # заданного через CMake, добавляются соответствующие флаги для выбранного компилятора.   #
 # -------------------------------------------------------------------------------------- #
 
+# Получаем список всех переменных (опций) в текущем каталоге CMake
+get_property(CMAKE_OPTIONS DIRECTORY PROPERTY VARIABLES)
+
 message(STATUS "Listing all enabled compile options:")
 foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
     if (CMAKE_OPTION MATCHES "^AE_COMPILE_OPTION_.*" AND NOT ${CMAKE_OPTION} STREQUAL "OFF")
@@ -40,6 +43,10 @@ foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
             endif ()
 
             if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_PIC")
+                if (${AE_OPTION_STATIC_BUILD})
+                    message(FATAL_ERROR "PIC (Position Independent Code) cannot be used in a static build.")
+                endif ()
+
                 list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -fPIC)
                 continue()
             endif ()

@@ -54,23 +54,23 @@ include(${AE_CMAKE_CURRENT_MODULE_DIR}/generate_numeric_limits.cmake)
 include(${AE_CMAKE_CURRENT_MODULE_DIR}/generate_doxygen.cmake)
 
 # Конфигурация опций для сборки и управления параметрами библиотеки.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/toggle_options.cmake)
+include(${AE_CMAKE_CURRENT_MODULE_DIR}/toggle_library_options.cmake)
 
-# Подключает файл collect_cmake_options.cmake для получения всех активированных опций и добавления
+# Подключает файл collect_library_options.cmake для получения всех активированных опций и добавления
 # их в список определений компиляции, что позволяет учитывать пользовательские настройки компилятора.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_cmake_options.cmake)
+include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_library_options.cmake)
 
-# Подключает файл sync_static_build_option.cmake, который синхронизирует необходимые параметры
-# и макросы между проектами для корректной статической сборки, обеспечивая совместимость сборки.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/sync_static_build_option.cmake)
-
-# Подключает файл compile_options.cmake для настройки параметров компиляции,
+# Подключает файл toggle_compile_options.cmake для настройки параметров компиляции,
 # таких как флаги оптимизации и поддержки инструкций для различных компиляторов.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/compile_options.cmake)
+include(${AE_CMAKE_CURRENT_MODULE_DIR}/toggle_compile_options.cmake)
 
 # Подключает файл collect_compile_options.cmake для сбора всех
 # активированных опций компилятора и добавления их в финальный список компиляции.
 include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_compile_options.cmake)
+
+# Подключает файл sync_static_build_option.cmake, который синхронизирует необходимые параметры
+# и макросы между проектами для корректной статической сборки, обеспечивая совместимость сборки.
+include(${AE_CMAKE_CURRENT_MODULE_DIR}/sync_static_build_option.cmake)
 
 # -------------------------------------------------------------------------------------------- #
 # Цели для сборки                                                                              #
