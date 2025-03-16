@@ -57,7 +57,7 @@ include(${AE_CMAKE_CURRENT_MODULE_DIR}/generate_doxygen.cmake)
 include(${AE_CMAKE_CURRENT_MODULE_DIR}/toggle_options.cmake)
 
 # Получает все активированные опции и добавляет их в список определений компиляции.
-include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_options.cmake)
+include(${AE_CMAKE_CURRENT_MODULE_DIR}/collect_cmake_options.cmake)
 
 # Включает файл sync_static_build_option.cmake, который синхронизирует необходимые параметры и макросы
 # между проектами при статической сборке, обеспечивая правильную настройку для обоих проектов.
