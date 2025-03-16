@@ -59,4 +59,4 @@ option(AE_COMPILE_OPTION_OPTIMIZATION
 #     итогового исполнимого файла, но может увеличить время компиляции.
 #     Рекомендуется использовать LTO для финальных сборок приложения.
 option(AE_COMPILE_OPTION_LTO
-        "Включение Link Time Optimization." ON)
+        "Включение Link Time Optimization." OFF)
