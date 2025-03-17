@@ -79,13 +79,13 @@
 
 /**
  * @def AE_ATTRIBUTE_HIDDEN
- * @brief Помечает символ как скрытый для общей библиотеки.
+ * @brief Помечает символ как скрытый.
  *
- * В случае использования общей библиотеки, макрос `AE_ATTRIBUTE_HIDDEN` помечает символы как
- * скрытые, что позволяет избежать экспорта их за пределы библиотеки. Он расширяется до
- * `AE_COMPILER_ATTRIBUTE_SYMBOL_HIDDEN`.
+ * Макрос `AE_ATTRIBUTE_HIDDEN` помечает символы как скрытые и используется для предотвращения
+ * их экспорта из библиотеки. Однако, при использовании библиотеки AE как общей (shared) и
+ * импорте символов этот макрос не поддерживается.
  */
-#    define AE_ATTRIBUTE_HIDDEN AE_COMPILER_ATTRIBUTE_SYMBOL_HIDDEN
+#    define AE_ATTRIBUTE_HIDDEN
 #endif // AE_OPTION_STATIC_BUILD
 
 #endif // AE_ATTRIBUTE_SYMBOL_H
