@@ -9,11 +9,11 @@
  * собирается ли библиотека как общая (shared) или используется как общая библиотека.
  *
  * Макрос `AE_ATTRIBUTE_SYMBOL` определяется следующим образом в зависимости от опций сборки:
- * - **Экспорт символов (`AE_OPTION_SHARED_BUILD`)**:
+ * - **Экспорт символов (`AE_LIBRARY_OPTION_SHARED_BUILD`)**:
  *   - Применяется при сборке библиотеки AE как общей (shared).
  *   - Макрос расширяется до `AE_COMPILER_ATTRIBUTE_SYMBOL_EXPORT`,
  *     делая символы публичными и доступными для использования из-за пределов библиотеки.
- * - **Импорт символов (`AE_OPTION_SHARED_BUILD`)**:
+ * - **Импорт символов (`AE_LIBRARY_OPTION_SHARED_BUILD`)**:
  *   - Применяется, когда библиотека AE используется как общая (shared),
  *     и нужно импортировать символы из неё.
  *   - Макрос расширяется до `AE_COMPILER_ATTRIBUTE_SYMBOL_IMPORT`,
@@ -33,7 +33,7 @@
 
 #include "compiler.h"
 
-#ifdef AE_OPTION_STATIC_BUILD
+#ifdef AE_LIBRARY_OPTION_STATIC_BUILD
 /**
  * @def AE_ATTRIBUTE_SYMBOL
  * @brief Помечает символы как публичные для статической компоновки.
@@ -55,7 +55,7 @@
  */
 #    define AE_ATTRIBUTE_HIDDEN
 #else
-#    ifdef AE_OPTION_SHARED_BUILD
+#    ifdef AE_LIBRARY_OPTION_SHARED_BUILD
 /**
  * @def AE_ATTRIBUTE_SYMBOL
  * @brief Помечает символы для экспорта при сборке библиотеки AE как общей библиотеки.
@@ -75,7 +75,7 @@
  * и использованы в других приложениях или библиотеках, которые используют эту общую библиотеку.
  */
 #        define AE_ATTRIBUTE_SYMBOL AE_COMPILER_ATTRIBUTE_SYMBOL_IMPORT
-#    endif // AE_OPTION_SHARED_BUILD
+#    endif // AE_LIBRARY_OPTION_SHARED_BUILD
 
 /**
  * @def AE_ATTRIBUTE_HIDDEN
@@ -86,6 +86,6 @@
  * импорте символов этот макрос не поддерживается.
  */
 #    define AE_ATTRIBUTE_HIDDEN
-#endif // AE_OPTION_STATIC_BUILD
+#endif // AE_LIBRARY_OPTION_STATIC_BUILD
 
 #endif // AE_ATTRIBUTE_SYMBOL_H

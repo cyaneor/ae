@@ -42,7 +42,7 @@ ae_memory_allocator_alloc(const void *self, ae_usize_t size)
     // Проверяем, успешно ли выделена память. Если нет, генерируем ошибку.
     ae_runtime_assert(ptr, AE_RUNTIME_ERROR_MEMORY_NOT_ALLOCATED, nullptr);
 
-#if AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
+#if AE_LIRBARY_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE
     // Если включена опция заполнения нулями после выделения памяти,
     // заполняем выделенную память нулями от указателя ptr до конца выделенной области
     ae_memory_set_zero(ptr, size);

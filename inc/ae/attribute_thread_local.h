@@ -7,7 +7,7 @@
  * атрибут может быть определен с использованием компиляторского
  * атрибута или оставаться пустым.
  *
- * Если включена опция AE_OPTION_THREAD_LOCAL_VARIABLES,
+ * Если включена опция AE_LIBRARY_OPTION_THREAD_LOCAL_VARIABLES,
  * макрос AE_ATTRIBUTE_THREAD_LOCAL будет определен как атрибут компилятора,
  * указывающий на то, что переменные локальны для потока. В противном случае,
  * этот макрос остается пустым, что означает отсутствие специального атрибута
@@ -19,12 +19,12 @@
 
 #include "compiler.h"
 
-#ifdef AE_OPTION_THREAD_LOCAL_VARIABLES
+#ifdef AE_LIBRARY_OPTION_THREAD_LOCAL_VARIABLES
 /**
  * @def AE_ATTRIBUTE_THREAD_LOCAL
  * @brief Атрибут для локальных потоковых переменных.
  *
- * Если включена опция AE_OPTION_THREAD_LOCAL_VARIABLES,
+ * Если включена опция AE_LIBRARY_OPTION_THREAD_LOCAL_VARIABLES,
  * этот макрос будет определен как атрибут компилятора,
  * указывающий на то, что переменная является локальной для потока.
  */
@@ -34,7 +34,7 @@
  * @def AE_ATTRIBUTE_THREAD_LOCAL
  * @brief Пустой макрос для локальных потоковых переменных.
  *
- * Если опция AE_OPTION_THREAD_LOCAL_VARIABLES
+ * Если опция AE_LIBRARY_OPTION_THREAD_LOCAL_VARIABLES
  * не включена, этот макрос остается пустым, что означает, что
  * переменные не имеют специального атрибута для локальности в потоке.
  */

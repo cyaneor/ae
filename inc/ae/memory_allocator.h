@@ -120,7 +120,7 @@ ae_memory_allocator_get_dealloc_fn(const void *self);
  * @throw AE_RUNTIME_ERROR_ALLOCATOR_FUNCTION_NOT_INITIALIZED
  *        Если функция выделения памяти не инициализирована.
  *
- * @note Если включена опция `AE_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE`,
+ * @note Если включена опция `AE_LIRBARY_OPTION_FILL_ZERO_AFTER_MEMORY_ALLOCATE`,
  *       выделенная память будет заполнена нулями.
  *
  * @see ae_memory_allocator_get_alloc_fn

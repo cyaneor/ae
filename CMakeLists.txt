@@ -22,15 +22,19 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 # Глобальные переменные                                                                        #
 # -------------------------------------------------------------------------------------------- #
 
-# Путь к текущему каталогу
+# Путь к текущему каталогу исходных файлов проекта
 set(AE_CMAKE_CURRENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Путь к кэш-каталогу, который в данный момент обрабатывается.
+# Путь к текущему каталогу, в котором происходит сборка проекта (кэш-каталог)
 set(AE_CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
+# Путь к каталогу cmake внутри текущего каталога исходных файлов
 set(AE_CMAKE_CURRENT_DIR ${AE_CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+# Путь к каталогу с настройками (options) внутри каталога cmake
 set(AE_CMAKE_CURRENT_OPTIONS_DIR ${AE_CMAKE_CURRENT_DIR}/options)
+
+# Путь к каталогу с модулями (modules) внутри каталога cmake
 set(AE_CMAKE_CURRENT_MODULES_DIR ${AE_CMAKE_CURRENT_DIR}/module)
 
 # -------------------------------------------------------------------------------------------- #
@@ -101,3 +105,5 @@ target_compile_definitions(${PROJECT_NAME}
 target_compile_options(${PROJECT_NAME}
         PRIVATE ${AE_TARGET_PRIVATE_COMPILE_OPTIONS}
         PUBLIC ${AE_TARGET_PUBLIC_COMPILE_OPTIONS})
+
+message(NOTICE ${AE_TARGET_PRIVATE_COMPILE_OPTIONS})

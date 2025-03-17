@@ -94,7 +94,7 @@ foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
 
         if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_PIC")
             if (${CMAKE_OPTION} STREQUAL "ON")
-                if (${AE_OPTION_STATIC_BUILD})
+                if (${AE_LIBRARY_OPTION_STATIC_BUILD})
                     message(FATAL_ERROR "PIC (Position Independent Code) cannot be used in a static build.")
                 endif ()
 
