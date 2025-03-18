@@ -53,7 +53,7 @@ int main() {
     fprintf(file, \" * @brief Размер знакового или беззнакового `char` в байтах.\\n\");
     fprintf(file, \" */\\n\");
     fprintf(file, \"#ifndef AE_CHAR_T_SIZE\\n\");
-    fprintf(file, \"#define AE_CHAR_T_SIZE %u\\n\", sizeof(ae_uchar_t));
+    fprintf(file, \"#define AE_CHAR_T_SIZE %lu\\n\", sizeof(ae_uchar_t));
     fprintf(file, \"#endif // AE_CHAR_T_SIZE\\n\");
     fprintf(file, \"\\n\");
 
@@ -62,7 +62,7 @@ int main() {
     fprintf(file, \" * @brief Размер типа `wchar_t`, который используется для представления широких символов.\\n\");
     fprintf(file, \" */\\n\");
     fprintf(file, \"#ifndef AE_WCHAR_T_SIZE\\n\");
-    fprintf(file, \"#define AE_WCHAR_T_SIZE %u\\n\", sizeof(wchar_t));
+    fprintf(file, \"#define AE_WCHAR_T_SIZE %lu\\n\", sizeof(wchar_t));
     fprintf(file, \"#endif // AE_WCHAR_T_SIZE\\n\");
     fprintf(file, \"\\n\");
 
@@ -71,7 +71,7 @@ int main() {
     fprintf(file, \" * @brief Размер знакового или беззнакового `short` в байтах.\\n\");
     fprintf(file, \" */\\n\");
     fprintf(file, \"#ifndef AE_SHORT_T_SIZE\\n\");
-    fprintf(file, \"#define AE_SHORT_T_SIZE %u\\n\", sizeof(ae_ushort_t));
+    fprintf(file, \"#define AE_SHORT_T_SIZE %lu\\n\", sizeof(ae_ushort_t));
     fprintf(file, \"#endif // AE_SHORT_T_SIZE\\n\");
     fprintf(file, \"\\n\");
 
@@ -80,7 +80,7 @@ int main() {
     fprintf(file, \" * @brief Размер знакового или беззнакового `int` в байтах.\\n\");
     fprintf(file, \" */\\n\");
     fprintf(file, \"#ifndef AE_INT_T_SIZE\\n\");
-    fprintf(file, \"#define AE_INT_T_SIZE %u\\n\", sizeof(ae_uint_t));
+    fprintf(file, \"#define AE_INT_T_SIZE %lu\\n\", sizeof(ae_uint_t));
     fprintf(file, \"#endif // AE_INT_T_SIZE\\n\");
     fprintf(file, \"\\n\");
 
@@ -89,7 +89,7 @@ int main() {
     fprintf(file, \" * @brief Размер знакового или беззнакового `long` в байтах.\\n\");
     fprintf(file, \" */\\n\");
     fprintf(file, \"#ifndef AE_LONG_T_SIZE\\n\");
-    fprintf(file, \"#define AE_LONG_T_SIZE %u\\n\", sizeof(ae_ulong_t));
+    fprintf(file, \"#define AE_LONG_T_SIZE %lu\\n\", sizeof(ae_ulong_t));
     fprintf(file, \"#endif // AE_LONG_T_SIZE\\n\");
     fprintf(file, \"\\n\");
 
@@ -98,7 +98,7 @@ int main() {
     fprintf(file, \" * @brief Размер знакового или беззнакового `long long` в байтах.\\n\");
     fprintf(file, \" */\\n\");
     fprintf(file, \"#ifndef AE_LLONG_T_SIZE\\n\");
-    fprintf(file, \"#define AE_LLONG_T_SIZE %u\\n\", sizeof(ae_ullong_t));
+    fprintf(file, \"#define AE_LLONG_T_SIZE %lu\\n\", sizeof(ae_ullong_t));
     fprintf(file, \"#endif // AE_LLONG_T_SIZE\\n\");
     fprintf(file, \"\\n\");
 
