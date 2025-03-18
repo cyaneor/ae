@@ -82,7 +82,7 @@ typedef ae_ullong_t ae_u64_t;
  */
 typedef ae_sllong_t ae_s64_t;
 
-#ifdef __SIZEOF_INT128__
+#if defined(__SIZEOF_INT128__) && __SIZEOF_INT128__ == 16
 /**
  * @typedef ae_s128_t
  * @brief Тип данных для знакового 128-битного целого числа.
