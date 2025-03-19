@@ -10,14 +10,9 @@ list(APPEND AE_TARGET_PUBLIC_COMPILE_DEFINITIONS
         # Переменная CMAKE_SYSTEM_NAME содержит имя ОС (например, Windows, Linux, Darwin).
         AE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}
 
-        # Определение размера указателя на текущей платформе в байтах.
-        # Переменная CMAKE_SIZEOF_VOID_P определяет размер типа void*, что позволяет
-        # учитывать архитектурные особенности (например, 4 байта для 32-битных и 8 байт для 64-битных систем).
-        AE_PTR_T_SIZE=${CMAKE_SIZEOF_VOID_P}
-
         # Определение процессора системы, на котором происходит сборка.
         # Переменная CMAKE_SYSTEM_PROCESSOR содержит архитектуру процессора (например, x86_64, armv7).
-        AE_SYSTEM_PROCESSOR="${CMAKE_SYSTEM_PROCESSOR}"
+        AE_SYSTEM_PROCESSOR= "${CMAKE_SYSTEM_PROCESSOR}"
 
         # AE_RUNTIME_FRAME_STATE_MAX определяет максимальное
         # количество сохраненных состояний кадров в библиотеке.
@@ -56,4 +51,4 @@ list(APPEND AE_TARGET_PUBLIC_COMPILE_DEFINITIONS
         # В обоих случаях, при расчете нового размера памяти, не потребуется использование типа `float`,
         # что уменьшит возможные ошибки, связанные с точностью или производительностью.
         AE_DYNAMIC_BLOCK_GROWTH_FACTOR=1500
-)
+        )

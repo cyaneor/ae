@@ -10,7 +10,7 @@
 #ifndef AE_WCHAR_H
 #define AE_WCHAR_H
 
-#include "numeric.h"
+#include "numeric_fixed_types.h"
 
 /**
  * @def AE_SCHAR16_T_MIN

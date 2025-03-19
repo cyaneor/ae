@@ -29,6 +29,8 @@
 #ifndef AE_PTR_H
 #define AE_PTR_H
 
+#include "numeric_limit.h"
+
 /**
  * @def ae_ptr_t
  * @brief Определение макроса для указателя на пустой тип.
@@ -54,7 +56,7 @@
  * Это значение приравнивается к нулевому указателю.
  */
 #ifndef AE_PTR_T_MIN
-#    define AE_PTR_T_MIN ((ae_ptr_t)0)
+#    define AE_PTR_T_MIN AE_NUMERIC_LIMIT_UINT_MIN(ae_ptr_t)
 #endif // AE_PTR_T_MIN
 
 /**
@@ -68,7 +70,7 @@
  * что эквивалентно максимальному значению для указателя.
  */
 #ifndef AE_PTR_T_MAX
-#    define AE_PTR_T_MAX ((ae_ptr_t) - 1)
+#    define AE_PTR_T_MAX AE_NUMERIC_LIMIT_UINT_MAX(ae_ptr_t)
 #endif // AE_PTR_T_MAX
 
 /**
@@ -88,8 +90,6 @@
  * Этот макрос полезен для выполнения операций, зависящих от размера указателей,
  * например, при выделении памяти или при манипуляциях с адресами.
  */
-#ifndef AE_PTR_T_SIZE
-#    define AE_PTR_T_SIZE __SIZEOF_POINTER__
-#endif // AE_PTR_T_SIZE
+#define AE_PTR_T_SIZE AE_VOID_P_SIZE
 
 #endif // AE_PTR_H

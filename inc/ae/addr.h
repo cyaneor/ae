@@ -27,7 +27,7 @@
 #define AE_ADDR_H
 
 #include "ptr.h"
-#include "numeric.h"
+#include "numeric_fixed.h"
 
 #ifdef AE_PTR_T_SIZE
 #    if AE_PTR_T_SIZE == 8

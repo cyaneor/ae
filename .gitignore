@@ -6,7 +6,3 @@ docs
 out
 cmake-build-debug
 cmake-build-release
-
-# numeric_limits.h генерируется автоматически 
-# в процессе конфигурирования проекта под каждую платформу.
-inc/ae/numeric_limits.h

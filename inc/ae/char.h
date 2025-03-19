@@ -11,7 +11,7 @@
 #ifndef AE_CHAR_H
 #define AE_CHAR_H
 
-#include "numeric.h"
+#include "numeric_fixed.h"
 
 /**
  * @def AE_SCHAR8_T_MIN
