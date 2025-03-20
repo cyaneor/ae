@@ -1,12 +1,17 @@
 #include <ae/memory_raw.h>
 /* Дополнительные модули */
 #include <ae/runtime_error_code.h>
+#include <ae/runtime_return_if.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_throw.h>
 #include <ae/runtime_try.h>
 #include <ae/ptr_traits.h>
 #include <ae/nullptr.h>
 #include <ae/elif.h>
+
+#ifdef AE_COMPILE_OPTION_SSE3
+#    include <xmmintrin.h>
+#endif // AE_COMPILE_OPTION_SSE3
 
 const ae_u8_t *
 ae_memory_raw_compare_u8(const ae_u8_t *lhs,
@@ -252,6 +257,29 @@ ae_memory_raw_copy_u64(ae_u64_t       *dst,
     return _dst;
 }
 
+#ifdef AE_COMPILE_OPTION_SSE3
+void *
+ae_memory_raw_copy_sse3(void *dst, const void *dst_end, const void *src, const void *src_end)
+{
+    ae_runtime_assert(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
+
+    __m128       *_dst     = ae_ptr_cast(__m128, dst);
+    const __m128 *_dst_end = ae_ptr_cast(const __m128, dst_end);
+    const __m128 *_src     = ae_ptr_cast(const __m128, src);
+    const __m128 *_src_end = ae_ptr_cast(const __m128, src_end);
+
+    while (_dst < _dst_end && _src < _src_end)
+    {
+        _mm_store_ps(ae_static_cast(float *, _dst),
+                     _mm_load_ps(ae_static_cast(const float *, _src)));
+
+        _dst++;
+        _src++;
+    }
+    return _dst;
+}
+#endif // AE_COMPILE_OPTION_SSE3
+
 #ifdef AE_U128_T_SIZE
 ae_u128_t *
 ae_memory_raw_copy_u128(ae_u128_t       *dst,
@@ -275,26 +303,21 @@ ae_memory_raw_copy_u128(ae_u128_t       *dst,
 void *
 ae_memory_raw_copy(void *dst, const void *dst_end, const void *src, const void *src_end)
 {
-#ifdef AE_U128_T_SIZE
-    if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U128_T_SIZE))
-    {
-        return ae_memory_raw_copy_u128(dst, dst_end, src, src_end);
-    }
-    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
-#else
-    if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
-#endif // AE_U128_T_SIZE
-    {
-        return ae_memory_raw_copy_u64(dst, dst_end, src, src_end);
-    }
-    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U32_T_SIZE))
-    {
-        return ae_memory_raw_copy_u32(dst, dst_end, src, src_end);
-    }
-    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U16_T_SIZE))
-    {
-        return ae_memory_raw_copy_u16(dst, dst_end, src, src_end);
-    }
+#ifdef AE_COMPILE_OPTION_SSE3
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, sizeof(__m128)),
+                         ae_memory_raw_copy_sse3(dst, dst_end, src, src_end));
+#elif defined(AE_U128_T_SIZE)
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U128_T_SIZE),
+                         ae_memory_raw_copy_u128(dst, dst_end, src, src_end));
+#endif // AE_COMPILE_OPTION_SSE3
+
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE),
+                         ae_memory_raw_copy_u64(dst, dst_end, src, src_end));
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U32_T_SIZE),
+                         ae_memory_raw_copy_u32(dst, dst_end, src, src_end));
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U16_T_SIZE),
+                         ae_memory_raw_copy_u16(dst, dst_end, src, src_end));
+
     return ae_memory_raw_copy_u8(dst, dst_end, src, src_end);
 }
 
@@ -370,6 +393,29 @@ ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
     return _dst;
 }
 
+#ifdef AE_COMPILE_OPTION_SSE3
+void *
+ae_memory_raw_copy_rev_sse3(const void *dst, void *dst_end, const void *src, const void *src_end)
+{
+    ae_runtime_assert(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
+
+    const __m128 *_dst     = ae_ptr_cast(const __m128, dst);
+    __m128       *_dst_end = ae_ptr_cast(__m128, dst_end);
+    const __m128 *_src     = ae_ptr_cast(const __m128, src);
+    const __m128 *_src_end = ae_ptr_cast(const __m128, src_end);
+
+    while (_dst_end > _dst && _src_end > _src)
+    {
+        --_dst_end;
+        --_src_end;
+
+        _mm_store_ps(ae_static_cast(float *, _dst_end),
+                     _mm_load_ps(ae_static_cast(const float *, _src_end)));
+    }
+    return _dst_end;
+}
+#endif // AE_COMPILE_OPTION_SSE3
+
 #ifdef AE_U128_T_SIZE
 ae_u128_t *
 ae_memory_raw_copy_rev_u128(const ae_u128_t *dst,
@@ -393,26 +439,21 @@ ae_memory_raw_copy_rev_u128(const ae_u128_t *dst,
 void *
 ae_memory_raw_copy_rev(const void *dst, void *dst_end, const void *src, const void *src_end)
 {
-#ifdef AE_U128_T_SIZE
-    if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U128_T_SIZE))
-    {
-        return ae_memory_raw_copy_rev_u128(dst, dst_end, src, src_end);
-    }
-    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
-#else
-    if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
-#endif // AE_U128_T_SIZE
-    {
-        return ae_memory_raw_copy_rev_u64(dst, dst_end, src, src_end);
-    }
-    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U32_T_SIZE))
-    {
-        return ae_memory_raw_copy_rev_u32(dst, dst_end, src, src_end);
-    }
-    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U16_T_SIZE))
-    {
-        return ae_memory_raw_copy_rev_u16(dst, dst_end, src, src_end);
-    }
+#ifdef AE_COMPILE_OPTION_SSE3
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, sizeof(__m128)),
+                         ae_memory_raw_copy_rev_sse3(dst, dst_end, src, src_end));
+#elif defined(AE_U128_T_SIZE)
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U128_T_SIZE),
+                         ae_memory_raw_copy_rev_u128(dst, dst_end, src, src_end));
+#endif // AE_COMPILE_OPTION_SSE3
+
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE),
+                         ae_memory_raw_copy_rev_u64(dst, dst_end, src, src_end));
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U32_T_SIZE),
+                         ae_memory_raw_copy_rev_u32(dst, dst_end, src, src_end));
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U16_T_SIZE),
+                         ae_memory_raw_copy_rev_u16(dst, dst_end, src, src_end));
+
     return ae_memory_raw_copy_rev_u8(dst, dst_end, src, src_end);
 }
 
@@ -476,6 +517,20 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
     return ae_memory_raw_copy_u64(dst, dst_end, src, src_end);
 }
 
+#ifdef AE_COMPILE_OPTION_SSE3
+void *
+ae_memory_raw_move_sse3(void *dst, const void *dst_end, const void *src, const void *src_end)
+{
+    if (ae_ptr_range_is_overlapped(dst, src, src_end))
+    {
+        void *_end = ae_ptr_cast(void, dst_end);
+        void *_ptr = ae_memory_raw_copy_rev_sse3(dst, _end, src, src_end);
+        return ae_ptr_sub_offset(void, _end, ae_ptr_to_addr_diff(_ptr, dst));
+    }
+    return ae_memory_raw_copy_sse3(dst, dst_end, src, src_end);
+}
+#endif // AE_COMPILE_OPTION_SSE3
+
 #ifdef AE_U128_T_SIZE
 ae_u128_t *
 ae_memory_raw_move_u128(ae_u128_t       *dst,
@@ -496,26 +551,21 @@ ae_memory_raw_move_u128(ae_u128_t       *dst,
 void *
 ae_memory_raw_move(void *dst, const void *dst_end, const void *src, const void *src_end)
 {
-#ifdef AE_U128_T_SIZE
-    if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U128_T_SIZE))
-    {
-        return ae_memory_raw_move_u128(dst, dst_end, src, src_end);
-    }
-    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
-#else
-    if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
-#endif // AE_U128_T_SIZE
-    {
-        return ae_memory_raw_move_u64(dst, dst_end, src, src_end);
-    }
-    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U32_T_SIZE))
-    {
-        return ae_memory_raw_move_u32(dst, dst_end, src, src_end);
-    }
-    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U16_T_SIZE))
-    {
-        return ae_memory_raw_move_u16(dst, dst_end, src, src_end);
-    }
+#ifdef AE_COMPILE_OPTION_SSE3
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, sizeof(__m128)),
+                         ae_memory_raw_move_sse3(dst, dst_end, src, src_end));
+#elif defined(AE_U128_T_SIZE)
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U128_T_SIZE),
+                         ae_memory_raw_move_u128(dst, dst_end, src, src_end));
+#endif // AE_COMPILE_OPTION_SSE3
+
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE),
+                         ae_memory_raw_move_u64(dst, dst_end, src, src_end));
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U32_T_SIZE),
+                         ae_memory_raw_move_u32(dst, dst_end, src, src_end));
+    ae_runtime_return_if(ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U16_T_SIZE),
+                         ae_memory_raw_move_u16(dst, dst_end, src, src_end));
+
     return ae_memory_raw_move_u8(dst, dst_end, src, src_end);
 }
 
