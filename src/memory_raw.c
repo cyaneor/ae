@@ -426,7 +426,7 @@ ae_memory_raw_move_u8(ae_u8_t       *dst,
     {
         ae_u8_t *_end = ae_ptr_cast(ae_u8_t, dst_end);
         ae_u8_t *_ptr = ae_memory_raw_copy_rev_u8(dst, _end, src, src_end);
-        return _ptr ? _end - (_ptr - dst) : nullptr;
+        return ae_ptr_sub_offset(ae_u8_t, _end, ae_ptr_to_addr_diff(_ptr, dst));
     }
     return ae_memory_raw_copy_u8(dst, dst_end, src, src_end);
 }
@@ -441,7 +441,7 @@ ae_memory_raw_move_u16(ae_u16_t       *dst,
     {
         ae_u16_t *_end = ae_ptr_cast(ae_u16_t, dst_end);
         ae_u16_t *_ptr = ae_memory_raw_copy_rev_u16(dst, _end, src, src_end);
-        return _ptr ? _end - (_ptr - dst) : nullptr;
+        return ae_ptr_sub_offset(ae_u16_t, _end, ae_ptr_to_addr_diff(_ptr, dst));
     }
     return ae_memory_raw_copy_u16(dst, dst_end, src, src_end);
 }
@@ -456,7 +456,7 @@ ae_memory_raw_move_u32(ae_u32_t       *dst,
     {
         ae_u32_t *_end = ae_ptr_cast(ae_u32_t, dst_end);
         ae_u32_t *_ptr = ae_memory_raw_copy_rev_u32(dst, _end, src, src_end);
-        return _ptr ? _end - (_ptr - dst) : nullptr;
+        return ae_ptr_sub_offset(ae_u32_t, _end, ae_ptr_to_addr_diff(_ptr, dst));
     }
     return ae_memory_raw_copy_u32(dst, dst_end, src, src_end);
 }
@@ -471,7 +471,7 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
     {
         ae_u64_t *_end = ae_ptr_cast(ae_u64_t, dst_end);
         ae_u64_t *_ptr = ae_memory_raw_copy_rev_u64(dst, _end, src, src_end);
-        return _ptr ? _end - (_ptr - dst) : nullptr;
+        return ae_ptr_sub_offset(ae_u64_t, _end, ae_ptr_to_addr_diff(_ptr, dst));
     }
     return ae_memory_raw_copy_u64(dst, dst_end, src, src_end);
 }
@@ -487,7 +487,7 @@ ae_memory_raw_move_u128(ae_u128_t       *dst,
     {
         ae_u128_t *_end = ae_ptr_cast(ae_u128_t, dst_end);
         ae_u128_t *_ptr = ae_memory_raw_copy_rev_u128(dst, _end, src, src_end);
-        return _ptr ? _end - (_ptr - dst) : nullptr;
+        return ae_ptr_sub_offset(ae_u32_t, _end, ae_ptr_to_addr_diff(_ptr, dst));
     }
     return ae_memory_raw_copy_u128(dst, dst_end, src, src_end);
 }
