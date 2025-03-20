@@ -252,10 +252,38 @@ ae_memory_raw_copy_u64(ae_u64_t       *dst,
     return _dst;
 }
 
+#ifdef AE_U128_T_SIZE
+ae_u128_t *
+ae_memory_raw_copy_u128(ae_u128_t       *dst,
+                        const ae_u128_t *dst_end,
+                        const ae_u128_t *src,
+                        const ae_u128_t *src_end)
+{
+    ae_runtime_assert(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
+
+    ae_u128_t       *_dst = dst;
+    const ae_u128_t *_src = src;
+
+    while (_dst < dst_end && _src < src_end)
+    {
+        *_dst++ = *_src++;
+    }
+    return _dst;
+}
+#endif
+
 void *
 ae_memory_raw_copy(void *dst, const void *dst_end, const void *src, const void *src_end)
 {
+#ifdef AE_U128_T_SIZE
+    if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U128_T_SIZE))
+    {
+        return ae_memory_raw_copy_u128(dst, dst_end, src, src_end);
+    }
+    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
+#else
     if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
+#endif // AE_U128_T_SIZE
     {
         return ae_memory_raw_copy_u64(dst, dst_end, src, src_end);
     }
@@ -342,10 +370,38 @@ ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
     return _dst;
 }
 
+#ifdef AE_U128_T_SIZE
+ae_u128_t *
+ae_memory_raw_copy_rev_u128(const ae_u128_t *dst,
+                            ae_u128_t       *dst_end,
+                            const ae_u128_t *src,
+                            const ae_u128_t *src_end)
+{
+    ae_runtime_assert(dst && src, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
+
+    const ae_u128_t *_src = src_end;
+    ae_u128_t       *_dst = dst_end;
+
+    while (_dst > dst && _src > src)
+    {
+        *--_dst = *--_src;
+    }
+    return _dst;
+}
+#endif
+
 void *
 ae_memory_raw_copy_rev(const void *dst, void *dst_end, const void *src, const void *src_end)
 {
+#ifdef AE_U128_T_SIZE
+    if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U128_T_SIZE))
+    {
+        return ae_memory_raw_copy_rev_u128(dst, dst_end, src, src_end);
+    }
+    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
+#else
     if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
+#endif // AE_U128_T_SIZE
     {
         return ae_memory_raw_copy_rev_u64(dst, dst_end, src, src_end);
     }
@@ -420,10 +476,35 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
     return ae_memory_raw_copy_u64(dst, dst_end, src, src_end);
 }
 
+#ifdef AE_U128_T_SIZE
+ae_u128_t *
+ae_memory_raw_move_u128(ae_u128_t       *dst,
+                        const ae_u128_t *dst_end,
+                        const ae_u128_t *src,
+                        const ae_u128_t *src_end)
+{
+    if (ae_ptr_range_is_overlapped(dst, src, src_end))
+    {
+        ae_u128_t *_end = ae_ptr_cast(ae_u128_t, dst_end);
+        ae_u128_t *_ptr = ae_memory_raw_copy_rev_u128(dst, _end, src, src_end);
+        return _ptr ? _end - (_ptr - dst) : nullptr;
+    }
+    return ae_memory_raw_copy_u128(dst, dst_end, src, src_end);
+}
+#endif // AE_U128_T_SIZE
+
 void *
 ae_memory_raw_move(void *dst, const void *dst_end, const void *src, const void *src_end)
 {
+#ifdef AE_U128_T_SIZE
+    if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U128_T_SIZE))
+    {
+        return ae_memory_raw_move_u128(dst, dst_end, src, src_end);
+    }
+    elif (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
+#else
     if (ae_ptr_range_is_aligned_both(dst, dst_end, src, src_end, AE_U64_T_SIZE))
+#endif // AE_U128_T_SIZE
     {
         return ae_memory_raw_move_u64(dst, dst_end, src, src_end);
     }
