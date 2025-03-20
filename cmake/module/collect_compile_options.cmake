@@ -8,14 +8,8 @@
 
 # Получаем список всех переменных (опций) в текущем каталоге CMake
 get_property(CMAKE_OPTIONS DIRECTORY PROPERTY VARIABLES)
-
-message(STATUS "Listing all enabled compile options:")
 foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
     if (CMAKE_OPTION MATCHES "^AE_COMPILE_OPTION_.*")
-        if (${CMAKE_OPTION} STREQUAL "ON")
-            message(STATUS ":: ${CMAKE_OPTION}")
-        endif ()
-
         # Для GCC, Clang или MSVC
         if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_OPTIMIZATION")
             if (${CMAKE_OPTION} STREQUAL "ON")
@@ -140,5 +134,15 @@ foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
             continue()
         endif ()
 
+    endif ()
+endforeach ()
+
+# Этот блок кода выводит все включенные опции компиляции, которые начинаются с "AE_COMPILE_OPTION_"
+# и не равны значению "OFF". Эти опции добавляются в список AE_TARGET_PUBLIC_COMPILE_DEFINITIONS.
+message(STATUS "Listing all enabled compile options:")
+foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
+    if (CMAKE_OPTION MATCHES "^AE_COMPILE_OPTION_.*" AND NOT ${CMAKE_OPTION} STREQUAL "OFF")
+        message(STATUS ":: ${CMAKE_OPTION}")
+        list(APPEND AE_TARGET_PUBLIC_COMPILE_DEFINITIONS ${CMAKE_OPTION})
     endif ()
 endforeach ()
