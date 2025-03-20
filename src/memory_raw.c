@@ -487,7 +487,7 @@ ae_memory_raw_move_u128(ae_u128_t       *dst,
     {
         ae_u128_t *_end = ae_ptr_cast(ae_u128_t, dst_end);
         ae_u128_t *_ptr = ae_memory_raw_copy_rev_u128(dst, _end, src, src_end);
-        return ae_ptr_sub_offset(ae_u32_t, _end, ae_ptr_to_addr_diff(_ptr, dst));
+        return ae_ptr_sub_offset(ae_u128_t, _end, ae_ptr_to_addr_diff(_ptr, dst));
     }
     return ae_memory_raw_copy_u128(dst, dst_end, src, src_end);
 }
