@@ -65,7 +65,7 @@ ae_str_raw_len(const ae_str_raw_t str)
 {
     const ae_str_raw_t _ptr = ae_str_raw_find_null_terminator(str);
     ae_runtime_assert(_ptr, AE_RUNTIME_ERROR_NO_NULL_TERMINATOR, 0);
-    return ae_addr_diff(_ptr, str);
+    return ae_ptr_diff(_ptr, str);
 }
 
 ae_char_t *
