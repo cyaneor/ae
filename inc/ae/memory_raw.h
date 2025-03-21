@@ -432,7 +432,7 @@ ae_memory_raw_copy_u64(ae_u64_t       *dst,
                        const ae_u64_t *src,
                        const ae_u64_t *src_end);
 
-#ifdef AE_COMPILE_OPTION_SSE3
+#ifdef AE_COMPILE_OPTION_SSE
 /**
  * @brief Копирует данные между двумя диапазонами памяти
  *        в прямом порядке для 128-битных элементов с использованием SSE3.
@@ -461,10 +461,10 @@ ae_memory_raw_copy_u64(ae_u64_t       *dst,
  *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-AE_ATTRIBUTE(TARGET("sse3"))
+AE_ATTRIBUTE(TARGET("sse"))
 void *
-ae_memory_raw_copy_sse3(void *dst, const void *dst_end, const void *src, const void *src_end);
-#endif // AE_COMPILE_OPTION_SSE3
+ae_memory_raw_copy_sse(void *dst, const void *dst_end, const void *src, const void *src_end);
+#endif // AE_COMPILE_OPTION_SSE
 
 #ifdef AE_U128_T_SIZE
 /**
@@ -663,7 +663,7 @@ ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
                            const ae_u64_t *src,
                            const ae_u64_t *src_end);
 
-#ifdef AE_COMPILE_OPTION_SSE3
+#ifdef AE_COMPILE_OPTION_SSE
 /**
  * @brief Копирует данные между двумя диапазонами памяти
  *        в обратном порядке для 128-битных элементов с использованием SSE3.
@@ -691,9 +691,9 @@ ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
  *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-AE_ATTRIBUTE(TARGET("sse3"))
+AE_ATTRIBUTE(TARGET("sse"))
 void *
-ae_memory_raw_copy_rev_sse3(const void *dst, void *dst_end, const void *src, const void *src_end);
+ae_memory_raw_copy_rev_sse(const void *dst, void *dst_end, const void *src, const void *src_end);
 #endif
 
 #ifdef AE_U128_T_SIZE
@@ -944,7 +944,7 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
                        const ae_u64_t *src,
                        const ae_u64_t *src_end);
 
-#ifdef AE_COMPILE_OPTION_SSE3
+#ifdef AE_COMPILE_OPTION_SSE
 /**
  * @brief Копирует или перемещает данные
  *        между двумя диапазонами памяти с использованием SSE3.
@@ -969,10 +969,10 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
  *        Если @c dst или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-AE_ATTRIBUTE(TARGET("sse3"))
+AE_ATTRIBUTE(TARGET("sse"))
 void *
-ae_memory_raw_move_sse3(void *dst, const void *dst_end, const void *src, const void *src_end);
-#endif // AE_COMPILE_OPTION_SSE3
+ae_memory_raw_move_sse(void *dst, const void *dst_end, const void *src, const void *src_end);
+#endif // AE_COMPILE_OPTION_SSE
 
 #ifdef AE_U128_T_SIZE
 /**

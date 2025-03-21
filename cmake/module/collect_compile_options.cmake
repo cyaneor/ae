@@ -39,14 +39,12 @@ foreach (CMAKE_OPTION IN ITEMS ${CMAKE_OPTIONS})
             continue()
         endif ()
 
-        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_SSE3")
+        if (CMAKE_OPTION STREQUAL "AE_COMPILE_OPTION_SSE")
             if (${CMAKE_OPTION} STREQUAL "ON")
                 if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_CLANG)
-                    list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -msse3)
+                    list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS -msse)
                 elseif (MSVC)
-                    # Для MSVC флаг /arch:SSE2 включает поддержку SSE3,
-                    # так как SSE3 является частью SSE2 и не требует отдельного флага.
-                    list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /arch:SSE2)  # Вместо /arch:SSE3
+                    list(APPEND AE_TARGET_PRIVATE_COMPILE_OPTIONS /arch:SSE)
                 endif ()
             endif ()
             continue()
