@@ -14,6 +14,7 @@
 #define AE_ATTRIBUTE_H
 
 #include "attribute_symbol.h"
+#include "attribute_target.h"
 #include "attribute_thread_local.h"
 
 /**

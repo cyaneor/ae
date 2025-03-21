@@ -258,6 +258,7 @@ ae_memory_raw_copy_u64(ae_u64_t       *dst,
 }
 
 #ifdef AE_COMPILE_OPTION_SSE3
+AE_ATTRIBUTE(TARGET("sse3"))
 void *
 ae_memory_raw_copy_sse3(void *dst, const void *dst_end, const void *src, const void *src_end)
 {
@@ -394,6 +395,7 @@ ae_memory_raw_copy_rev_u64(const ae_u64_t *dst,
 }
 
 #ifdef AE_COMPILE_OPTION_SSE3
+AE_ATTRIBUTE(TARGET("sse3"))
 void *
 ae_memory_raw_copy_rev_sse3(const void *dst, void *dst_end, const void *src, const void *src_end)
 {
@@ -518,6 +520,7 @@ ae_memory_raw_move_u64(ae_u64_t       *dst,
 }
 
 #ifdef AE_COMPILE_OPTION_SSE3
+AE_ATTRIBUTE(TARGET("sse3"))
 void *
 ae_memory_raw_move_sse3(void *dst, const void *dst_end, const void *src, const void *src_end)
 {
