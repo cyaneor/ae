@@ -2,6 +2,7 @@
 #define AE_ADDR_TRAITS_H
 
 #include "addr.h"
+#include "numeric_traits.h"
 #include "reinterpret_cast.h"
 
 /**
@@ -49,5 +50,22 @@
  * @return Разница между адресами (тип зависит от архитектуры и компилятора).
  */
 #define ae_addr_diff(addr1, addr2) (addr1 - addr2)
+
+/**
+ * @def ae_addr_is_aligned
+ * @brief Проверяет, выровнен ли адрес по заданному выравниванию.
+ *
+ * Этот макрос проверяет, является ли заданный адрес выровненным
+ * относительно указанного выравнивания, используя проверку на кратность.
+ *
+ * @param addr Адрес, который необходимо проверить.
+ * @param align Выравнивание, которому должен соответствовать адрес.
+ *
+ * @return `true`, если `addr` выровнен по границе `align`;
+ *         `false` в противном случае.
+ *
+ * @note Выравнивание должно быть степенью двойки, чтобы корректно работать.
+ */
+#define ae_addr_is_aligned(addr, align) ae_numeric_has_zero_remainder(addr, align)
 
 #endif // AE_ADDR_TRAITS_H

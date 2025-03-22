@@ -30,7 +30,6 @@
 #include "ptrdiff.h"
 #include "addr_traits.h"
 #include "static_cast.h"
-#include "numeric_traits.h"
 #include "interval_traits.h"
 
 /**
@@ -341,7 +340,7 @@
  * @note Делитель (выравнивание) не должен быть равен нулю,
  *       так как это приведет к неопределенному поведению.
  */
-#define ae_ptr_is_aligned(ptr, align) ae_numeric_has_zero_remainder(ae_ptr_to_addr(ptr), align)
+#define ae_ptr_is_aligned(ptr, align) ae_addr_is_aligned(ae_ptr_to_addr(ptr), align)
 
 /**
  * @def ae_ptr_range_is_aligned
