@@ -10,8 +10,8 @@
 const ae_wstr_raw_t
 ae_wstr_raw_find_char(const ae_wstr_raw_t str, ae_usize_t len, ae_wchar_t value)
 {
-    const void *_str_end = ae_ptr_add(void, str, len *AE_WCHAR_T_SIZE);
-    const void *_val_end = ae_ptr_add_unsafe(void, &value, AE_WCHAR_T_SIZE);
+    const void *_str_end = ae_ptr_add(const void, str, len *AE_WCHAR_T_SIZE);
+    const void *_val_end = ae_ptr_add_unsafe(const void, &value, AE_WCHAR_T_SIZE);
 
     const ae_wstr_raw_t ptr = ae_memory_raw_find(str, _str_end, &value, _val_end);
     return ae_ptr_align_up(ae_wchar_t, ptr, str, AE_WCHAR_T_SIZE);
@@ -43,10 +43,20 @@ ae_wstr_raw_set_value(ae_wstr_raw_t str, ae_usize_t len, ae_wchar_t value)
 ae_wstr_raw_t
 ae_wstr_raw_copy(ae_wstr_raw_t str, ae_usize_t str_len, const ae_wstr_raw_t src, ae_usize_t src_len)
 {
-    const void *_str_end = ae_ptr_add_offset(void, str, str_len *AE_WCHAR_T_SIZE);
-    const void *_src_end = ae_ptr_add_offset(void, src, src_len *AE_WCHAR_T_SIZE);
+    const void *_str_end = ae_ptr_add_offset(const void, str, str_len *AE_WCHAR_T_SIZE);
+    const void *_src_end = ae_ptr_add_offset(const void, src, src_len *AE_WCHAR_T_SIZE);
 
     ae_wstr_raw_t ptr = ae_memory_raw_copy(str, _str_end, src, _src_end);
+    return ae_ptr_align_up(ae_wchar_t, ptr, str, AE_WCHAR_T_SIZE);
+}
+
+ae_wstr_raw_t
+ae_wstr_raw_move(ae_wstr_raw_t str, ae_usize_t str_len, const ae_wstr_raw_t src, ae_usize_t src_len)
+{
+    const void *_str_end = ae_ptr_add_offset(const void, str, str_len *AE_WCHAR_T_SIZE);
+    const void *_src_end = ae_ptr_add_offset(const void, src, src_len *AE_WCHAR_T_SIZE);
+
+    ae_wstr_raw_t ptr = ae_memory_raw_move(str, _str_end, src, _src_end);
     return ae_ptr_align_up(ae_wchar_t, ptr, str, AE_WCHAR_T_SIZE);
 }
 
@@ -56,9 +66,22 @@ ae_wstr_raw_compare(const ae_wstr_raw_t str,
                     const ae_wstr_raw_t src,
                     ae_usize_t          src_len)
 {
-    const void *_str_end = ae_ptr_add_offset(void, str, str_len *AE_WCHAR_T_SIZE);
-    const void *_src_end = ae_ptr_add_offset(void, src, src_len *AE_WCHAR_T_SIZE);
+    const void *_str_end = ae_ptr_add_offset(const void, str, str_len *AE_WCHAR_T_SIZE);
+    const void *_src_end = ae_ptr_add_offset(const void, src, src_len *AE_WCHAR_T_SIZE);
 
     const ae_wstr_raw_t ptr = ae_memory_raw_compare(str, _str_end, src, _src_end);
+    return ae_ptr_align_up(const ae_wchar_t, ptr, str, AE_WCHAR_T_SIZE);
+}
+
+const ae_wstr_raw_t
+ae_wstr_raw_compare_from_end(const ae_wstr_raw_t str,
+                             ae_usize_t          str_len,
+                             const ae_wstr_raw_t src,
+                             ae_usize_t          src_len)
+{
+    const void *_str_end = ae_ptr_add_offset(const void, str, str_len *AE_WCHAR_T_SIZE);
+    const void *_src_end = ae_ptr_add_offset(const void, src, src_len *AE_WCHAR_T_SIZE);
+
+    const ae_wstr_raw_t ptr = ae_memory_raw_compare_from_end(str, _str_end, src, _src_end);
     return ae_ptr_align_up(const ae_wchar_t, ptr, str, AE_WCHAR_T_SIZE);
 }

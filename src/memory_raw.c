@@ -1,6 +1,7 @@
 #include <ae/memory_raw.h>
 
 #include <ae/runtime_error_code.h>
+#include <ae/runtime_return_if.h>
 #include <ae/ptr_range_traits.h>
 #include <ae/runtime_assert.h>
 #include <ae/runtime_try.h>
@@ -151,6 +152,7 @@ const void *
 ae_memory_raw_compare(const void *lhs, const void *lhs_end, const void *rhs, const void *rhs_end)
 {
     ae_runtime_assert(lhs && rhs, AE_RUNTIME_ERROR_NULL_POINTER, nullptr);
+    ae_runtime_return_if(lhs == rhs, nullptr);
 
     const ae_u8_t *_lhs     = ae_ptr_cast(const ae_u8_t, lhs);
     const ae_u8_t *_lhs_end = ae_ptr_cast(const ae_u8_t, lhs_end);
