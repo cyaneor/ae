@@ -2,7 +2,7 @@
 /* Дополнительные модули */
 #include <ae/str_traits.h>
 
-const ae_str_raw_t
+const ae_char_t *
 ae_version(void)
 {
     return ae_str_args(AE_VERSION_MAJOR.AE_VERSION_MINOR.AE_VERSION_PATCH);

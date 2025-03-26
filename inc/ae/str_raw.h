@@ -6,26 +6,6 @@
 #include "attribute.h"
 #include "array_size.h"
 
-/**
- * @def ae_str_raw_t
- * @brief Тип для представления строки, состоящей из символов.
- *
- * Этот макрос определяет тип @ref ae_str_raw_t как указатель на тип @ref ae_char_t,
- * который представляет собой символ (8-битное знаковое или беззнаковое целое число
- * в зависимости от флага компиляции @c AE_CHAR_UNSIGNED).
- *
- * Используется для представления строк
- * в виде указателя на последовательность символов.
- *
- * Пример использования:
- * @code
- * ae_str_raw_t myString = "Hello, world!";
- * @endcode
- */
-#define ae_str_raw_t ae_char_t *
-
-// ------------------------------------------ Методы ------------------------------------------ //
-
 AE_COMPILER(EXTERN_C_BEGIN)
 
 /**
@@ -49,8 +29,8 @@ AE_COMPILER(EXTERN_C_BEGIN)
  *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_str_raw_t
-ae_str_raw_find_char(const ae_str_raw_t str, ae_usize_t len, ae_char_t value);
+const ae_char_t *
+ae_str_raw_find_char(const ae_char_t *str, ae_usize_t len, ae_char_t value);
 
 /**
  * @brief Ищет символ нулевого терминатора в строке.
@@ -71,8 +51,8 @@ ae_str_raw_find_char(const ae_str_raw_t str, ae_usize_t len, ae_char_t value);
  *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_str_raw_t
-ae_str_raw_find_of_null_terminator(const ae_str_raw_t str);
+const ae_char_t *
+ae_str_raw_find_of_null_terminator(const ae_char_t *str);
 
 /**
  * @brief Определяет длину строки до нулевого терминатора.
@@ -98,7 +78,7 @@ ae_str_raw_find_of_null_terminator(const ae_str_raw_t str);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_usize_t
-ae_str_raw_len(const ae_str_raw_t str);
+ae_str_raw_len(const ae_char_t *str);
 
 /**
  * @brief Устанавливает значение для заданного диапазона в строке.
@@ -116,7 +96,7 @@ ae_str_raw_len(const ae_str_raw_t str);
  */
 AE_ATTRIBUTE(SYMBOL)
 void
-ae_str_raw_set_value(ae_str_raw_t str, ae_usize_t len, ae_char_t value);
+ae_str_raw_set_value(ae_char_t *str, ae_usize_t len, ae_char_t value);
 
 /**
  * @brief Копирует данные из одной строки в другую.
@@ -135,8 +115,8 @@ ae_str_raw_set_value(ae_str_raw_t str, ae_usize_t len, ae_char_t value);
  *        Если @c str или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-ae_str_raw_t
-ae_str_raw_copy(ae_str_raw_t str, ae_usize_t str_len, const ae_str_raw_t src, ae_usize_t src_len);
+ae_char_t *
+ae_str_raw_copy(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len);
 
 /**
  * @brief Перемещает содержимое одной строки в другую.
@@ -158,8 +138,8 @@ ae_str_raw_copy(ae_str_raw_t str, ae_usize_t str_len, const ae_str_raw_t src, ae
  *        Если @c str или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-ae_str_raw_t
-ae_str_raw_move(ae_str_raw_t str, ae_usize_t str_len, const ae_str_raw_t src, ae_usize_t src_len);
+ae_char_t *
+ae_str_raw_move(ae_char_t *str, ae_usize_t str_len, const ae_char_t *src, ae_usize_t src_len);
 
 /**
  * @brief Сравнивает две строки по заданной длине.
@@ -182,11 +162,11 @@ ae_str_raw_move(ae_str_raw_t str, ae_usize_t str_len, const ae_str_raw_t src, ae
  *        Если @c str или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_str_raw_t
-ae_str_raw_compare(const ae_str_raw_t str,
-                   ae_usize_t         str_len,
-                   const ae_str_raw_t src,
-                   ae_usize_t         src_len);
+const ae_char_t *
+ae_str_raw_compare(const ae_char_t *str,
+                   ae_usize_t       str_len,
+                   const ae_char_t *src,
+                   ae_usize_t       src_len);
 
 /**
  * @brief Сравнивает две строки, начиная с конца.
@@ -208,11 +188,11 @@ ae_str_raw_compare(const ae_str_raw_t str,
  *        Если @c str или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_str_raw_t
-ae_str_raw_compare_from_end(const ae_str_raw_t str,
-                            ae_usize_t         str_len,
-                            const ae_str_raw_t src,
-                            ae_usize_t         src_len);
+const ae_char_t *
+ae_str_raw_compare_from_end(const ae_char_t *str,
+                            ae_usize_t       str_len,
+                            const ae_char_t *src,
+                            ae_usize_t       src_len);
 
 AE_COMPILER(EXTERN_C_END)
 

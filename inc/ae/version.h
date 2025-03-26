@@ -43,7 +43,7 @@ AE_COMPILER(EXTERN_C_BEGIN)
  *       - Z - патч-версия (AE_VERSION_PATCH)
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_str_raw_t
+const ae_char_t *
 ae_version(void);
 
 /**

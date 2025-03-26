@@ -5,20 +5,6 @@
 #include "wchar.h"
 #include "size.h"
 
-/**
- * @def ae_wstr_raw_t
- * @brief Синоним для указателя на широкий символ.
- *
- * Этот макрос определяет тип данных `ae_wstr_raw_t` как указатель на @ref ae_wchar_t.
- * Он используется для работы с строками широких символов,
- * обеспечивая удобный способ указания на массив широких символов.
- *
- * @note Указатель на широкий символ может использоваться для представления
- *       строк, содержащих символы, которые могут быть как знаковыми,
- *       так и беззнаковыми, в зависимости от конфигурации компилятора.
- */
-#define ae_wstr_raw_t ae_wchar_t *
-
 AE_COMPILER(EXTERN_C_BEGIN)
 
 /**
@@ -40,8 +26,8 @@ AE_COMPILER(EXTERN_C_BEGIN)
  *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_wstr_raw_t
-ae_wstr_raw_find_char(const ae_wstr_raw_t str, ae_usize_t len, ae_wchar_t value);
+const ae_wchar_t *
+ae_wstr_raw_find_char(const ae_wchar_t *str, ae_usize_t len, ae_wchar_t value);
 
 /**
  * @brief Находит позицию нулевого терминатора в строке широких символов.
@@ -59,8 +45,8 @@ ae_wstr_raw_find_char(const ae_wstr_raw_t str, ae_usize_t len, ae_wchar_t value)
  *        Если @c str является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_wstr_raw_t
-ae_wstr_raw_find_of_null_terminator(const ae_wstr_raw_t str);
+const ae_wchar_t *
+ae_wstr_raw_find_of_null_terminator(const ae_wchar_t *str);
 
 /**
  * @brief Вычисляет длину строки широких символов.
@@ -79,7 +65,7 @@ ae_wstr_raw_find_of_null_terminator(const ae_wstr_raw_t str);
  */
 AE_ATTRIBUTE(SYMBOL)
 ae_usize_t
-ae_wstr_raw_len(const ae_wstr_raw_t str);
+ae_wstr_raw_len(const ae_wchar_t *str);
 
 /**
  * @brief Устанавливает значение для строки широких символов.
@@ -97,7 +83,7 @@ ae_wstr_raw_len(const ae_wstr_raw_t str);
  */
 AE_ATTRIBUTE(SYMBOL)
 void
-ae_wstr_raw_set_value(ae_wstr_raw_t str, ae_usize_t len, ae_wchar_t value);
+ae_wstr_raw_set_value(ae_wchar_t *str, ae_usize_t len, ae_wchar_t value);
 
 /**
  * @brief Копирует содержимое одной строки широких символов в другую.
@@ -120,11 +106,8 @@ ae_wstr_raw_set_value(ae_wstr_raw_t str, ae_usize_t len, ae_wchar_t value);
  *        Если @c str или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-ae_wstr_raw_t
-ae_wstr_raw_copy(ae_wstr_raw_t       str,
-                 ae_usize_t          str_len,
-                 const ae_wstr_raw_t src,
-                 ae_usize_t          src_len);
+ae_wchar_t *
+ae_wstr_raw_copy(ae_wchar_t *str, ae_usize_t str_len, const ae_wchar_t *src, ae_usize_t src_len);
 
 /**
  * @brief Перемещает содержимое одной строки широких символов в другую.
@@ -147,11 +130,8 @@ ae_wstr_raw_copy(ae_wstr_raw_t       str,
  *        Если @c str или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-ae_wstr_raw_t
-ae_wstr_raw_move(ae_wstr_raw_t       str,
-                 ae_usize_t          str_len,
-                 const ae_wstr_raw_t src,
-                 ae_usize_t          src_len);
+ae_wchar_t *
+ae_wstr_raw_move(ae_wchar_t *str, ae_usize_t str_len, const ae_wchar_t *src, ae_usize_t src_len);
 
 /**
  * @brief Сравнивает две строки широких символов по заданной длине.
@@ -176,11 +156,11 @@ ae_wstr_raw_move(ae_wstr_raw_t       str,
  *        Если @c str или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_wstr_raw_t
-ae_wstr_raw_compare(const ae_wstr_raw_t str,
-                    ae_usize_t          str_len,
-                    const ae_wstr_raw_t src,
-                    ae_usize_t          src_len);
+const ae_wchar_t *
+ae_wstr_raw_compare(const ae_wchar_t *str,
+                    ae_usize_t        str_len,
+                    const ae_wchar_t *src,
+                    ae_usize_t        src_len);
 
 /**
  * @brief Сравнивает две строки, начиная с конца.
@@ -200,11 +180,11 @@ ae_wstr_raw_compare(const ae_wstr_raw_t str,
  *        Если @c str или @c src является NULL.
  */
 AE_ATTRIBUTE(SYMBOL)
-const ae_wstr_raw_t
-ae_wstr_raw_compare_from_end(const ae_wstr_raw_t str,
-                             ae_usize_t          str_len,
-                             const ae_wstr_raw_t src,
-                             ae_usize_t          src_len);
+const ae_wchar_t *
+ae_wstr_raw_compare_from_end(const ae_wchar_t *str,
+                             ae_usize_t        str_len,
+                             const ae_wchar_t *src,
+                             ae_usize_t        src_len);
 
 AE_COMPILER(EXTERN_C_END)
 

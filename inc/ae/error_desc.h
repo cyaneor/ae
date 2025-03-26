@@ -18,7 +18,7 @@
 #ifndef AE_ERROR_DESC_H
 #define AE_ERROR_DESC_H
 
-#include "str_raw.h"
+#include "char.h"
 
 /**
  * @def ae_error_desc_t
@@ -31,6 +31,6 @@
  *          с текстовыми сообщениями об ошибках в программе,
  *          упрощая код и делая его более читаемым.
  */
-#define ae_error_desc_t const ae_str_raw_t
+#define ae_error_desc_t const ae_char_t *
 
 #endif // AE_ERROR_DESC_H
