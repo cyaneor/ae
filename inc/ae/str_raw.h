@@ -41,6 +41,14 @@ ae_usize_t
 ae_str_raw_len(const ae_str_raw_t str);
 
 AE_ATTRIBUTE(SYMBOL)
+void
+ae_str_raw_set_value(ae_str_raw_t str, ae_usize_t len, ae_char_t value);
+
+AE_ATTRIBUTE(SYMBOL)
+ae_str_raw_t
+ae_str_raw_copy(ae_str_raw_t str, ae_usize_t str_len, const ae_str_raw_t src, ae_usize_t src_len);
+
+AE_ATTRIBUTE(SYMBOL)
 const ae_str_raw_t
 ae_str_raw_compare(const ae_str_raw_t str,
                    ae_usize_t         str_len,

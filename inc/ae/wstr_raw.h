@@ -80,6 +80,24 @@ AE_ATTRIBUTE(SYMBOL)
 ae_usize_t
 ae_wstr_raw_len(const ae_wstr_raw_t str);
 
+AE_ATTRIBUTE(SYMBOL)
+void
+ae_wstr_raw_set_value(ae_wstr_raw_t str, ae_usize_t len, ae_wchar_t value);
+
+AE_ATTRIBUTE(SYMBOL)
+ae_wstr_raw_t
+ae_wstr_raw_copy(ae_wstr_raw_t       str,
+                 ae_usize_t          str_len,
+                 const ae_wstr_raw_t src,
+                 ae_usize_t          src_len);
+
+AE_ATTRIBUTE(SYMBOL)
+const ae_wstr_raw_t
+ae_wstr_raw_compare(const ae_wstr_raw_t str,
+                    ae_usize_t          str_len,
+                    const ae_wstr_raw_t src,
+                    ae_usize_t          src_len);
+
 AE_COMPILER(EXTERN_C_END)
 
 #endif // AE_WSTR_RAW_H

@@ -7,7 +7,6 @@
 #include <ae/ptr_traits.h>
 #include <ae/memory_raw.h>
 #include <ae/ascii_map.h>
-#include <ae/memory.h>
 
 /**
  * @brief Массив символов,
@@ -37,7 +36,9 @@ static const ae_char_t m_trim_ascii_chars[] = {AE_ASCII_MAP_SPACE,
 const ae_str_raw_t
 ae_str_raw_find_char(const ae_str_raw_t str, ae_usize_t len, ae_char_t value)
 {
-    return ae_memory_find(str, len, &value, AE_CHAR_T_SIZE);
+    const void *_str_end = ae_ptr_add(void, str, len);
+    const void *_val_end = ae_ptr_add_unsafe(void, &value, AE_CHAR_T_SIZE);
+    return ae_memory_raw_find(str, _str_end, &value, _val_end);
 }
 
 const ae_str_raw_t
@@ -55,13 +56,31 @@ ae_str_raw_len(const ae_str_raw_t str)
     return ae_ptr_diff(ptr, str);
 }
 
+void
+ae_str_raw_set_value(ae_str_raw_t str, ae_usize_t len, ae_char_t value)
+{
+    const void *_str_end = ae_ptr_add_offset(const void, str, len);
+    const void *_val_end = ae_ptr_add_offset_unsafe(const void, &value, AE_CHAR_T_SIZE);
+    ae_memory_raw_set(str, _str_end, &value, _val_end);
+}
+
+ae_str_raw_t
+ae_str_raw_copy(ae_str_raw_t str, ae_usize_t str_len, const ae_str_raw_t src, ae_usize_t src_len)
+{
+    const void *_str_end = ae_ptr_add_offset(void, str, str_len);
+    const void *_src_end = ae_ptr_add_offset(void, src, src_len);
+    return ae_memory_raw_copy(str, _str_end, src, _src_end);
+}
+
 const ae_str_raw_t
 ae_str_raw_compare(const ae_str_raw_t str,
                    ae_usize_t         str_len,
                    const ae_str_raw_t src,
                    ae_usize_t         src_len)
 {
-    return ae_memory_compare(str, str_len, src, src_len);
+    const void *_str_end = ae_ptr_add_offset(void, str, str_len);
+    const void *_src_end = ae_ptr_add_offset(void, src, src_len);
+    return ae_memory_raw_compare(str, _str_end, src, _src_end);
 }
 
 const ae_str_raw_t
@@ -70,31 +89,7 @@ ae_str_raw_compare_from_end(const ae_str_raw_t str,
                             const ae_str_raw_t src,
                             ae_usize_t         src_len)
 {
-    return ae_memory_compare(str, str_len, src, src_len);
-}
-
-// ---------------------------------------------------------------------------------------------- //
-
-const ae_str_raw_t
-ae_str_raw_starts_with(const ae_str_raw_t str, const ae_str_raw_t src)
-{
-    ae_runtime_try
-    {
-        ae_usize_t str_len = ae_str_raw_len(str);
-        ae_usize_t src_len = ae_str_raw_len(src);
-        ae_runtime_try_return(ae_str_raw_compare(str, str_len, src, src_len));
-    }
-    ae_runtime_raise(nullptr);
-}
-
-const ae_str_raw_t
-ae_str_raw_ends_with(const ae_str_raw_t str, const ae_str_raw_t src)
-{
-    ae_runtime_try
-    {
-        ae_usize_t str_len = ae_str_raw_len(str);
-        ae_usize_t src_len = ae_str_raw_len(src);
-        ae_runtime_try_return(ae_str_raw_compare_from_end(str, str_len, src, src_len));
-    }
-    ae_runtime_raise(nullptr);
+    const void *_str_end = ae_ptr_add_offset(void, str, str_len);
+    const void *_src_end = ae_ptr_add_offset(void, src, src_len);
+    return ae_memory_raw_compare(str, _str_end, src, _src_end);
 }

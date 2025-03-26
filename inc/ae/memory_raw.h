@@ -223,40 +223,6 @@ AE_ATTRIBUTE(SYMBOL)
 void *
 ae_memory_raw_set(void *dst, const void *dst_end, const void *src, const void *src_end);
 
-/**
- * @brief Заполняет участок памяти заданным значением.
- *
- * Эта функция заполняет память от указателя `begin` до указателя `end` значением `value`.
- * Для оптимизации используются инструкции SIMD (AVX и SSE), если они доступны.
- *
- * @param begin Указатель на начало области памяти,
- *              которую нужно заполнить.
- * @param end Указатель на конец области памяти.
- *            Заполнение происходит до, но не включая, этот адрес.
- * @param value Значение, которым будет заполнена память.
- *
- * @throw AE_RUNTIME_ERROR_NULL_POINTER
- *        Если @c dst или @c src является NULL.
- */
-AE_ATTRIBUTE(SYMBOL)
-void
-ae_memory_raw_set_value(void *begin, const void *end, ae_char_t value);
-
-AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_raw_shift_left(void *dst, const void *dst_end, ae_usize_t shift);
-
-AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_raw_shift_right(void *dst, const void *dst_end, ae_usize_t shift);
-
-AE_ATTRIBUTE(SYMBOL)
-void *
-ae_memory_raw_shift_right_and_fill(void       *dst,
-                                   const void *dst_end,
-                                   ae_usize_t  shift,
-                                   ae_char_t   value);
-
 AE_COMPILER(EXTERN_C_END)
 
 #endif // AE_MEMORY_RAW_H
